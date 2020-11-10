@@ -4,7 +4,7 @@
     :class="isOpen ? ['open', colorClassName] : []"
     @click="flip"
   >
-    {{ isOpen ? value : "" }}
+    {{ valueString }}
   </div>
 </template>
 
@@ -20,8 +20,19 @@ export default {
   },
   computed: {
     colorClassName() {
-      return `color-${this.value}`;
+      return `color-${this.value >= 0 ? this.value : "bomb"}`;
     },
+    valueString() {
+      if (!this.isOpen || this.value === 0) {
+        return "";
+      }
+
+      if (this.value < 0) {
+        return "";
+      }
+
+      return this.value.toString();
+    }
   },
   methods: {
     flip() {
@@ -78,5 +89,10 @@ export default {
 }
 .cell.color-8 {
   color: #808080;
+}
+/** 地雷 */
+.cell.color-bomb {
+  background-color: red;
+  color: #fff;
 }
 </style>

@@ -1,25 +1,16 @@
 <template>
   <div id="app">
-    <div style="display: flex; flex-direction: column">
-      <row :values="[1, 2, 3, 4, 5, 6, 7, 8]"></row>
-      <row :values="[1, 2, 3, 4, 5, 6, 7, 8]"></row>
-      <row :values="[1, 2, 3, 4, 5, 6, 7, 8]"></row>
-      <row :values="[1, 2, 3, 4, 5, 6, 7, 8]"></row>
-      <row :values="[1, 2, 3, 4, 5, 6, 7, 8]"></row>
-      <row :values="[1, 2, 3, 4, 5, 6, 7, 8]"></row>
-      <row :values="[1, 2, 3, 4, 5, 6, 7, 8]"></row>
-      <row :values="[1, 2, 3, 4, 5, 6, 7, 8]"></row>
-    </div>
+    <field></field>
   </div>
 </template>
 
 <script>
-import Row from "./components/Row";
+import Field from "./components/Field";
 
 export default {
   name: "app",
   components: {
-    Row,
+    Field,
   },
 };
 </script>

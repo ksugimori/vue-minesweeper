@@ -1,10 +1,10 @@
 <template>
   <div
     class="cell"
-    :class="[isOpen ? 'open' : '', colorClassName]"
+    :class="isOpen ? ['open', colorClassName] : []"
     @click="flip"
   >
-    {{ value }}
+    {{ isOpen ? value : "" }}
   </div>
 </template>
 
@@ -12,9 +12,11 @@
 export default {
   data() {
     return {
-      value: "1",
       isOpen: false,
     };
+  },
+  props: {
+    value: Number,
   },
   computed: {
     colorClassName() {
@@ -35,6 +37,7 @@ export default {
   width: 30px;
   height: 30px;
   border: 4px solid #000;
+  margin: 2px;
   background-color: #000;
   user-select: none;
   color: transparent;
@@ -48,7 +51,32 @@ export default {
   background-color: #fff;
   color: #000;
 }
-.cell.open.color-1 {
-  color: blue;
+
+/**
+ * 数字のカラー
+ */
+.cell.color-1 {
+  color: #0200fb;
+}
+.cell.color-2 {
+  color: #017e00;
+}
+.cell.color-3 {
+  color: #fe0000;
+}
+.cell.color-4 {
+  color: #010180;
+}
+.cell.color-5 {
+  color: #7f0203;
+}
+.cell.color-6 {
+  color: #027f80;
+}
+.cell.color-7 {
+  color: #000;
+}
+.cell.color-8 {
+  color: #808080;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="field">
-    <row v-for="(values, index) in field" :key="index" :values="values"></row>
+    <row v-for="(values, index) in game.field" :key="index" :values="values"></row>
   </div>
 </template>
 
@@ -8,19 +8,8 @@
 import Row from "./Row";
 
 export default {
-  data() {
-    return {
-      field: [
-        [1, 1, 1, 0, 0, 0, 0, 0],
-        [1, -1, 1, 1, 2, 2, 1, 0],
-        [1, 1, 1, 1, -1, -1, 1, 0],
-        [0, 0, 0, 1, 2, 2, 1, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0],
-      ],
-    };
+  props: {
+    game: Object,
   },
   components: {
     Row,

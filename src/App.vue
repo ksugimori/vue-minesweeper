@@ -1,16 +1,24 @@
 <template>
   <div id="app">
-    <field></field>
+    <field :game="game"></field>
   </div>
 </template>
 
 <script>
 import Field from "./components/Field";
+import Game from "../src/Game";
 
 export default {
   name: "app",
   components: {
     Field,
+  },
+  data() {
+    let game = new Game();
+    game.initialize(8, 6, 2);
+    return {
+      game: game
+    };
   },
 };
 </script>

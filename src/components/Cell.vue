@@ -28,7 +28,7 @@ export default {
       }
 
       if (this.value < 0) {
-        return "";
+        return "＊"; // TODO これ見づらい
       }
 
       return this.value.toString();
@@ -66,6 +66,11 @@ export default {
 /**
  * 数字のカラー
  */
+.cell.color-0 {
+  color: #000;
+  border-color: #000;
+  border-style: dotted;
+}
 .cell.color-1 {
   color: #0200fb;
   border-color: #0200fb;

@@ -1,81 +1,69 @@
 class Game {
+  /**
+   * 地雷を表す値
+   */
   static MINE_VALUE = -1;
 
+  /**
+   * コンストラクタ
+   */
   constructor() {
     this.field = [];
-    this.rows = 0;
-    this.cols = 0;
   }
 
   /**
    * 地雷が埋まっているか？
-   * @param {Integer}} x 座標
-   * @param {Integer} y 座標
+   * 
+   * row, col が範囲外のときは常に false を返します。
+   * @param {Number} row 座標
+   * @param {Number} col 座標
    */
-  isMine(x, y) {
-    return this.field[y][x] === Game.MINE_VALUE;
-  }
-
-  countMine(x, y) {
-    if (y < 0 || this.rows <= y) {
-      return 0;
-    }
-
-    let count = 0;
-
-    if (x - 1 >= 0) {
-      if (this.isMine(x - 1, y)) {
-        count++;
-      }
-    }
-
-    if (this.isMine(x, y)) {
-      count++;
-    }
-
-    if (x + 1 < this.cols) {
-      if (this.isMine(x + 1, y)) {
-        count++;
-      }
-    }
-
-    return count;
+  isMine(row, col) {
+    return (row in this.field) && (col in this.field[row])
+      && this.field[row][col] === Game.MINE_VALUE;
   }
 
   /**
    * 盤面を初期化する。
+   * @param {Number} numRows 
+   * @param {Number} numCols 
    */
-  initialize(cols, rows, mines) {
+  initialize(numRows, numCols) {
     this.field = [];
-    this.rows = rows;
-    this.cols = cols;
 
-    for (let y = 0; y < rows; y++) {
-      let row = new Array(cols).fill(0);
+    for (let row = 0; row < numRows; row++) {
+      let row = new Array(numCols).fill(0);
       this.field.push(row);
     }
 
     // 地雷をランダムにセット
     // TODO これだと各行に１個になるのでロジック変更したい
-    for (let y = 0; y < rows; y++) {
-      let index = Math.floor(Math.random() * cols);
-      this.field[y][index] = Game.MINE_VALUE; // TODO 地雷を表す値を定数に
+    for (let row = 0; row < numRows; row++) {
+      let index = Math.floor(Math.random() * numCols);
+      this.field[row][index] = Game.MINE_VALUE;
     }
 
-    // TODO 地雷をカウント
-    for (let y = 0; y < rows; y++) {
-      for (let x = 0; x < cols; x++) {
-        if (this.isMine(x, y)) {
+    // 各マスの周囲の地雷数をカウントし、value にセットする。
+    for (let row = 0; row < this.field.length; row++) {
+      for (let col = 0; col < this.field[row].length; col++) {
+        if (this.isMine(row, col)) {
           continue;
         }
 
         let count = 0;
 
-        count += this.countMine(x, y - 1);
-        count += this.countMine(x, y);
-        count += this.countMine(x, y + 1);
+        count += this.isMine(row - 1, col - 1);
+        count += this.isMine(row - 1, col);
+        count += this.isMine(row - 1, col + 1);
 
-        this.field[y][x] = count;
+        count += this.isMine(row, col - 1);
+        count += this.isMine(row, col + 1);
+
+        count += this.isMine(row + 1, col - 1);
+        count += this.isMine(row + 1, col);
+        count += this.isMine(row + 1, col + 1);
+
+        this.field[row][col] = count;
       }
     }
   }

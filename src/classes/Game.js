@@ -1,9 +1,9 @@
-class Game {
-  /**
-   * 地雷を表す値
-   */
-  static MINE_VALUE = -1;
+import Cell from './Cell';
 
+/**
+ * マインスイーパー全体を管理するクラス
+ */
+class Game {
   /**
    * コンストラクタ
    */
@@ -20,7 +20,7 @@ class Game {
    */
   isMine(row, col) {
     return (row in this.field) && (col in this.field[row])
-      && this.field[row][col] === Game.MINE_VALUE;
+      && this.field[row][col].isMine();
   }
 
   /**
@@ -32,7 +32,10 @@ class Game {
     this.field = [];
 
     for (let row = 0; row < numRows; row++) {
-      let row = new Array(numCols).fill(0);
+      let row = [];
+      for (let i = 0; i < numCols; i++) {
+        row.push(new Cell());
+      }
       this.field.push(row);
     }
 
@@ -40,7 +43,7 @@ class Game {
     // TODO これだと各行に１個になるのでロジック変更したい
     for (let row = 0; row < numRows; row++) {
       let index = Math.floor(Math.random() * numCols);
-      this.field[row][index] = Game.MINE_VALUE;
+      this.field[row][index].mine();
     }
 
     // 各マスの周囲の地雷数をカウントし、value にセットする。
@@ -63,7 +66,7 @@ class Game {
         count += this.isMine(row + 1, col);
         count += this.isMine(row + 1, col + 1);
 
-        this.field[row][col] = count;
+        this.field[row][col].count = count;
       }
     }
   }

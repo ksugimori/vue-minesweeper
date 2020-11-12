@@ -6,7 +6,7 @@
 
 <script>
 import Field from "./components/Field";
-import Game from "../src/Game";
+import Game from "../src/classes/Game";
 
 export default {
   name: "app",

@@ -1,7 +1,7 @@
 <template>
   <div
     class="cell"
-    :class="isOpen ? ['open', colorClassName] : []"
+    :class="obj.isOpen ? ['open', colorClassName] : []"
     @click="flip"
   >
     {{ valueString }}
@@ -10,34 +10,29 @@
 
 <script>
 export default {
-  data() {
-    return {
-      isOpen: false,
-    };
-  },
   props: {
-    value: Number,
+    obj: Object,
   },
   computed: {
     colorClassName() {
-      return `color-${this.value >= 0 ? this.value : "bomb"}`;
+      return this.obj.isMine() ? "color-bomb" : `color-${this.obj.count}`;
     },
     valueString() {
-      if (!this.isOpen || this.value === 0) {
+      if (!this.obj.isOpen || this.obj.count === 0) {
         return "";
       }
 
-      if (this.value < 0) {
+      if (this.obj.count < 0) {
         return "＊"; // TODO これ見づらい
       }
 
-      return this.value.toString();
-    }
+      return this.obj.count.toString();
+    },
   },
   methods: {
     flip() {
       // TODO: 裏から表へは戻せない方が良い？
-      this.isOpen = !this.isOpen;
+      this.obj.isOpen = !this.obj.isOpen;
     },
   },
 };

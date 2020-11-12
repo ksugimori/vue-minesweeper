@@ -1,6 +1,6 @@
 <template>
   <div class="field">
-    <row v-for="(values, index) in game.field" :key="index" :values="values"></row>
+    <row v-for="(cellObjects, index) in game.field" :key="index" :cellObjects="cellObjects"></row>
   </div>
 </template>
 

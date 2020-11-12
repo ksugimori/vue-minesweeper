@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <cell v-for="(value, index) in values" :key="index" :value="value"></cell>
+    <cell v-for="(cellObject, index) in cellObjects" :key="index" :obj="cellObject"></cell>
   </div>
 </template>
 
@@ -9,7 +9,7 @@ import Cell from "./Cell";
 
 export default {
   props: {
-    values: Array,
+    cellObjects: Array,
   },
   components: {
     Cell,

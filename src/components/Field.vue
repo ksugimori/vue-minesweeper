@@ -1,6 +1,12 @@
 <template>
   <div class="field">
-    <row v-for="(cellObjects, index) in game.field" :key="index" :cellObjects="cellObjects"></row>
+    <row
+      v-for="(cells, index) in game.field"
+      @cell-click="open"
+      :key="index"
+      :cells="cells"
+      :row="index"
+    ></row>
   </div>
 </template>
 
@@ -13,6 +19,11 @@ export default {
   },
   components: {
     Row,
+  },
+  methods: {
+    open: function (point) {
+      this.game.open(point.row, point.col);
+    },
   },
 };
 </script>

@@ -2,7 +2,7 @@
   <div
     class="cell"
     :class="obj.isOpen ? ['open', colorClassName] : []"
-    @click="flip"
+    @click="$emit('cell-click', point)"
   >
     {{ valueString }}
   </div>
@@ -12,6 +12,7 @@
 export default {
   props: {
     obj: Object,
+    point: Object,
   },
   computed: {
     colorClassName() {
@@ -27,12 +28,6 @@ export default {
       }
 
       return this.obj.count.toString();
-    },
-  },
-  methods: {
-    flip() {
-      // TODO: 裏から表へは戻せない方が良い？
-      this.obj.isOpen = !this.obj.isOpen;
     },
   },
 };

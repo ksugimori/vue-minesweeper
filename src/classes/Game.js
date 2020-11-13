@@ -15,8 +15,8 @@ class Game {
    * 地雷が埋まっているか？
    * 
    * row, col が範囲外のときは常に false を返します。
-   * @param {Number} row 座標
-   * @param {Number} col 座標
+   * @param {Number} row 行番号
+   * @param {Number} col 列番号
    */
   isMine(row, col) {
     return (row in this.field) && (col in this.field[row])
@@ -69,6 +69,15 @@ class Game {
         this.field[row][col].count = count;
       }
     }
+  }
+
+  /**
+   * セルを開く
+   * @param {Number} row 行番号
+   * @param {Number} col 列番号
+   */
+  open(row, col) {
+    this.field[row][col].open();
   }
 }
 

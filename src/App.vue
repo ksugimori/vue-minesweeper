@@ -1,23 +1,26 @@
 <template>
   <div id="app">
+    <reset-button :game="game"></reset-button>
     <field :game="game"></field>
   </div>
 </template>
 
 <script>
-import Field from "./components/Field";
 import Game from "../src/classes/Game";
+import Field from "./components/Field";
+import ResetButton from "./components/ResetButton";
 
 export default {
   name: "app",
   components: {
     Field,
+    ResetButton
   },
   data() {
     let game = new Game();
     game.initialize(9, 9, 2);
     return {
-      game: game
+      game: game,
     };
   },
 };

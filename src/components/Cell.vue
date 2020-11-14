@@ -16,7 +16,7 @@ export default {
   },
   computed: {
     colorClassName() {
-      return this.obj.isMine() ? "color-bomb" : `color-${this.obj.count}`;
+      return this.obj.isMine ? "color-bomb" : `color-${this.obj.count}`;
     },
     valueString() {
       if (!this.obj.isOpen || this.obj.count === 0) {

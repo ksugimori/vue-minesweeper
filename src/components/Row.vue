@@ -2,10 +2,9 @@
   <div class="row">
     <cell
       v-for="(cell, index) in cells"
-      @cell-click="open"
       :key="index"
       :obj="cell"
-      :point="{ row: row, col: index }"
+      :onClick="() => onClickCell(index)"
     ></cell>
   </div>
 </template>
@@ -16,15 +15,10 @@ import Cell from "./Cell";
 export default {
   props: {
     cells: Array,
-    row: Number,
+    onClickCell: Function,
   },
   components: {
     Cell,
-  },
-  methods: {
-    open: function (point) {
-      this.$emit('cell-click', point);
-    },
   },
 };
 </script>

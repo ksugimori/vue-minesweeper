@@ -12,15 +12,50 @@ class Game {
   }
 
   /**
-   * 地雷が埋まっているか？
-   * 
-   * row, col が範囲外のときは常に false を返します。
+   * フィールド内の座標か？
    * @param {Number} row 行番号
    * @param {Number} col 列番号
    */
-  isMine(row, col) {
+  contains(row, col) {
     return (row in this.field) && (col in this.field[row])
-      && this.field[row][col].isMine();
+  }
+
+  /**
+   * 周囲のセルを配列にして取得する。
+   * @param {Number} row 行番号
+   * @param {Number} col 列番号
+   */
+  arround(row, col) {
+    let result = [];
+
+    if (this.contains(row - 1, col - 1)) {
+      result.push({ row: row - 1, col: col - 1 });
+    }
+    if (this.contains(row - 1, col)) {
+      result.push({ row: row - 1, col: col });
+    }
+    if (this.contains(row - 1, col + 1)) {
+      result.push({ row: row - 1, col: col + 1 });
+    }
+
+    if (this.contains(row, col - 1)) {
+      result.push({ row: row, col: col - 1 });
+    }
+    if (this.contains(row, col + 1)) {
+      result.push({ row: row, col: col + 1 });
+    }
+
+    if (this.contains(row + 1, col - 1)) {
+      result.push({ row: row + 1, col: col - 1 });
+    }
+    if (this.contains(row + 1, col)) {
+      result.push({ row: row + 1, col: col });
+    }
+    if (this.contains(row + 1, col + 1)) {
+      result.push({ row: row + 1, col: col + 1 });
+    }
+
+    return result;
   }
 
   /**
@@ -49,24 +84,14 @@ class Game {
     // 各マスの周囲の地雷数をカウントし、value にセットする。
     for (let row = 0; row < this.field.length; row++) {
       for (let col = 0; col < this.field[row].length; col++) {
-        if (this.isMine(row, col)) {
+        if (this.field[row][col].isMine) {
           continue;
         }
 
-        let count = 0;
-
-        count += this.isMine(row - 1, col - 1);
-        count += this.isMine(row - 1, col);
-        count += this.isMine(row - 1, col + 1);
-
-        count += this.isMine(row, col - 1);
-        count += this.isMine(row, col + 1);
-
-        count += this.isMine(row + 1, col - 1);
-        count += this.isMine(row + 1, col);
-        count += this.isMine(row + 1, col + 1);
-
-        this.field[row][col].count = count;
+        this.field[row][col].count = this.arround(row, col) //
+          .map(p => this.field[p.row][p.col]) //
+          .filter(cell => cell.isMine)
+          .length;
       }
     }
   }
@@ -76,8 +101,39 @@ class Game {
    * @param {Number} row 行番号
    * @param {Number} col 列番号
    */
-  open(row, col) {
-    this.field[row][col].open();
+  open(row, col, depth = 0) {
+    if (!this.contains(row, col)) {
+      return;
+    }
+
+    const cell = this.field[row][col];
+
+    if (cell.isOpen) {
+      if (depth > 0) {
+        return;
+      }
+
+      let openedMineCount = this.arround(row, col) //
+        .map(p => this.field[p.row][p.col]) //
+        .filter(c => c.isMine) //
+        .filter(c => c.isOpen) //
+        .length;
+
+      if (cell.count === openedMineCount) {
+        this.arround(row, col)
+          .filter(p => !this.field[p.row][p.col].isOpen)
+          .forEach(p => this.open(p.row, p.col, depth + 1));
+      }
+
+      return;
+    }
+
+    cell.open();
+
+    if (cell.count === 0) {
+      this.arround(row, col).forEach(p => this.open(p.row, p.col, depth + 1));
+    }
+
   }
 }
 

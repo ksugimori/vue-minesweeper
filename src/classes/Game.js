@@ -28,32 +28,20 @@ class Game {
   arround(row, col) {
     let result = [];
 
-    if (this.contains(row - 1, col - 1)) {
-      result.push({ row: row - 1, col: col - 1 });
-    }
-    if (this.contains(row - 1, col)) {
-      result.push({ row: row - 1, col: col });
-    }
-    if (this.contains(row - 1, col + 1)) {
-      result.push({ row: row - 1, col: col + 1 });
+    const pushIfContains = (r, c) => {
+      if (this.contains(r, c)) result.push({ row: r, col: c });
     }
 
-    if (this.contains(row, col - 1)) {
-      result.push({ row: row, col: col - 1 });
-    }
-    if (this.contains(row, col + 1)) {
-      result.push({ row: row, col: col + 1 });
-    }
+    pushIfContains(row - 1, col - 1);
+    pushIfContains(row - 1, col);
+    pushIfContains(row - 1, col + 1);
 
-    if (this.contains(row + 1, col - 1)) {
-      result.push({ row: row + 1, col: col - 1 });
-    }
-    if (this.contains(row + 1, col)) {
-      result.push({ row: row + 1, col: col });
-    }
-    if (this.contains(row + 1, col + 1)) {
-      result.push({ row: row + 1, col: col + 1 });
-    }
+    pushIfContains(row, col - 1);
+    pushIfContains(row, col + 1);
+
+    pushIfContains(row + 1, col - 1);
+    pushIfContains(row + 1, col);
+    pushIfContains(row + 1, col + 1);
 
     return result;
   }
@@ -130,7 +118,7 @@ class Game {
 
     cell.open();
 
-    if (cell.count === 0) {
+    if (!cell.isMine && cell.count === 0) {
       this.arround(row, col).forEach(p => this.open(p.row, p.col, depth + 1));
     }
 

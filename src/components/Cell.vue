@@ -2,7 +2,7 @@
   <div
     class="cell"
     :class="obj.isOpen ? ['open', colorClassName] : []"
-    @click="$emit('cell-click', point)"
+    @click="onClick"
   >
     {{ valueString }}
   </div>
@@ -12,7 +12,7 @@
 export default {
   props: {
     obj: Object,
-    point: Object,
+    onClick: Function,
   },
   computed: {
     colorClassName() {

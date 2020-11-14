@@ -2,10 +2,9 @@
   <div class="field">
     <row
       v-for="(cells, index) in game.field"
-      @cell-click="open"
       :key="index"
       :cells="cells"
-      :row="index"
+      :onClickCell="col => game.open(index, col)"
     ></row>
   </div>
 </template>
@@ -19,11 +18,6 @@ export default {
   },
   components: {
     Row,
-  },
-  methods: {
-    open: function (point) {
-      this.game.open(point.row, point.col);
-    },
   },
 };
 </script>

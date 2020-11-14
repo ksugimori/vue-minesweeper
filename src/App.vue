@@ -15,7 +15,7 @@ export default {
   },
   data() {
     let game = new Game();
-    game.initialize(6, 6, 2);
+    game.initialize(9, 9, 2);
     return {
       game: game
     };

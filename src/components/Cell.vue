@@ -1,8 +1,9 @@
 <template>
   <div
     class="cell"
-    :class="obj.isOpen ? ['open', colorClassName] : []"
+    :class="obj.isFlagged ? ['flag'] : (obj.isOpen ? ['open', colorClassName] : [])"
     @click="onClick"
+    @click.right.prevent="toggleFlag"
   >
     {{ valueString }}
   </div>
@@ -23,11 +24,20 @@ export default {
         return "";
       }
 
-      if (this.obj.count < 0) {
+      if (this.obj.isMine) {
         return "＊"; // TODO これ見づらい
       }
 
       return this.obj.count.toString();
+    },
+  },
+  methods: {
+    toggleFlag: function () {
+      if (this.obj.isFlagged) {
+        this.obj.unflag();
+      } else {
+        this.obj.flag();
+      }
     },
   },
 };
@@ -97,5 +107,9 @@ export default {
 .cell.color-bomb {
   background-color: red;
   color: #fff;
+}
+/** フラグ */
+.flag {
+  background-color: yellow;
 }
 </style>

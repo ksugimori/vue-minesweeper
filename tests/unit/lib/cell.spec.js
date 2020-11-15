@@ -63,6 +63,14 @@ describe('Cell', () => {
       cell.flag();
       expect(cell.isFlagged).toBe(true);
     })
+
+    it('open 済のセルに対してはフラグは付けられないこと', () => {
+      const cell = new Cell();
+
+      cell.open();
+      cell.flag();
+      expect(cell.isFlagged).toBe(false);
+    })
   })
 
   describe('#unflag', () => {

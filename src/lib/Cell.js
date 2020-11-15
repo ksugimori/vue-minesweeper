@@ -32,6 +32,8 @@ class Cell {
    * フラグを立てる
    */
   flag() {
+    if (this.isOpen) return;
+
     this.isFlagged = true;
   }
 

@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import Game from "../src/classes/Game";
+import Game from "../src/lib/Game";
 import Field from "./components/Field";
 import ResetButton from "./components/ResetButton";
 

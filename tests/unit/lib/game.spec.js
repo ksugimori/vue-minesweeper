@@ -64,11 +64,27 @@ describe('Game', () => {
     });
 
     it("すべてのセルが isOpen=false となっていること", () => {
+      // 一箇所だけ開いておく
+      game.field[0][0].open();
+
+      // initialize が呼ばれるとクリアされることを確認
       game.initialize(3, 3);
 
       expect(game.field[0].map(c => c.isOpen)).toStrictEqual([false, false, false]);
       expect(game.field[1].map(c => c.isOpen)).toStrictEqual([false, false, false]);
       expect(game.field[2].map(c => c.isOpen)).toStrictEqual([false, false, false]);
+    })
+
+    it("すべてのセルが isFlagged=false となっていること", () => {
+      // フラグを立てておくが、
+      game.field[0][0].flag();
+
+      // initialize が呼ばれるとクリアされることを確認
+      game.initialize(3, 3);
+
+      expect(game.field[0].map(c => c.isFlagged)).toStrictEqual([false, false, false]);
+      expect(game.field[1].map(c => c.isFlagged)).toStrictEqual([false, false, false]);
+      expect(game.field[2].map(c => c.isFlagged)).toStrictEqual([false, false, false]);
     })
   })
 
@@ -109,6 +125,28 @@ describe('Game', () => {
       // 検証
       expect(game.field).toEqual([
         [new Cell({ count: 1, isOpen: true }), new Cell({ count: 1, isOpen: true }), new Cell({ count: 1, isOpen: true })],
+        [new Cell({ count: 1, isOpen: true }), new Cell({ count: 0, isOpen: true }), new Cell({ count: 1, isOpen: true })],
+        [new Cell({ count: 1, isOpen: true }), new Cell({ count: 1, isOpen: true }), new Cell({ count: 1, isOpen: true })],
+      ]);
+    });
+
+    it("指定したセルが空の場合、そのセルの周囲８セルに isOpen フラグが立つが、isFlagged=true となっているセルは変更されないこと", () => {
+      game.initialize(3, 3);
+
+      // initialize メソッドでランダムに地雷がセットされるので、強制的に上書きする
+      // 中央だけ 0, 左上だけ isFlagged=true
+      game.field = [
+        [new Cell({ count: 1, isOpen: false, isFlagged: true }), new Cell({ count: 1, isOpen: false }), new Cell({ count: 1, isOpen: false })],
+        [new Cell({ count: 1, isOpen: false }), new Cell({ count: 0, isOpen: false }), new Cell({ count: 1, isOpen: false })],
+        [new Cell({ count: 1, isOpen: false }), new Cell({ count: 1, isOpen: false }), new Cell({ count: 1, isOpen: false })],
+      ];
+
+      // テスト実行
+      game.open(1, 1);
+
+      // 検証（左上は isOpen=false のまま）
+      expect(game.field).toEqual([
+        [new Cell({ count: 1, isOpen: false, isFlagged: true }), new Cell({ count: 1, isOpen: true }), new Cell({ count: 1, isOpen: true })],
         [new Cell({ count: 1, isOpen: true }), new Cell({ count: 0, isOpen: true }), new Cell({ count: 1, isOpen: true })],
         [new Cell({ count: 1, isOpen: true }), new Cell({ count: 1, isOpen: true }), new Cell({ count: 1, isOpen: true })],
       ]);

@@ -5,10 +5,12 @@ class Cell {
   /**
    * コンストラクタ
    */
-  constructor() {
+  constructor(params) {
     this.count = 0;
     this.isOpen = false;
     this.isMine = false;
+
+    Object.assign(this, params);
   }
 
   /**

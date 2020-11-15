@@ -96,18 +96,21 @@ class Game {
 
     const cell = this.field[row][col];
 
+    if (cell.isFlagged) {
+      return;
+    }
+
     if (cell.isOpen) {
       if (depth > 0) {
         return;
       }
 
-      let openedMineCount = this.arround(row, col) //
+      let flagCount = this.arround(row, col) //
         .map(p => this.field[p.row][p.col]) //
-        .filter(c => c.isMine) //
-        .filter(c => c.isOpen) //
+        .filter(c => c.isFlagged) //
         .length;
 
-      if (cell.count === openedMineCount) {
+      if (cell.count === flagCount) {
         this.arround(row, col)
           .filter(p => !this.field[p.row][p.col].isOpen)
           .forEach(p => this.open(p.row, p.col, depth + 1));
@@ -118,7 +121,7 @@ class Game {
 
     cell.open();
 
-    if (!cell.isMine && cell.count === 0) {
+    if (!cell.isMine && cell.count === 0) { // TODO isMine ならゲームオーバーにする
       this.arround(row, col).forEach(p => this.open(p.row, p.col, depth + 1));
     }
 

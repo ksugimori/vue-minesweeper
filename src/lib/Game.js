@@ -50,8 +50,11 @@ class Game {
    * 盤面を初期化する。
    * @param {Number} numRows 
    * @param {Number} numCols 
+   * @param {Number} nunmMines
    */
-  initialize(numRows, numCols) {
+  initialize(numRows, numCols, numMines) {
+    numMines = numMines || this.numMines;
+
     this.field = [];
 
     for (let row = 0; row < numRows; row++) {
@@ -63,11 +66,19 @@ class Game {
     }
 
     // 地雷をランダムにセット
-    // TODO これだと各行に１個になるのでロジック変更したい
-    for (let row = 0; row < numRows; row++) {
-      let index = Math.floor(Math.random() * numCols);
-      this.field[row][index].mine();
+    let mines = [];
+    while (mines.length < numMines) {
+      let val = Math.floor(Math.random() * numCols * numRows);
+      if (mines.includes(val)) continue;
+
+      mines.push(val);
     }
+
+    mines.forEach(i => {
+      let row = Math.floor(i / numCols);
+      let col = i % numCols;
+      this.field[row][col].mine();
+    });
 
     // 各マスの周囲の地雷数をカウントし、value にセットする。
     for (let row = 0; row < this.field.length; row++) {

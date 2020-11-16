@@ -56,7 +56,7 @@ describe('Game', () => {
 
   describe('#initialize', () => {
     it("行数、列数が引数で渡された値に一致すること", () => {
-      game.initialize(3, 2);
+      game.initialize(3, 2, 2);
 
       expect(game.field.length).toBe(3); // ３行
       expect(game.field[0].length).toBe(2); // 2列
@@ -68,7 +68,7 @@ describe('Game', () => {
       game.field[0][0].open();
 
       // initialize が呼ばれるとクリアされることを確認
-      game.initialize(3, 3);
+      game.initialize(3, 3, 2);
 
       expect(game.field[0].map(c => c.isOpen)).toStrictEqual([false, false, false]);
       expect(game.field[1].map(c => c.isOpen)).toStrictEqual([false, false, false]);
@@ -80,11 +80,20 @@ describe('Game', () => {
       game.field[0][0].flag();
 
       // initialize が呼ばれるとクリアされることを確認
-      game.initialize(3, 3);
+      game.initialize(3, 3, 2);
 
       expect(game.field[0].map(c => c.isFlagged)).toStrictEqual([false, false, false]);
       expect(game.field[1].map(c => c.isFlagged)).toStrictEqual([false, false, false]);
       expect(game.field[2].map(c => c.isFlagged)).toStrictEqual([false, false, false]);
+    })
+
+    it("地雷が指定した数だけ埋まっていること", () => {
+      // 9 * 9 = 81 マスのうち 10 個
+      game.initialize(9, 9, 10);
+
+      const count = game.field.flat().filter(c => c.isMine).length;
+
+      expect(count).toBe(10);
     })
   })
 

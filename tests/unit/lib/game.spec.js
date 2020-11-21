@@ -1,5 +1,6 @@
 import Game from '@/lib/Game'
 import Cell from '@/lib/Cell'
+import Status from '@/lib/Status'
 
 describe('Game', () => {
   const game = new Game();
@@ -95,6 +96,12 @@ describe('Game', () => {
 
       expect(count).toBe(10);
     })
+
+    it("ステータスが PLAY になっていること", () => {
+      game.initialize(9, 9, 10);
+
+      expect(game.status).toBe(Status.PLAY);
+    })
   })
 
   describe('#open', () => {
@@ -159,6 +166,29 @@ describe('Game', () => {
         [new Cell({ count: 1, isOpen: true }), new Cell({ count: 0, isOpen: true }), new Cell({ count: 1, isOpen: true })],
         [new Cell({ count: 1, isOpen: true }), new Cell({ count: 1, isOpen: true }), new Cell({ count: 1, isOpen: true })],
       ]);
+    });
+
+    it("指定したセルに地雷がある場合、ステータスが LOSE になること", () => {
+      game.initialize(2, 2);
+
+      // initialize メソッドでランダムに地雷がセットされるので、強制的に上書きする
+      game.field = [
+        [new Cell({ count: 1, isOpen: false }), new Cell({ count: 1, isOpen: false })],
+        [new Cell({ count: 1, isOpen: false }), new Cell({ count: 0, isOpen: false, isMine: true })],
+      ];
+
+      // テスト実行
+      game.open(1, 1);
+
+      // 検証
+      // すべて開かれること
+      expect(game.field).toEqual([
+        [new Cell({ count: 1, isOpen: true }), new Cell({ count: 1, isOpen: true })],
+        [new Cell({ count: 1, isOpen: true }), new Cell({ count: 0, isOpen: true, isMine: true })],
+      ]);
+
+      // ステータスは LOSE になること
+      expect(game.status).toBe(Status.LOSE);
     });
   })
 })

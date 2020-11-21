@@ -1,4 +1,5 @@
 import Cell from './Cell';
+import Status from './Status';
 
 /**
  * マインスイーパー全体を管理するクラス
@@ -9,6 +10,7 @@ class Game {
    */
   constructor() {
     this.field = [];
+    this.status = Status.INIT;
   }
 
   /**
@@ -93,6 +95,8 @@ class Game {
           .length;
       }
     }
+
+    this.status = Status.PLAY;
   }
 
   /**
@@ -131,6 +135,16 @@ class Game {
     }
 
     cell.open();
+
+    // 地雷だったらすべて開いて終了
+    if (cell.isMine) {
+      for (row of this.field) {
+        row.forEach(c => c.open());
+      }
+
+      this.status = Status.LOSE;
+      return;
+    }
 
     if (!cell.isMine && cell.count === 0) { // TODO isMine ならゲームオーバーにする
       this.arround(row, col).forEach(p => this.open(p.row, p.col, depth + 1));

@@ -11,7 +11,20 @@ class Game {
   constructor() {
     this.field = [];
     this.status = Status.INIT;
-    this.closedCount = 0;
+  }
+
+  /**
+   * 閉じているセルの数
+   */
+  get closedCount() {
+    return this.field.flat().map(cell => cell.isOpen ? 0 : 1).reduce((sum, x) => sum + x);
+  }
+
+  /**
+   * フラグの数
+   */
+  get flagCount() {
+    return this.field.flat().map(cell => cell.isFlagged ? 1 : 0).reduce((sum, x) => sum + x);
   }
 
   /**
@@ -59,14 +72,12 @@ class Game {
     numMines = numMines || this.numMines;
 
     this.field = [];
-    this.closedCount = 0;
     this.mineCount = 0;
 
     for (let row = 0; row < numRows; row++) {
       let row = [];
       for (let i = 0; i < numCols; i++) {
         row.push(new Cell());
-        this.closedCount = this.closedCount + 1;
       }
       this.field.push(row);
     }
@@ -110,6 +121,10 @@ class Game {
    * @param {Number} col 列番号
    */
   open(row, col, depth = 0) {
+    if (this.status !== Status.PLAY) {
+      return;
+    }
+
     if (!this.contains(row, col)) {
       return;
     }
@@ -125,12 +140,12 @@ class Game {
         return;
       }
 
-      let flagCount = this.arround(row, col) //
+      let arroundFlagCoun = this.arround(row, col) //
         .map(p => this.field[p.row][p.col]) //
         .filter(c => c.isFlagged) //
         .length;
 
-      if (cell.count === flagCount) {
+      if (cell.count === arroundFlagCoun) {
         this.arround(row, col)
           .filter(p => !this.field[p.row][p.col].isOpen)
           .forEach(p => this.open(p.row, p.col, depth + 1));
@@ -140,7 +155,6 @@ class Game {
     }
 
     cell.open();
-    this.closedCount = this.closedCount - 1;
 
     // 地雷だったらすべて開いて終了
     if (cell.isMine) {
@@ -152,8 +166,21 @@ class Game {
       return;
     }
 
-    if (!cell.isMine && cell.count === 0) {
-      this.arround(row, col).forEach(p => this.open(p.row, p.col, depth + 1));
+    if (cell.count === 0) {
+      let targetList = this.arround(row, col)
+        .filter(p => !this.field[p.row][p.col].isOpen)
+        .filter(p => !this.field[p.row][p.col].isFlagged);
+      while (targetList.length !== 0) {
+        let p = targetList.pop();
+        let targetCell = this.field[p.row][p.col];
+        targetCell.open();
+        if (targetCell.count === 0) {
+          this.arround(p.row, p.col)
+            .filter(s => !this.field[s.row][s.col].isOpen)
+            .filter(s => !this.field[s.row][s.col].isFlagged)
+            .forEach(s => targetList.push(s));
+        }
+      }
     }
 
     if (this.closedCount === this.mineCount) {

@@ -1,6 +1,9 @@
 <template>
   <div id="app">
     <reset-button :game="game"></reset-button>
+    <div>
+      close = {{ game.closedCount }}, flag = {{ game.flagCount }}
+    </div>
     <field :game="game"></field>
   </div>
 </template>

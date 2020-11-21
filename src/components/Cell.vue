@@ -6,10 +6,9 @@
     "
     @click="onClick"
     @click.right.prevent="toggleFlag"
-    @mousedown="touchStart"
-    @mouseup="touchEnd"
     @touchstart="touchStart"
     @touchend="touchEnd"
+    @contextmenu.prevent
   >
     {{ valueString }}
   </div>

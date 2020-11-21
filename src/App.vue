@@ -2,7 +2,7 @@
   <div id="app">
     <reset-button :game="game"></reset-button>
     <div>
-      close = {{ game.closedCount }}, flag = {{ game.flagCount }}
+      close = {{ game.closedCount }}, flag = {{ game.flagCount }}, status = {{ game.status }}
     </div>
     <field :game="game"></field>
   </div>

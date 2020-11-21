@@ -26,7 +26,7 @@ export default {
 .field {
   display: inline-flex;
   flex-direction: column;
-  border: 4px solid #000;
-  padding: 2px;
+  border: 6px solid #000;
+  padding: 3px;
 }
 </style>

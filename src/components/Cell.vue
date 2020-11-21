@@ -1,9 +1,15 @@
 <template>
   <div
     class="cell"
-    :class="obj.isFlagged ? ['flag'] : (obj.isOpen ? ['open', colorClassName] : [])"
+    :class="
+      obj.isFlagged ? ['flag'] : obj.isOpen ? ['open', colorClassName] : []
+    "
     @click="onClick"
     @click.right.prevent="toggleFlag"
+    @mousedown="touchStart"
+    @mouseup="touchEnd"
+    @touchstart="touchStart"
+    @touchend="touchEnd"
   >
     {{ valueString }}
   </div>
@@ -31,6 +37,11 @@ export default {
       return this.obj.count.toString();
     },
   },
+  data: function () {
+    return {
+      longPressTimer: null,
+    };
+  },
   methods: {
     toggleFlag: function () {
       if (this.obj.isFlagged) {
@@ -38,6 +49,12 @@ export default {
       } else {
         this.obj.flag();
       }
+    },
+    touchStart: function () {
+      this.longPressTimer = window.setTimeout(this.toggleFlag, 500);
+    },
+    touchEnd: function () {
+      clearTimeout(this.longPressTimer);
     },
   },
 };

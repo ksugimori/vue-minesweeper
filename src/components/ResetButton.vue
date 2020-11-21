@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button @click="game.initialize(9, 9, 10)" :class="['btn', 'btn-reset']">
+    <button @click="game.initialize(9, 9, 1)" :class="['btn', 'btn-reset']">
       Reset
     </button>
   </div>

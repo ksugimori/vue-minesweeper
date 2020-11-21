@@ -11,6 +11,7 @@ class Game {
   constructor() {
     this.field = [];
     this.status = Status.INIT;
+    this.closedCount = 0;
   }
 
   /**
@@ -58,11 +59,14 @@ class Game {
     numMines = numMines || this.numMines;
 
     this.field = [];
+    this.closedCount = 0;
+    this.mineCount = 0;
 
     for (let row = 0; row < numRows; row++) {
       let row = [];
       for (let i = 0; i < numCols; i++) {
         row.push(new Cell());
+        this.closedCount = this.closedCount + 1;
       }
       this.field.push(row);
     }
@@ -80,6 +84,7 @@ class Game {
       let row = Math.floor(i / numCols);
       let col = i % numCols;
       this.field[row][col].mine();
+      this.mineCount = this.mineCount + 1;
     });
 
     // 各マスの周囲の地雷数をカウントし、value にセットする。
@@ -135,6 +140,7 @@ class Game {
     }
 
     cell.open();
+    this.closedCount = this.closedCount - 1;
 
     // 地雷だったらすべて開いて終了
     if (cell.isMine) {
@@ -146,10 +152,13 @@ class Game {
       return;
     }
 
-    if (!cell.isMine && cell.count === 0) { // TODO isMine ならゲームオーバーにする
+    if (!cell.isMine && cell.count === 0) {
       this.arround(row, col).forEach(p => this.open(p.row, p.col, depth + 1));
     }
 
+    if (this.closedCount === this.mineCount) {
+      this.status = Status.WIN;
+    }
   }
 }
 

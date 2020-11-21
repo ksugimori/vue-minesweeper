@@ -102,6 +102,12 @@ describe('Game', () => {
 
       expect(game.status).toBe(Status.PLAY);
     })
+
+    it("closedCount がセル数と一致すること", () => {
+      game.initialize(3, 4, 10);
+
+      expect(game.closedCount).toBe(12);
+    })
   })
 
   describe('#open', () => {
@@ -190,5 +196,29 @@ describe('Game', () => {
       // ステータスは LOSE になること
       expect(game.status).toBe(Status.LOSE);
     });
+
+    it("開いたセルの数だけ closedCount が減ること", () => {
+      game.initialize(3, 3, 3);
+
+      // initialize メソッドでランダムに地雷がセットされるので、強制的に上書きする
+      // ３列目に地雷が埋まっている
+      game.field = [
+        [new Cell({ count: 0, isOpen: false }), new Cell({ count: 2, isOpen: false }), new Cell({ count: 0, isOpen: false, isMine: true })],
+        [new Cell({ count: 0, isOpen: false }), new Cell({ count: 3, isOpen: false }), new Cell({ count: 0, isOpen: false, isMine: true })],
+        [new Cell({ count: 0, isOpen: false }), new Cell({ count: 2, isOpen: false }), new Cell({ count: 0, isOpen: false, isMine: true })],
+      ];
+
+      // この時点では全て閉じている
+      expect(game.closedCount).toBe(9);
+
+      // テスト実行
+      game.open(0, 0);
+
+      // 検証（空白セルとそれに隣接するセルは開かれるので６個開く）
+      expect(game.closedCount).toBe(3);
+      // 地雷以外のセルをすべて開いたので勝利
+      expect(game.status).toBe(Status.WIN);
+    });
+
   })
 })

@@ -2,7 +2,8 @@
   <div id="app">
     <reset-button :game="game"></reset-button>
     <div>
-      close = {{ game.closedCount }}, flag = {{ game.flagCount }}, status = {{ game.status }}
+      close = {{ game.closedCount }}, flag = {{ game.flagCount }}, status =
+      {{ game.status }}
     </div>
     <field :game="game"></field>
   </div>
@@ -17,7 +18,7 @@ export default {
   name: "app",
   components: {
     Field,
-    ResetButton
+    ResetButton,
   },
   data() {
     let game = new Game();
@@ -37,5 +38,9 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 </style>

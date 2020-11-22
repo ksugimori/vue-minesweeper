@@ -1,6 +1,6 @@
 import Game from '@/lib/Game'
 import Cell from '@/lib/Cell'
-import Status from '@/lib/Status'
+import State from '@/lib/State'
 
 describe('Game', () => {
   describe('#contains', () => {
@@ -74,7 +74,7 @@ describe('Game', () => {
       game.initialize(3, 2, 2).start(); // ここで PLAY になっている
       game.initialize(3, 2, 2); // 再度 initialize を呼ぶと INIT になっていること
 
-      expect(game.status.equals(Status.INIT)).toBeTruthy();
+      expect(game.state).toBe(State.INIT);
     });
 
     it("すべてのセルが isOpen=false となっていること", () => {
@@ -133,7 +133,7 @@ describe('Game', () => {
 
       game.initialize(9, 9, 10).start();
 
-      expect(game.status.equals(Status.PLAY)).toBeTruthy();
+      expect(game.state).toBe(State.PLAY);
     })
   })
 
@@ -229,7 +229,7 @@ describe('Game', () => {
       ]);
 
       // ステータスは LOSE になること
-      expect(game.status.equals(Status.LOSE)).toBeTruthy();
+      expect(game.state).toBe(State.LOSE);
     });
 
     it("開いたセルの数だけ closedCount が減ること", () => {
@@ -254,7 +254,7 @@ describe('Game', () => {
       // 検証（空白セルとそれに隣接するセルは開かれるので６個開く）
       expect(game.closedCount).toBe(3);
       // 地雷以外のセルをすべて開いたので勝利
-      expect(game.status.equals(Status.WIN)).toBeTruthy();
+      expect(game.state).toBe(State.WIN);
     });
 
   })

@@ -1,5 +1,5 @@
 import Cell from './Cell';
-import Status from './Status';
+import State from './State';
 
 /**
  * マインスイーパー全体を管理するクラス
@@ -10,10 +10,11 @@ class Game {
    */
   constructor() {
     this.field = [];
-    this.status = new Status();
     this.numRows = 9;
     this.numCols = 9;
     this.numMines = 10;
+
+    this.state = State.INIT;
   }
 
   /**
@@ -28,6 +29,14 @@ class Game {
    */
   get flagCount() {
     return this.field.flat().map(cell => cell.isFlagged ? 1 : 0).reduce((sum, x) => sum + x);
+  }
+
+  /**
+   * 指定した座標のセルを取得する。
+   * @param {Object} point 座標
+   */
+  cellAt(point) {
+    return this.field[point.row][point.col];
   }
 
   /**
@@ -89,7 +98,7 @@ class Game {
       this.field.push(row);
     }
 
-    this.status.to(Status.INIT);
+    this.state.transit(this, State.INIT);
 
     return this;
   }
@@ -99,17 +108,19 @@ class Game {
    * 
    * 地雷の配置もここで行う。
    * 初手アウトを防ぐため引数で渡された場所には配置しない。
-   * @param {Number} row 行番号
-   * @param {Number} col 列番号
+   * @param {Number} excludeRow 行番号
+   * @param {Number} excludeCol 列番号
    */
-  start(row, col) {
+  start(excludeRow, excludeCol) {
     // 地雷をランダムにセット
     let mines = [];
     while (mines.length < this.numMines) {
-      let val = Math.floor(Math.random() * this.numCols * this.numRows);
+      let randomRow = Math.floor(Math.random() * this.numRows);
+      let randomCol = Math.floor(Math.random() * this.numCols);
+      if (excludeRow === randomRow && excludeCol === randomCol) continue;
+
+      let val = randomRow * this.numCols + randomCol;
       if (mines.includes(val)) continue;
-      if (row === Math.floor(val / this.numCols)
-        && col === val % this.numCols) continue;
 
       mines.push(val);
     }
@@ -127,14 +138,14 @@ class Game {
           continue;
         }
 
-        this.field[row][col].count = this.arround(row, col) //
-          .map(p => this.field[p.row][p.col]) //
+        this.field[row][col].count = this.arround(row, col)
+          .map(p => this.cellAt(p))
           .filter(cell => cell.isMine)
           .length;
       }
     }
 
-    this.status.to(Status.PLAY);
+    this.state.transit(this, State.PLAY);
   }
 
   /**
@@ -142,17 +153,30 @@ class Game {
    * @param {Number} row 行番号
    * @param {Number} col 列番号
    */
-  open(row, col, depth = 0) {
-    if (this.status.equals(Status.INIT)) {
-      this.start(row, col);
-    } else if (!this.status.equals(Status.PLAY)) {
+  open(row, col) {
+    this.state.open(this, row, col);
+
+    // 地雷が開かれていればすべて開いて終了
+    if (this.field.flat().filter(cell => cell.isMine).some(cell => cell.isOpen)) {
+      this.field.flat().forEach(c => c.open());
+      this.state.transit(this, State.LOSE);
       return;
     }
 
-    if (!this.contains(row, col)) {
-      return;
+    // 地雷以外すべて開いていれば勝利
+    if (this.closedCount === this.numMines) {
+      this.state.transit(this, State.WIN);
     }
+  }
 
+  /**
+   * 指定したセルを開く。
+   * 
+   * TODO 名前わかりにくい
+   * @param {Number} row 行番頭
+   * @param {Number} col 列番号
+   */
+  openCell(row, col) {
     const cell = this.field[row][col];
 
     if (cell.isFlagged) {
@@ -160,19 +184,13 @@ class Game {
     }
 
     if (cell.isOpen) {
-      if (depth > 0) {
-        return;
-      }
-
-      let arroundFlagCoun = this.arround(row, col) //
-        .map(p => this.field[p.row][p.col]) //
+      let arroundFlagCount = this.arround(row, col) //
+        .map(p => this.cellAt(p)) //
         .filter(c => c.isFlagged) //
         .length;
 
-      if (cell.count === arroundFlagCoun) {
-        this.arround(row, col)
-          .filter(p => !this.field[p.row][p.col].isOpen)
-          .forEach(p => this.open(p.row, p.col, depth + 1));
+      if (cell.count === arroundFlagCount) {
+        this.openNeighbors(row, col);
       }
 
       return;
@@ -180,36 +198,35 @@ class Game {
 
     cell.open();
 
-    // 地雷だったらすべて開いて終了
-    if (cell.isMine) {
-      for (row of this.field) {
-        row.forEach(c => c.open());
-      }
-
-      this.status.to(Status.LOSE);
-      return;
-    }
-
     if (cell.count === 0) {
-      let targetList = this.arround(row, col)
-        .filter(p => !this.field[p.row][p.col].isOpen)
-        .filter(p => !this.field[p.row][p.col].isFlagged);
-      while (targetList.length !== 0) {
-        let p = targetList.pop();
-        let targetCell = this.field[p.row][p.col];
-        targetCell.open();
-        if (targetCell.count === 0) {
-          this.arround(p.row, p.col)
-            .filter(s => !this.field[s.row][s.col].isOpen)
-            .filter(s => !this.field[s.row][s.col].isFlagged)
-            .forEach(s => targetList.push(s));
-        }
+      this.openNeighbors(row, col);
+    }
+  }
+
+  /**
+   * 周囲のセルを再帰的に開く。
+   * 
+   * 数字、フラグ付きセルに到達したらそこで終了します。
+   * @param {Number} row 行番号
+   * @param {Number} col 列番号
+   */
+  openNeighbors(row, col) {
+    let targetList = this.arround(row, col)
+      .filter(p => !this.cellAt(p).isOpen)
+      .filter(p => !this.cellAt(p).isFlagged);
+
+    while (targetList.length !== 0) {
+      let p = targetList.pop();
+      let targetCell = this.cellAt(p);
+      targetCell.open();
+      if (targetCell.count === 0) {
+        this.arround(p.row, p.col)
+          .filter(s => !this.cellAt(s).isOpen)
+          .filter(s => !this.cellAt(s).isFlagged)
+          .forEach(s => targetList.push(s));
       }
     }
 
-    if (this.closedCount === this.numMines) {
-      this.status.to(Status.WIN);
-    }
   }
 }
 

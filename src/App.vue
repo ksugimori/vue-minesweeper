@@ -3,7 +3,7 @@
     <reset-button :game="game"></reset-button>
     <div>
       close = {{ game.closedCount }}, flag = {{ game.flagCount }}, status =
-      {{ game.status }}
+      {{ game.status.value }}
     </div>
     <field :game="game"></field>
   </div>

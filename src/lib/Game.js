@@ -11,6 +11,9 @@ class Game {
   constructor() {
     this.field = [];
     this.status = new Status();
+    this.numRows = 9;
+    this.numCols = 9;
+    this.numMines = 10;
   }
 
   /**
@@ -69,33 +72,52 @@ class Game {
    * @param {Number} nunmMines
    */
   initialize(numRows, numCols, numMines) {
-    numMines = numMines || this.numMines;
+    this.numRows = numRows || this.numRows;
+    this.numCols = numCols || this.numCols;
+    this.numMines = numMines || this.numMines;
+    if (this.numRows * this.numCols < this.numMines) {
+      this.numMines = Math.floor(this.numRows * this.numCols / 2);
+    }
 
     this.field = [];
-    this.mineCount = 0;
 
-    for (let row = 0; row < numRows; row++) {
+    for (let row = 0; row < this.numRows; row++) {
       let row = [];
-      for (let i = 0; i < numCols; i++) {
+      for (let i = 0; i < this.numCols; i++) {
         row.push(new Cell());
       }
       this.field.push(row);
     }
 
+    this.status.to(Status.INIT);
+
+    return this;
+  }
+
+  /**
+   * ゲームを開始する。
+   * 
+   * 地雷の配置もここで行う。
+   * 初手アウトを防ぐため引数で渡された場所には配置しない。
+   * @param {Number} row 行番号
+   * @param {Number} col 列番号
+   */
+  start(row, col) {
     // 地雷をランダムにセット
     let mines = [];
-    while (mines.length < numMines) {
-      let val = Math.floor(Math.random() * numCols * numRows);
+    while (mines.length < this.numMines) {
+      let val = Math.floor(Math.random() * this.numCols * this.numRows);
       if (mines.includes(val)) continue;
+      if (row === Math.floor(val / this.numCols)
+        && col === val % this.numCols) continue;
 
       mines.push(val);
     }
 
     mines.forEach(i => {
-      let row = Math.floor(i / numCols);
-      let col = i % numCols;
+      let row = Math.floor(i / this.numCols);
+      let col = i % this.numCols;
       this.field[row][col].mine();
-      this.mineCount = this.mineCount + 1;
     });
 
     // 各マスの周囲の地雷数をカウントし、value にセットする。
@@ -121,7 +143,9 @@ class Game {
    * @param {Number} col 列番号
    */
   open(row, col, depth = 0) {
-    if (this.status.value !== Status.PLAY) {
+    if (this.status.value === Status.INIT) {
+      this.start(row, col);
+    } else if (this.status.value !== Status.PLAY) {
       return;
     }
 
@@ -183,7 +207,7 @@ class Game {
       }
     }
 
-    if (this.closedCount === this.mineCount) {
+    if (this.closedCount === this.numMines) {
       this.status.to(Status.WIN);
     }
   }

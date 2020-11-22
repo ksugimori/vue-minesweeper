@@ -1,5 +1,5 @@
 import Cell from './Cell';
-import Status from './Status';
+import State from './State';
 
 /**
  * マインスイーパー全体を管理するクラス
@@ -10,10 +10,11 @@ class Game {
    */
   constructor() {
     this.field = [];
-    this.status = new Status();
     this.numRows = 9;
     this.numCols = 9;
     this.numMines = 10;
+
+    this.state = State.INIT;
   }
 
   /**
@@ -89,7 +90,7 @@ class Game {
       this.field.push(row);
     }
 
-    this.status.to(Status.INIT);
+    this.state.transit(this, State.INIT);
 
     return this;
   }
@@ -134,7 +135,7 @@ class Game {
       }
     }
 
-    this.status.to(Status.PLAY);
+    this.state.transit(this, State.PLAY);
   }
 
   /**
@@ -143,9 +144,9 @@ class Game {
    * @param {Number} col 列番号
    */
   open(row, col, depth = 0) {
-    if (this.status.equals(Status.INIT)) {
+    if (this.state === State.INIT) {
       this.start(row, col);
-    } else if (!this.status.equals(Status.PLAY)) {
+    } else if (this.state !== State.PLAY) {
       return;
     }
 
@@ -186,7 +187,7 @@ class Game {
         row.forEach(c => c.open());
       }
 
-      this.status.to(Status.LOSE);
+      this.state.transit(this, State.LOSE);
       return;
     }
 
@@ -208,7 +209,7 @@ class Game {
     }
 
     if (this.closedCount === this.numMines) {
-      this.status.to(Status.WIN);
+      this.state.transit(this, State.WIN);
     }
   }
 }

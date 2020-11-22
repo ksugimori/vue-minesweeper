@@ -32,6 +32,14 @@ class Game {
   }
 
   /**
+   * 指定した座標のセルを取得する。
+   * @param {Object} point 座標
+   */
+  cellAt(point) {
+    return this.field[point.row][point.col];
+  }
+
+  /**
    * フィールド内の座標か？
    * @param {Number} row 行番号
    * @param {Number} col 列番号
@@ -100,17 +108,19 @@ class Game {
    * 
    * 地雷の配置もここで行う。
    * 初手アウトを防ぐため引数で渡された場所には配置しない。
-   * @param {Number} row 行番号
-   * @param {Number} col 列番号
+   * @param {Number} excludeRow 行番号
+   * @param {Number} excludeCol 列番号
    */
-  start(row, col) {
+  start(excludeRow, excludeCol) {
     // 地雷をランダムにセット
     let mines = [];
     while (mines.length < this.numMines) {
-      let val = Math.floor(Math.random() * this.numCols * this.numRows);
+      let randomRow = Math.floor(Math.random() * this.numRows);
+      let randomCol = Math.floor(Math.random() * this.numCols);
+      if (excludeRow === randomRow && excludeCol === randomCol) continue;
+
+      let val = randomRow * this.numCols + randomCol;
       if (mines.includes(val)) continue;
-      if (row === Math.floor(val / this.numCols)
-        && col === val % this.numCols) continue;
 
       mines.push(val);
     }
@@ -128,8 +138,8 @@ class Game {
           continue;
         }
 
-        this.field[row][col].count = this.arround(row, col) //
-          .map(p => this.field[p.row][p.col]) //
+        this.field[row][col].count = this.arround(row, col)
+          .map(p => this.cellAt(p))
           .filter(cell => cell.isMine)
           .length;
       }
@@ -143,7 +153,7 @@ class Game {
    * @param {Number} row 行番号
    * @param {Number} col 列番号
    */
-  open(row, col, depth = 0) {
+  open(row, col) {
     if (this.state === State.INIT) {
       this.start(row, col);
     } else if (this.state !== State.PLAY) {
@@ -161,19 +171,31 @@ class Game {
     }
 
     if (cell.isOpen) {
-      if (depth > 0) {
-        return;
-      }
-
       let arroundFlagCoun = this.arround(row, col) //
-        .map(p => this.field[p.row][p.col]) //
+        .map(p => this.cellAt(p)) //
         .filter(c => c.isFlagged) //
         .length;
 
       if (cell.count === arroundFlagCoun) {
-        this.arround(row, col)
-          .filter(p => !this.field[p.row][p.col].isOpen)
-          .forEach(p => this.open(p.row, p.col, depth + 1));
+        let targetList = this.arround(row, col)
+          .filter(p => !this.cellAt(p).isOpen)
+          .filter(p => !this.cellAt(p).isFlagged);
+        while (targetList.length !== 0) {
+          let p = targetList.pop();
+          let targetCell = this.cellAt(p);
+          targetCell.open();
+          if (targetCell.count === 0) {
+            this.arround(p.row, p.col)
+              .filter(s => !this.cellAt(s).isOpen)
+              .filter(s => !this.cellAt(s).isFlagged)
+              .forEach(s => targetList.push(s));
+          }
+        }
+
+        if (this.closedCount === this.numMines) {
+          this.state.transit(this, State.WIN);
+        }
+        // TODO 地雷を開いていたら終了させる
       }
 
       return;
@@ -183,26 +205,23 @@ class Game {
 
     // 地雷だったらすべて開いて終了
     if (cell.isMine) {
-      for (row of this.field) {
-        row.forEach(c => c.open());
-      }
-
+      this.field.flat().forEach(c => c.open());
       this.state.transit(this, State.LOSE);
       return;
     }
 
     if (cell.count === 0) {
       let targetList = this.arround(row, col)
-        .filter(p => !this.field[p.row][p.col].isOpen)
-        .filter(p => !this.field[p.row][p.col].isFlagged);
+        .filter(p => !this.cellAt(p).isOpen)
+        .filter(p => !this.cellAt(p).isFlagged);
       while (targetList.length !== 0) {
         let p = targetList.pop();
-        let targetCell = this.field[p.row][p.col];
+        let targetCell = this.cellAt(p);
         targetCell.open();
         if (targetCell.count === 0) {
           this.arround(p.row, p.col)
-            .filter(s => !this.field[s.row][s.col].isOpen)
-            .filter(s => !this.field[s.row][s.col].isFlagged)
+            .filter(s => !this.cellAt(s).isOpen)
+            .filter(s => !this.cellAt(s).isFlagged)
             .forEach(s => targetList.push(s));
         }
       }

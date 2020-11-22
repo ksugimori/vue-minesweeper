@@ -3,10 +3,10 @@ import Cell from '@/lib/Cell'
 import Status from '@/lib/Status'
 
 describe('Game', () => {
-  const game = new Game();
-
   describe('#contains', () => {
     it('範囲内にあるときのみ true が返ること', () => {
+      const game = new Game();
+
       // ２行、３列で初期化
       game.initialize(2, 3);
 
@@ -25,6 +25,8 @@ describe('Game', () => {
 
   describe('#arround', () => {
     it("周囲の 8 セルが返ってくること", () => {
+      const game = new Game();
+
       // ３行、３列で初期化
       game.initialize(3, 3);
 
@@ -46,6 +48,8 @@ describe('Game', () => {
     })
 
     it("範囲外のセルは除外されていること", () => {
+      const game = new Game();
+
       // １行、３列で初期化
       game.initialize(1, 3);
 
@@ -57,6 +61,7 @@ describe('Game', () => {
 
   describe('#initialize', () => {
     it("行数、列数が引数で渡された値に一致すること", () => {
+      const game = new Game();
       game.initialize(3, 2, 2);
 
       expect(game.field.length).toBe(3); // ３行
@@ -64,7 +69,18 @@ describe('Game', () => {
       expect(game.field[1].length).toBe(2); // 2列
     });
 
+    it("ステータスは INIT になること", () => {
+      const game = new Game();
+      game.initialize(3, 2, 2).start(); // ここで PLAY になっている
+      game.initialize(3, 2, 2); // 再度 initialize を呼ぶと INIT になっていること
+
+      expect(game.status.equals(Status.INIT)).toBeTruthy();
+    });
+
     it("すべてのセルが isOpen=false となっていること", () => {
+      const game = new Game();
+      game.initialize(3, 3, 2);
+
       // 一箇所だけ開いておく
       game.field[0][0].open();
 
@@ -77,6 +93,9 @@ describe('Game', () => {
     })
 
     it("すべてのセルが isFlagged=false となっていること", () => {
+      const game = new Game();
+      game.initialize(3, 3, 2);
+
       // フラグを立てておくが、
       game.field[0][0].flag();
 
@@ -88,9 +107,21 @@ describe('Game', () => {
       expect(game.field[2].map(c => c.isFlagged)).toStrictEqual([false, false, false]);
     })
 
+    it("closedCount がセル数と一致すること", () => {
+      const game = new Game();
+
+      game.initialize(3, 4, 10);
+
+      expect(game.closedCount).toBe(12);
+    })
+  })
+
+  describe('#start', () => {
     it("地雷が指定した数だけ埋まっていること", () => {
+      const game = new Game();
+
       // 9 * 9 = 81 マスのうち 10 個
-      game.initialize(9, 9, 10);
+      game.initialize(9, 9, 10).start();
 
       const count = game.field.flat().filter(c => c.isMine).length;
 
@@ -98,21 +129,19 @@ describe('Game', () => {
     })
 
     it("ステータスが PLAY になっていること", () => {
-      game.initialize(9, 9, 10);
+      const game = new Game();
 
-      expect(game.status).toBe(Status.PLAY);
-    })
+      game.initialize(9, 9, 10).start();
 
-    it("closedCount がセル数と一致すること", () => {
-      game.initialize(3, 4, 10);
-
-      expect(game.closedCount).toBe(12);
+      expect(game.status.equals(Status.PLAY)).toBeTruthy();
     })
   })
 
   describe('#open', () => {
     it("指定したセルが数字の場合、そのセルの isOpen フラグが立つこと", () => {
-      game.initialize(2, 2);
+      const game = new Game();
+
+      game.initialize(2, 2).start();
 
       // initialize メソッドでランダムに地雷がセットされるので、強制的に上書きする
       game.field = [
@@ -131,7 +160,9 @@ describe('Game', () => {
     });
 
     it("指定したセルが空の場合、そのセルの周囲８セルに isOpen フラグが立つこと", () => {
-      game.initialize(3, 3);
+      const game = new Game();
+
+      game.initialize(3, 3).start();
 
       // initialize メソッドでランダムに地雷がセットされるので、強制的に上書きする
       // 中央だけ 0 
@@ -153,7 +184,9 @@ describe('Game', () => {
     });
 
     it("指定したセルが空の場合、そのセルの周囲８セルに isOpen フラグが立つが、isFlagged=true となっているセルは変更されないこと", () => {
-      game.initialize(3, 3);
+      const game = new Game();
+
+      game.initialize(3, 3).start();
 
       // initialize メソッドでランダムに地雷がセットされるので、強制的に上書きする
       // 中央だけ 0, 左上だけ isFlagged=true
@@ -175,7 +208,9 @@ describe('Game', () => {
     });
 
     it("指定したセルに地雷がある場合、ステータスが LOSE になること", () => {
-      game.initialize(2, 2);
+      const game = new Game();
+
+      game.initialize(2, 2).start();
 
       // initialize メソッドでランダムに地雷がセットされるので、強制的に上書きする
       game.field = [
@@ -194,11 +229,13 @@ describe('Game', () => {
       ]);
 
       // ステータスは LOSE になること
-      expect(game.status).toBe(Status.LOSE);
+      expect(game.status.equals(Status.LOSE)).toBeTruthy();
     });
 
     it("開いたセルの数だけ closedCount が減ること", () => {
-      game.initialize(3, 3, 3);
+      const game = new Game();
+
+      game.initialize(3, 3, 3).start();
 
       // initialize メソッドでランダムに地雷がセットされるので、強制的に上書きする
       // ３列目に地雷が埋まっている
@@ -217,7 +254,7 @@ describe('Game', () => {
       // 検証（空白セルとそれに隣接するセルは開かれるので６個開く）
       expect(game.closedCount).toBe(3);
       // 地雷以外のセルをすべて開いたので勝利
-      expect(game.status).toBe(Status.WIN);
+      expect(game.status.equals(Status.WIN)).toBeTruthy();
     });
 
   })

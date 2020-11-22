@@ -71,7 +71,8 @@ describe('Game', () => {
 
     it("ステータスは INIT になること", () => {
       const game = new Game();
-      game.initialize(3, 2, 2).start(); // ここで PLAY になっている
+      game.initialize(3, 2, 2);
+      game.open(0, 0); // ここで PLAY になっている
       game.initialize(3, 2, 2); // 再度 initialize を呼ぶと INIT になっていること
 
       expect(game.state).toBe(State.INIT);
@@ -121,7 +122,7 @@ describe('Game', () => {
       const game = new Game();
 
       // 9 * 9 = 81 マスのうち 10 個
-      game.initialize(9, 9, 10).start();
+      game.initialize(9, 9, 10).open(0, 0);
 
       const count = game.field.flat().filter(c => c.isMine).length;
 
@@ -131,7 +132,7 @@ describe('Game', () => {
     it("ステータスが PLAY になっていること", () => {
       const game = new Game();
 
-      game.initialize(9, 9, 10).start();
+      game.initialize(9, 9, 10).open(0, 0);
 
       expect(game.state).toBe(State.PLAY);
     })
@@ -141,7 +142,7 @@ describe('Game', () => {
     it("指定したセルが数字の場合、そのセルの isOpen フラグが立つこと", () => {
       const game = new Game();
 
-      game.initialize(2, 2).start();
+      game.initialize(2, 2).open(0, 0);
 
       // initialize メソッドでランダムに地雷がセットされるので、強制的に上書きする
       game.field = [
@@ -162,7 +163,7 @@ describe('Game', () => {
     it("指定したセルが空の場合、そのセルの周囲８セルに isOpen フラグが立つこと", () => {
       const game = new Game();
 
-      game.initialize(3, 3).start();
+      game.initialize(3, 3).open(0, 0);
 
       // initialize メソッドでランダムに地雷がセットされるので、強制的に上書きする
       // 中央だけ 0 
@@ -186,7 +187,7 @@ describe('Game', () => {
     it("指定したセルが空の場合、そのセルの周囲８セルに isOpen フラグが立つが、isFlagged=true となっているセルは変更されないこと", () => {
       const game = new Game();
 
-      game.initialize(3, 3).start();
+      game.initialize(3, 3).open(0, 0);
 
       // initialize メソッドでランダムに地雷がセットされるので、強制的に上書きする
       // 中央だけ 0, 左上だけ isFlagged=true
@@ -210,7 +211,7 @@ describe('Game', () => {
     it("指定したセルに地雷がある場合、ステータスが LOSE になること", () => {
       const game = new Game();
 
-      game.initialize(2, 2).start();
+      game.initialize(2, 2).open(0, 0);
 
       // initialize メソッドでランダムに地雷がセットされるので、強制的に上書きする
       game.field = [
@@ -235,7 +236,7 @@ describe('Game', () => {
     it("開いたセルの数だけ closedCount が減ること", () => {
       const game = new Game();
 
-      game.initialize(3, 3, 3).start();
+      game.initialize(3, 3, 3).open(0, 0);
 
       // initialize メソッドでランダムに地雷がセットされるので、強制的に上書きする
       // ３列目に地雷が埋まっている

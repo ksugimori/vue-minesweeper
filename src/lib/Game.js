@@ -98,7 +98,7 @@ class Game {
       this.field.push(row);
     }
 
-    this.state.transit(this, State.INIT);
+    this.state = State.INIT;
 
     return this;
   }
@@ -108,28 +108,22 @@ class Game {
    * 
    * 地雷の配置もここで行う。
    * 初手アウトを防ぐため引数で渡された場所には配置しない。
-   * @param {Number} excludeRow 行番号
-   * @param {Number} excludeCol 列番号
+   * @param {Point} exclude 除外する座標
    */
-  start(excludeRow, excludeCol) {
+  mine(exclude) {
     // 地雷をランダムにセット
     let mines = [];
     while (mines.length < this.numMines) {
       let randomRow = Math.floor(Math.random() * this.numRows);
       let randomCol = Math.floor(Math.random() * this.numCols);
-      if (excludeRow === randomRow && excludeCol === randomCol) continue;
+      if (exclude.row === randomRow && exclude.col === randomCol) continue;
 
-      let val = randomRow * this.numCols + randomCol;
-      if (mines.includes(val)) continue;
+      if (mines.some(x => x.row === randomRow && x.col === randomCol)) continue;
 
-      mines.push(val);
+      mines.push({ row: randomRow, col: randomCol });
     }
 
-    mines.forEach(i => {
-      let row = Math.floor(i / this.numCols);
-      let col = i % this.numCols;
-      this.field[row][col].mine();
-    });
+    mines.forEach(p => this.cellAt(p).mine());
 
     // 各マスの周囲の地雷数をカウントし、value にセットする。
     for (let row = 0; row < this.field.length; row++) {
@@ -145,7 +139,7 @@ class Game {
       }
     }
 
-    this.state.transit(this, State.PLAY);
+    this.state = State.PLAY;
   }
 
   /**
@@ -159,13 +153,13 @@ class Game {
     // 地雷が開かれていればすべて開いて終了
     if (this.field.flat().filter(cell => cell.isMine).some(cell => cell.isOpen)) {
       this.field.flat().forEach(c => c.open());
-      this.state.transit(this, State.LOSE);
+      this.state = State.LOSE;
       return;
     }
 
     // 地雷以外すべて開いていれば勝利
     if (this.closedCount === this.numMines) {
-      this.state.transit(this, State.WIN);
+      this.state = State.WIN;
     }
   }
 

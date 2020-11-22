@@ -10,7 +10,7 @@ class Game {
    */
   constructor() {
     this.field = [];
-    this.status = Status.INIT;
+    this.status = new Status();
   }
 
   /**
@@ -112,7 +112,7 @@ class Game {
       }
     }
 
-    this.status = Status.PLAY;
+    this.status.to(Status.PLAY);
   }
 
   /**
@@ -121,7 +121,7 @@ class Game {
    * @param {Number} col 列番号
    */
   open(row, col, depth = 0) {
-    if (this.status !== Status.PLAY) {
+    if (this.status.value !== Status.PLAY) {
       return;
     }
 
@@ -162,7 +162,7 @@ class Game {
         row.forEach(c => c.open());
       }
 
-      this.status = Status.LOSE;
+      this.status.to(Status.LOSE);
       return;
     }
 
@@ -184,7 +184,7 @@ class Game {
     }
 
     if (this.closedCount === this.mineCount) {
-      this.status = Status.WIN;
+      this.status.to(Status.WIN);
     }
   }
 }

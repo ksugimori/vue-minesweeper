@@ -6,6 +6,10 @@ class State {
     this.name = name;
   }
 
+  open(game, row, col) {
+    // デフォルトでは何もしない
+  }
+
   /**
    * ステータスを進める
    * @param {State} next 次のステータス
@@ -38,12 +42,21 @@ class InitialState extends State {
   constructor() {
     super("INIT")
   }
+
+  open(game, row, col) {
+    game.start(row, col);
+    game.openCell(row, col);
+  }
 }
 
 
 class PlayState extends State {
   constructor() {
     super("PLAY")
+  }
+
+  open(game, row, col) {
+    game.openCell(row, col);
   }
 }
 

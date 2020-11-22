@@ -98,4 +98,10 @@ describe('Status', () => {
       status.to(Status.WIN);
     }).toThrow();
   })
+
+  it('INIT と PLAY は異なること', () => {
+    const status = new Status();
+
+    expect(status.equals(Status.PLAY)).toBeFalsy();
+  });
 })

@@ -33,6 +33,21 @@ class Status {
       throw Error(`cannot transit from ${this.value} to ${next}`);
     }
   }
-};
+
+  /**
+   * ステータスの同値比較
+   * @param {Status} other 比較するステータス
+   */
+  equals(other) {
+    return this.value === other;
+  }
+
+  /**
+   * 文字列として表現する
+   */
+  toString() {
+    return this.value;
+  }
+}
 
 export default Status;

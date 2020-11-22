@@ -74,7 +74,7 @@ describe('Game', () => {
       game.initialize(3, 2, 2).start(); // ここで PLAY になっている
       game.initialize(3, 2, 2); // 再度 initialize を呼ぶと INIT になっていること
 
-      expect(game.status.value).toBe(Status.INIT);
+      expect(game.status.equals(Status.INIT)).toBeTruthy();
     });
 
     it("すべてのセルが isOpen=false となっていること", () => {
@@ -133,7 +133,7 @@ describe('Game', () => {
 
       game.initialize(9, 9, 10).start();
 
-      expect(game.status.value).toBe(Status.PLAY);
+      expect(game.status.equals(Status.PLAY)).toBeTruthy();
     })
   })
 
@@ -229,7 +229,7 @@ describe('Game', () => {
       ]);
 
       // ステータスは LOSE になること
-      expect(game.status.value).toBe(Status.LOSE);
+      expect(game.status.equals(Status.LOSE)).toBeTruthy();
     });
 
     it("開いたセルの数だけ closedCount が減ること", () => {
@@ -254,7 +254,7 @@ describe('Game', () => {
       // 検証（空白セルとそれに隣接するセルは開かれるので６個開く）
       expect(game.closedCount).toBe(3);
       // 地雷以外のセルをすべて開いたので勝利
-      expect(game.status.value).toBe(Status.WIN);
+      expect(game.status.equals(Status.WIN)).toBeTruthy();
     });
 
   })

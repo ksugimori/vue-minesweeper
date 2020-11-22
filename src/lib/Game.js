@@ -143,9 +143,9 @@ class Game {
    * @param {Number} col 列番号
    */
   open(row, col, depth = 0) {
-    if (this.status.value === Status.INIT) {
+    if (this.status.equals(Status.INIT)) {
       this.start(row, col);
-    } else if (this.status.value !== Status.PLAY) {
+    } else if (!this.status.equals(Status.PLAY)) {
       return;
     }
 

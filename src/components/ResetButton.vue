@@ -1,8 +1,7 @@
 <template>
   <div>
-    <button @click="game.initialize(9, 9, 10)" :class="['btn', 'btn-reset']">
-      Reset
-    </button>
+    <div class="padding"></div>
+    <div @click="game.initialize()" :class="['btn', 'box']">Reset</div>
   </div>
 </template>
 
@@ -15,11 +14,24 @@ export default {
 </script>
 
 <style scoped>
-.btn {
-  padding: 0.5em;
-  border: 4px solid #000;
+.padding {
+  content: '';
+  display: block;
+  height: 16px;
 }
-.btn-reset {
-  margin: 1em;
+.btn {
+  width: 84px !important;
+  height: 40px !important;
+  border: 3px solid #000;
+  background-color: #000;
+  color: #fff;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 40px;
+  cursor: pointer;
+}
+.btn:hover {
+  background-color: #fff;
+  color: #000;
 }
 </style>

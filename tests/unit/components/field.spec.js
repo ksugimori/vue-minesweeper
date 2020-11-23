@@ -18,7 +18,9 @@ describe('Row.vue', () => {
           { count: 0, isOpen: false },
           { count: 0, isOpen: false },
         ],
-      ]
+      ],
+      numMines: 1,
+      flagCount: 0
     }
 
     const wrapper = mount(Field, {
@@ -49,7 +51,9 @@ describe('Row.vue', () => {
           { count: 0, isOpen: false },
           { count: 0, isOpen: false },
         ],
-      ]
+      ],
+      numMines: 1,
+      flagCount: 0
     }
 
     const wrapper = mount(Field, {

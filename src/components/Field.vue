@@ -1,5 +1,6 @@
 <template>
   <div class="field">
+    <status-bar :game="game"></status-bar>
     <row
       v-for="(cells, index) in game.field"
       :key="index"
@@ -11,6 +12,7 @@
 
 <script>
 import Row from "./Row";
+import StatusBar from './StatusBar.vue';
 
 export default {
   props: {
@@ -18,6 +20,7 @@ export default {
   },
   components: {
     Row,
+    StatusBar,
   },
 };
 </script>

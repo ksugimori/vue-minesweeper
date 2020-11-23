@@ -15,6 +15,7 @@ class Game {
     this.numMines = 10;
 
     this.playTime = 0;
+    this.startTime = null;
     this.timer = null;
     this.state = State.INIT;
   }
@@ -103,6 +104,7 @@ class Game {
     this.state = State.INIT;
     this.stopTimer();
     this.playTime = 0;
+    this.startTime = null;
 
     return this;
   }
@@ -150,7 +152,10 @@ class Game {
    * タイマーを起動する
    */
   startTimer() {
-    this.timer = setInterval(() => this.playTime++, 1000);
+    this.startTime = Date.now();
+    this.timer = setInterval(() => {
+      this.playTime = Math.floor((Date.now() - this.startTime) / 1000);
+    }, 1000);
   }
 
   /**

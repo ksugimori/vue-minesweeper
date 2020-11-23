@@ -61,17 +61,17 @@ export default {
 
 <style scoped>
 .cell {
-  width: 20px;
-  height: 20px;
-  border: 3px solid #000;
-  margin: 3px;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 0.3rem solid #000;
+  margin: 0.15rem;
   background-color: #000;
   user-select: none;
   color: transparent;
   font-family: monospace;
   font-weight: bold;
-  font-size: 18px;
-  line-height: 20px;
+  font-size: 1.5rem;
+  line-height: 1.5rem;
   text-align: center;
 }
 .cell.open {

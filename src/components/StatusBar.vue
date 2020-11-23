@@ -27,9 +27,8 @@ export default {
   justify-content: space-between;
 }
 .status-bar >>> .box {
-  margin: 3px;
-  width: 90px;
-  height: 56px;
+  margin: 0.15rem;
+  width: 6.75rem;
 }
 
 </style>

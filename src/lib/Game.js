@@ -14,6 +14,8 @@ class Game {
     this.numCols = 9;
     this.numMines = 10;
 
+    this.playTime = 0;
+    this.timer = null;
     this.state = State.INIT;
   }
 
@@ -81,6 +83,7 @@ class Game {
    * @param {Number} nunmMines
    */
   initialize(numRows, numCols, numMines) {
+    this.playTime = 0;
     this.numRows = numRows || this.numRows;
     this.numCols = numCols || this.numCols;
     this.numMines = numMines || this.numMines;
@@ -143,6 +146,20 @@ class Game {
   }
 
   /**
+   * タイマーを起動する
+   */
+  startTimer() {
+    this.timer = setInterval(() => this.playTime++, 1000);
+  }
+
+  /**
+   * タイマーを停止する
+   */
+  stopTimer() {
+    clearInterval(this.timer);
+  }
+
+  /**
    * セルを開く
    * @param {Number} row 行番号
    * @param {Number} col 列番号
@@ -154,12 +171,14 @@ class Game {
     if (this.field.flat().filter(cell => cell.isMine).some(cell => cell.isOpen)) {
       this.field.flat().forEach(c => c.open());
       this.state = State.LOSE;
+      this.stopTimer();
       return;
     }
 
     // 地雷以外すべて開いていれば勝利
     if (this.closedCount === this.numMines) {
       this.state = State.WIN;
+      this.stopTimer();
     }
   }
 

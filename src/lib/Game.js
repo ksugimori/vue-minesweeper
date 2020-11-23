@@ -83,7 +83,6 @@ class Game {
    * @param {Number} nunmMines
    */
   initialize(numRows, numCols, numMines) {
-    this.playTime = 0;
     this.numRows = numRows || this.numRows;
     this.numCols = numCols || this.numCols;
     this.numMines = numMines || this.numMines;
@@ -102,6 +101,8 @@ class Game {
     }
 
     this.state = State.INIT;
+    this.stopTimer();
+    this.playTime = 0;
 
     return this;
   }

@@ -17,17 +17,17 @@ export default {
 .padding {
   content: '';
   display: block;
-  height: 16px;
+  height: 1rem;
 }
 .btn {
-  width: 84px !important;
-  height: 40px !important;
-  border: 3px solid #000;
+  width: 6.15rem !important;
+  height: 2.5rem !important;
+  border: 0.3rem solid #000;
   background-color: #000;
   color: #fff;
   font-weight: bold;
-  font-size: 20px;
-  line-height: 40px;
+  font-size: 1.5rem;
+  line-height: 2.4rem;
   cursor: pointer;
 }
 .btn:hover {

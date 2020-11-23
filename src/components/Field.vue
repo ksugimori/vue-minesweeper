@@ -29,7 +29,7 @@ export default {
 .field {
   display: inline-flex;
   flex-direction: column;
-  border: 6px solid #000;
-  padding: 3px;
+  border: 0.3em solid #000;
+  padding: 0.2em;
 }
 </style>

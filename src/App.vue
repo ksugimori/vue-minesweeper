@@ -1,10 +1,5 @@
 <template>
   <div id="app">
-    <reset-button :game="game"></reset-button>
-    <div>
-      close = {{ game.closedCount }}, flag = {{ game.flagCount }}, status =
-      {{ game.state.name }}
-    </div>
     <field :game="game"></field>
   </div>
 </template>
@@ -12,13 +7,11 @@
 <script>
 import Game from "../src/lib/Game";
 import Field from "./components/Field";
-import ResetButton from "./components/ResetButton";
 
 export default {
   name: "app",
   components: {
     Field,
-    ResetButton,
   },
   data() {
     let game = new Game();
@@ -32,7 +25,7 @@ export default {
 
 <style>
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: 'Roboto Mono', monospace;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

@@ -36,6 +36,7 @@ class InitialState extends State {
   open(game, row, col) {
     let point = { row: row, col: col };
     game.mine(point);
+    game.startTimer();
     game.openCell(row, col);
   }
 }

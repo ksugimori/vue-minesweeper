@@ -2,7 +2,7 @@
   <div class="status-bar">
     <counter title="mines" :value="game.numMines - game.flagCount"></counter>
     <reset-button :game="game"></reset-button>
-    <counter title="time" :value="1234"></counter>
+    <counter title="time" :value="game.playTime"></counter>
   </div>
 </template>
 

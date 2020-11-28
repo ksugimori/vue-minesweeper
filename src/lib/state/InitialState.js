@@ -17,10 +17,27 @@ class InitialState extends AbstractState {
    * @param {Number} col 列番頭
    */
   open(game, row, col) {
-    let point = { row: row, col: col };
-    game.mine(point);
+    // 開始準備
+    game.mine(row, col);
     game.startTimer();
-    game.openCell(row, col);
+
+    // セルを開く
+    game.doOpen(row, col);
+
+    // 終了判定
+    let endState = game.judge();
+    if (endState) {
+      game.openAll();
+      game.stopTimer();
+      game.state = endState;
+    }
+  }
+
+  /**
+   * フラグを立てる。
+   */
+  flag() {
+    // 何もしない
   }
 }
 

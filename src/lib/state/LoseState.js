@@ -7,6 +7,20 @@ class LoseState extends AbstractState {
   constructor() {
     super("LOSE")
   }
+
+  /**
+   * セルを開く。
+   */
+  open() {
+    // 何もしない
+  }
+
+  /**
+   * フラグを立てる。
+   */
+  flag() {
+    // 何もしない
+  }
 }
 
 export default LoseState;

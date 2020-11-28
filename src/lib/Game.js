@@ -114,15 +114,16 @@ class Game {
    * 
    * 地雷の配置もここで行う。
    * 初手アウトを防ぐため引数で渡された場所には配置しない。
-   * @param {Point} exclude 除外する座標
+   * @param {Number} excludeRow 除外する行番号
+   * @param {Number} excludeCol 除外する列番号
    */
-  mine(exclude) {
+  mine(excludeRow, excludeCol) {
     // 地雷をランダムにセット
     let mines = [];
     while (mines.length < this.numMines) {
       let randomRow = Math.floor(Math.random() * this.numRows);
       let randomCol = Math.floor(Math.random() * this.numCols);
-      if (exclude.row === randomRow && exclude.col === randomCol) continue;
+      if (excludeRow === randomRow && excludeCol === randomCol) continue;
 
       if (mines.some(x => x.row === randomRow && x.col === randomCol)) continue;
 
@@ -172,30 +173,37 @@ class Game {
    */
   open(row, col) {
     this.state.open(this, row, col);
+  }
 
-    // 地雷が開かれていればすべて開いて終了
+  /**
+   * ゲームの終了判定。
+   * 
+   * ゲームが終了していればそのステータスを返す。
+   */
+  judge() {
     if (this.field.flat().filter(cell => cell.isMine).some(cell => cell.isOpen)) {
-      this.field.flat().forEach(c => c.open());
-      this.state = State.LOSE;
-      this.stopTimer();
-      return;
+      return State.LOSE;
     }
 
-    // 地雷以外すべて開いていれば勝利
     if (this.closedCount === this.numMines) {
-      this.state = State.WIN;
-      this.stopTimer();
+      return State.WIN;
     }
+  }
+
+  /**
+   * すべてのセルを開く
+   */
+  openAll() {
+    this.field.flat().forEach(c => c.open());
   }
 
   /**
    * 指定したセルを開く。
    * 
-   * TODO 名前わかりにくい
    * @param {Number} row 行番頭
    * @param {Number} col 列番号
    */
-  openCell(row, col) {
+  doOpen(row, col) {
     const cell = this.field[row][col];
 
     if (cell.isFlagged) {
@@ -228,7 +236,15 @@ class Game {
    * @param {Number} col 列番号
    */
   flag(row, col) {
-    // TODO これも state に移動
+    this.state.flag(this, row, col);
+  }
+
+  /**
+   * フラグをつける。
+   * @param {Number} row 行番号
+   * @param {Number} col 列番号
+   */
+  doFlag(row, col) {
     let cell = this.field[row][col];
     if (cell.isFlagged) {
       cell.unflag();

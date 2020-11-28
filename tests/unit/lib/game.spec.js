@@ -10,15 +10,19 @@ describe('Game', () => {
       // ２行、３列で初期化
       game.initialize(2, 3);
 
+      // -1 行目
       expect(game.contains(-1, 0)).toBeFalsy();
 
+      // １行目
       expect(game.contains(0, 0)).toBeTruthy();
       expect(game.contains(0, 1)).toBeTruthy();
       expect(game.contains(0, 2)).toBeTruthy();
       expect(game.contains(0, 3)).toBeFalsy();
 
+      // ２行目
       expect(game.contains(1, 2)).toBeTruthy();
 
+      // ３行目
       expect(game.contains(2, 2)).toBeFalsy();
     })
   })
@@ -239,11 +243,11 @@ describe('Game', () => {
       game.initialize(3, 3, 3).open(0, 0);
 
       // initialize メソッドでランダムに地雷がセットされるので、強制的に上書きする
-      // ３列目に地雷が埋まっている
+      // ２列目に地雷が埋まっている
       game.field = [
-        [new Cell({ count: 0, isOpen: false }), new Cell({ count: 2, isOpen: false }), new Cell({ count: 0, isOpen: false, isMine: true })],
-        [new Cell({ count: 0, isOpen: false }), new Cell({ count: 3, isOpen: false }), new Cell({ count: 0, isOpen: false, isMine: true })],
-        [new Cell({ count: 0, isOpen: false }), new Cell({ count: 2, isOpen: false }), new Cell({ count: 0, isOpen: false, isMine: true })],
+        [new Cell({ count: 2, isOpen: false }), new Cell({ count: 0, isOpen: false, isMine: true }), new Cell({ count: 2, isOpen: false })],
+        [new Cell({ count: 3, isOpen: false }), new Cell({ count: 0, isOpen: false, isMine: true }), new Cell({ count: 3, isOpen: false })],
+        [new Cell({ count: 2, isOpen: false }), new Cell({ count: 0, isOpen: false, isMine: true }), new Cell({ count: 2, isOpen: false })],
       ];
 
       // この時点では全て閉じている
@@ -251,12 +255,75 @@ describe('Game', () => {
 
       // テスト実行
       game.open(0, 0);
+      expect(game.closedCount).toBe(8);
 
-      // 検証（空白セルとそれに隣接するセルは開かれるので６個開く）
-      expect(game.closedCount).toBe(3);
-      // 地雷以外のセルをすべて開いたので勝利
+      game.open(1, 0);
+      expect(game.closedCount).toBe(7);
+
+      game.open(2, 0);
+      expect(game.closedCount).toBe(6);
+
+      // のこりすべてを開く
+      game.open(0, 2);
+      game.open(1, 2);
+      game.open(2, 2);
+
+      // ゲーム終了したので自動的にすべて開く
+      expect(game.closedCount).toBe(0);
       expect(game.state).toBe(State.WIN);
     });
 
   })
+
+  describe('#flag', () => {
+    it("選択したセルのフラグが立つこと", () => {
+      const game = new Game();
+
+      game.initialize(2, 2, 1).open(0, 0);
+
+      // initialize メソッドでランダムに地雷がセットされるので、強制的に上書きする
+      game.field = [
+        [new Cell({ count: 0, isOpen: false }), new Cell({ count: 0, isOpen: false })],
+        [new Cell({ count: 0, isOpen: false }), new Cell({ count: 0, isOpen: false })],
+      ];
+
+      // この時点では 0 個
+      expect(game.flagCount).toBe(0);
+
+      game.flag(0, 0);
+      expect(game.flagCount).toBe(1);
+
+      game.flag(0, 1);
+      expect(game.flagCount).toBe(2);
+
+      // フラグがついたセルを再び呼ぶとフラグが外れること
+      game.flag(0, 0);
+      expect(game.flagCount).toBe(1);
+    });
+
+    it("ゲーム終了時はフラグが立てられないこと", () => {
+      const game = new Game();
+
+      game.initialize(2, 2, 1).open(0, 0);
+
+      // initialize メソッドでランダムに地雷がセットされるので、強制的に上書きする
+      game.field = [
+        [new Cell({ count: 0, isOpen: false, isMine: true }), new Cell({ count: 1, isOpen: false })],
+        [new Cell({ count: 1, isOpen: false }), new Cell({ count: 1, isOpen: false })],
+      ];
+
+      // 地雷以外を開く
+      game.open(0, 1);
+      game.open(1, 0);
+      game.open(1, 1);
+
+      // この時点で WIN
+      expect(game.state).toBe(State.WIN);
+      expect(game.flagCount).toBe(0);
+
+      // フラグを立てられないこと
+      game.flag(0, 0);
+      expect(game.flagCount).toBe(0);
+    });
+  });
 })

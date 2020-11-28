@@ -1,5 +1,5 @@
-import Cell from './Cell';
 import State from './state/State';
+import Field from './Field';
 
 /**
  * マインスイーパー全体を管理するクラス
@@ -9,7 +9,7 @@ class Game {
    * コンストラクタ
    */
   constructor() {
-    this.field = [];
+    this.field = new Field();
     this.numRows = 9;
     this.numCols = 9;
     this.numMines = 10;
@@ -21,60 +21,17 @@ class Game {
   }
 
   /**
-   * 閉じているセルの数
-   */
-  get closedCount() {
-    return this.field.flat().map(cell => cell.isOpen ? 0 : 1).reduce((sum, x) => sum + x);
-  }
-
-  /**
    * フラグの数
    */
   get flagCount() {
-    return this.field.flat().map(cell => cell.isFlagged ? 1 : 0).reduce((sum, x) => sum + x);
+    return this.field.all().map(cell => cell.isFlagged ? 1 : 0).reduce((sum, x) => sum + x);
   }
 
   /**
-   * 指定した座標のセルを取得する。
-   * @param {Object} point 座標
+   * 閉じているセルの数
    */
-  cellAt(point) {
-    return this.field[point.row][point.col];
-  }
-
-  /**
-   * フィールド内の座標か？
-   * @param {Number} row 行番号
-   * @param {Number} col 列番号
-   */
-  contains(row, col) {
-    return (row in this.field) && (col in this.field[row])
-  }
-
-  /**
-   * 周囲のセルを配列にして取得する。
-   * @param {Number} row 行番号
-   * @param {Number} col 列番号
-   */
-  arround(row, col) {
-    let result = [];
-
-    const pushIfContains = (r, c) => {
-      if (this.contains(r, c)) result.push({ row: r, col: c });
-    }
-
-    pushIfContains(row - 1, col - 1);
-    pushIfContains(row - 1, col);
-    pushIfContains(row - 1, col + 1);
-
-    pushIfContains(row, col - 1);
-    pushIfContains(row, col + 1);
-
-    pushIfContains(row + 1, col - 1);
-    pushIfContains(row + 1, col);
-    pushIfContains(row + 1, col + 1);
-
-    return result;
+  get closedCount() {
+    return this.field.all().map(cell => cell.isOpen ? 0 : 1).reduce((sum, x) => sum + x);
   }
 
   /**
@@ -91,15 +48,7 @@ class Game {
       this.numMines = Math.floor(this.numRows * this.numCols / 2);
     }
 
-    this.field = [];
-
-    for (let row = 0; row < this.numRows; row++) {
-      let row = [];
-      for (let i = 0; i < this.numCols; i++) {
-        row.push(new Cell());
-      }
-      this.field.push(row);
-    }
+    this.field = new Field(this.numRows, this.numCols);
 
     this.state = State.INIT;
     this.stopTimer();
@@ -130,17 +79,18 @@ class Game {
       mines.push({ row: randomRow, col: randomCol });
     }
 
-    mines.forEach(p => this.cellAt(p).mine());
+    mines.forEach(p => this.field.at(p).mine());
 
     // 各マスの周囲の地雷数をカウントし、value にセットする。
-    for (let row = 0; row < this.field.length; row++) {
-      for (let col = 0; col < this.field[row].length; col++) {
-        if (this.field[row][col].isMine) {
+    for (let row = 0; row < this.field.numRows; row++) {
+      for (let col = 0; col < this.field.numCols; col++) {
+        let target = this.field.at({ row: row, col: col });
+        if (target.isMine) {
           continue;
         }
 
-        this.field[row][col].count = this.arround(row, col)
-          .map(p => this.cellAt(p))
+        target.count = this.field.arround(row, col)
+          .map(p => this.field.at(p))
           .filter(cell => cell.isMine)
           .length;
       }
@@ -181,7 +131,7 @@ class Game {
    * ゲームが終了していればそのステータスを返す。
    */
   judge() {
-    if (this.field.flat().filter(cell => cell.isMine).some(cell => cell.isOpen)) {
+    if (this.field.all().filter(cell => cell.isMine).some(cell => cell.isOpen)) {
       return State.LOSE;
     }
 
@@ -194,7 +144,7 @@ class Game {
    * すべてのセルを開く
    */
   openAll() {
-    this.field.flat().forEach(c => c.open());
+    this.field.all().forEach(c => c.open());
   }
 
   /**
@@ -204,15 +154,15 @@ class Game {
    * @param {Number} col 列番号
    */
   doOpen(row, col) {
-    const cell = this.field[row][col];
+    const cell = this.field.at({ row: row, col: col });
 
     if (cell.isFlagged) {
       return;
     }
 
     if (cell.isOpen) {
-      let arroundFlagCount = this.arround(row, col) //
-        .map(p => this.cellAt(p)) //
+      let arroundFlagCount = this.field.arround(row, col) //
+        .map(p => this.field.at(p)) //
         .filter(c => c.isFlagged) //
         .length;
 
@@ -245,7 +195,7 @@ class Game {
    * @param {Number} col 列番号
    */
   doFlag(row, col) {
-    let cell = this.field[row][col];
+    let cell = this.field.at({ row: row, col: col });
     if (cell.isFlagged) {
       cell.unflag();
     } else {
@@ -261,18 +211,18 @@ class Game {
    * @param {Number} col 列番号
    */
   openNeighbors(row, col) {
-    let targetList = this.arround(row, col)
-      .filter(p => !this.cellAt(p).isOpen)
-      .filter(p => !this.cellAt(p).isFlagged);
+    let targetList = this.field.arround(row, col)
+      .filter(p => !this.field.at(p).isOpen)
+      .filter(p => !this.field.at(p).isFlagged);
 
     while (targetList.length !== 0) {
       let p = targetList.pop();
-      let targetCell = this.cellAt(p);
+      let targetCell = this.field.at(p);
       targetCell.open();
       if (targetCell.count === 0) {
-        this.arround(p.row, p.col)
-          .filter(s => !this.cellAt(s).isOpen)
-          .filter(s => !this.cellAt(s).isFlagged)
+        this.field.arround(p.row, p.col)
+          .filter(s => !this.field.at(s).isOpen)
+          .filter(s => !this.field.at(s).isFlagged)
           .forEach(s => targetList.push(s));
       }
     }

@@ -5,6 +5,7 @@
       :key="index"
       :obj="cell"
       :onClick="() => onClickCell(index)"
+      :onRightClick="() => onRightClickCell(index)"
     ></cell>
   </div>
 </template>
@@ -16,6 +17,7 @@ export default {
   props: {
     cells: Array,
     onClickCell: Function,
+    onRightClickCell: Function,
   },
   components: {
     Cell,

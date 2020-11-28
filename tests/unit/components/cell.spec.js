@@ -55,4 +55,27 @@ describe('Cell.vue', () => {
 
     expect(mockOnClick.mock.calls.length).toBe(1);
   })
+
+  it('右クリックしたら onRightClick で渡したコールバック関数が呼ばれること', () => {
+    const obj = {
+      count: 8,
+      isOpen: true,
+    };
+
+    // コールバック関数のモック
+    const mockOnRightClick = jest.fn();
+
+    const wrapper = shallowMount(Cell, {
+      propsData: {
+        obj: obj,
+        onClick: () => {},
+        onRightClick: mockOnRightClick
+      }
+    });
+
+    // click イベントを発火
+    wrapper.trigger('contextmenu');
+
+    expect(mockOnRightClick.mock.calls.length).toBe(1);
+  })
 })

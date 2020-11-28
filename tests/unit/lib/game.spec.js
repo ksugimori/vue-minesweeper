@@ -1,6 +1,6 @@
 import Game from '@/lib/Game'
 import Cell from '@/lib/Cell'
-import State from '@/lib/State'
+import State from '@/lib/state/State'
 
 describe('Game', () => {
   describe('#contains', () => {

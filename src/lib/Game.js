@@ -223,6 +223,21 @@ class Game {
   }
 
   /**
+   * フラグをつける。
+   * @param {Number} row 行番号
+   * @param {Number} col 列番号
+   */
+  flag(row, col) {
+    // TODO これも state に移動
+    let cell = this.field[row][col];
+    if (cell.isFlagged) {
+      cell.unflag();
+    } else {
+      cell.flag();
+    }
+  }
+
+  /**
    * 周囲のセルを再帰的に開く。
    * 
    * 数字、フラグ付きセルに到達したらそこで終了します。

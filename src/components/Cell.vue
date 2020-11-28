@@ -5,7 +5,7 @@
       obj.isFlagged ? ['flag'] : obj.isOpen ? ['open', colorClassName] : []
     "
     @click="onClick"
-    @click.right.prevent="toggleFlag"
+    @click.right.prevent="onRightClick"
     @touchstart="touchStart"
     @touchend="touchEnd"
     @contextmenu.prevent
@@ -19,6 +19,7 @@ export default {
   props: {
     obj: Object,
     onClick: Function,
+    onRightClick: Function
   },
   computed: {
     colorClassName() {
@@ -42,15 +43,8 @@ export default {
     };
   },
   methods: {
-    toggleFlag: function () {
-      if (this.obj.isFlagged) {
-        this.obj.unflag();
-      } else {
-        this.obj.flag();
-      }
-    },
     touchStart: function () {
-      this.longPressTimer = window.setTimeout(this.toggleFlag, 500);
+      this.longPressTimer = window.setTimeout(this.onRightClick, 500);
     },
     touchEnd: function () {
       clearTimeout(this.longPressTimer);

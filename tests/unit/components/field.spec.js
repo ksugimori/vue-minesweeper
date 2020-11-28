@@ -7,20 +7,21 @@ describe('Row.vue', () => {
   it('配列数だけ Row が作成されること', () => {
     const game = {
       open: (row, col) => { },
-      field: [
-        [
-          { count: 0, isOpen: false },
-          { count: 0, isOpen: false },
-          { count: 0, isOpen: false },
-        ],
-        [
-          { count: 0, isOpen: false },
-          { count: 0, isOpen: false },
-          { count: 0, isOpen: false },
-        ],
-      ],
-      numMines: 1,
-      flagCount: 0
+      field: {
+        table: [
+          [
+            { count: 0, isOpen: false },
+            { count: 0, isOpen: false },
+            { count: 0, isOpen: false },
+          ],
+          [
+            { count: 0, isOpen: false },
+            { count: 0, isOpen: false },
+            { count: 0, isOpen: false },
+          ],
+        ]
+      },
+      numMines: 1
     }
 
     const wrapper = mount(Field, {
@@ -40,20 +41,21 @@ describe('Row.vue', () => {
 
     const game = {
       open: mockOpen,
-      field: [
-        [
-          { count: 0, isOpen: false },
-          { count: 0, isOpen: false },
-          { count: 0, isOpen: false },
-        ],
-        [
-          { count: 0, isOpen: false },
-          { count: 0, isOpen: false },
-          { count: 0, isOpen: false },
-        ],
-      ],
+      field: {
+        table: [
+          [
+            { count: 0, isOpen: false },
+            { count: 0, isOpen: false },
+            { count: 0, isOpen: false },
+          ],
+          [
+            { count: 0, isOpen: false },
+            { count: 0, isOpen: false },
+            { count: 0, isOpen: false },
+          ],
+        ]
+      },
       numMines: 1,
-      flagCount: 0
     }
 
     const wrapper = mount(Field, {

@@ -5,6 +5,7 @@
       :key="index"
       :cells="cells"
       :onClickCell="col => game.open(index, col)"
+      :onRightClickCell="col => game.flag(index, col)"
     ></row>
   </div>
 </template>

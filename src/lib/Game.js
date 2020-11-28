@@ -1,5 +1,5 @@
 import Cell from './Cell';
-import State from './State';
+import State from './state/State';
 
 /**
  * マインスイーパー全体を管理するクラス
@@ -219,6 +219,21 @@ class Game {
 
     if (cell.count === 0) {
       this.openNeighbors(row, col);
+    }
+  }
+
+  /**
+   * フラグをつける。
+   * @param {Number} row 行番号
+   * @param {Number} col 列番号
+   */
+  flag(row, col) {
+    // TODO これも state に移動
+    let cell = this.field[row][col];
+    if (cell.isFlagged) {
+      cell.unflag();
+    } else {
+      cell.flag();
     }
   }
 

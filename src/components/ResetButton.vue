@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import State from "../lib/State";
+import State from "../lib/state/State";
 
 export default {
   props: {

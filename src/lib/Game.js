@@ -1,5 +1,5 @@
 import Cell from './Cell';
-import State from './State';
+import State from './state/State';
 
 /**
  * マインスイーパー全体を管理するクラス

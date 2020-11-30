@@ -29,7 +29,7 @@ describe('Field', () => {
       // ３行、３列で初期化
       const field = new Field(3, 3);
 
-      const result = field.arround(1, 1);
+      const result = field.arround(Point.of(1, 1));
 
       expect(result.length).toBe(8);
 
@@ -50,7 +50,7 @@ describe('Field', () => {
       // １行、３列で初期化
       const field = new Field(1, 3);
 
-      const result = field.arround(0, 0);
+      const result = field.arround(Point.of(0, 0));
 
       expect(result).toEqual([{ row: 0, col: 1 }]);
     })

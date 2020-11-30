@@ -1,4 +1,3 @@
-import Point from './Point';
 import Cell from './Cell';
 
 /**
@@ -23,7 +22,7 @@ class Field {
    * 指定した座標のセルを取得する
    * @param {Point} point 
    */
-  at(point) {
+  get(point) {
     return this.table[point.row][point.col];
   }
 
@@ -36,26 +35,27 @@ class Field {
 
   /**
    * 周囲のセルを配列にして取得する。
-   * @param {Number} row 行番号
-   * @param {Number} col 列番号
+   * @param {Point} center 座標
    */
-  arround(row, col) {
+  arround(center) {
     let result = [];
 
     const pushIfContains = (p) => {
-      if (this.contains(p)) result.push(p);
+      this.contains(p) && result.push(p);
     }
 
-    pushIfContains(Point.of(row - 1, col - 1));
-    pushIfContains(Point.of(row - 1, col));
-    pushIfContains(Point.of(row - 1, col + 1));
+    let above = center.plusRow(-1);
+    pushIfContains(above.plusCol(-1));
+    pushIfContains(above);
+    pushIfContains(above.plusCol(1));
 
-    pushIfContains(Point.of(row, col - 1));
-    pushIfContains(Point.of(row, col + 1));
+    pushIfContains(center.plusCol(-1));
+    pushIfContains(center.plusCol(1));
 
-    pushIfContains(Point.of(row + 1, col - 1));
-    pushIfContains(Point.of(row + 1, col));
-    pushIfContains(Point.of(row + 1, col + 1));
+    let below = center.plusRow(1);
+    pushIfContains(below.plusCol(-1));
+    pushIfContains(below);
+    pushIfContains(below.plusCol(1));
 
     return result;
   }

@@ -13,16 +13,15 @@ class InitialState extends AbstractState {
    * 
    * 初期状態では地雷のセットを行ったあとにセルを開く
    * @param {Game} game ゲーム
-   * @param {Number} row 行番号
-   * @param {Number} col 列番頭
+   * @param {Point} point 座標
    */
-  open(game, row, col) {
+  open(game, point) {
     // 開始準備
-    game.mine(row, col);
+    game.mine(point);
     game.startTimer();
 
     // セルを開く
-    game.doOpen(row, col);
+    game.doOpen(point);
 
     // 終了判定
     let endState = game.judge();

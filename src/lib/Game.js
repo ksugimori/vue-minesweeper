@@ -1,3 +1,4 @@
+import Point from './Point';
 import State from './state/State';
 import Field from './Field';
 
@@ -59,38 +60,36 @@ class Game {
   }
 
   /**
-   * ゲームを開始する。
+   * 地雷を配置する。
    * 
-   * 地雷の配置もここで行う。
-   * 初手アウトを防ぐため引数で渡された場所には配置しない。
-   * @param {Number} excludeRow 除外する行番号
-   * @param {Number} excludeCol 除外する列番号
+   * 初手アウトを防ぐため、引数で渡された場所には配置しない。
+   * @param {Point} exclude 除外する座標
    */
-  mine(excludeRow, excludeCol) {
+  mine(exclude) {
     // 地雷をランダムにセット
     let mines = [];
     while (mines.length < this.numMines) {
       let randomRow = Math.floor(Math.random() * this.numRows);
       let randomCol = Math.floor(Math.random() * this.numCols);
-      if (excludeRow === randomRow && excludeCol === randomCol) continue;
+      if (exclude.row === randomRow && exclude.col === randomCol) continue;
 
       if (mines.some(x => x.row === randomRow && x.col === randomCol)) continue;
 
       mines.push({ row: randomRow, col: randomCol });
     }
 
-    mines.forEach(p => this.field.at(p).mine());
+    mines.forEach(p => this.field.get(p).mine());
 
     // 各マスの周囲の地雷数をカウントし、value にセットする。
     for (let row = 0; row < this.field.numRows; row++) {
       for (let col = 0; col < this.field.numCols; col++) {
-        let target = this.field.at({ row: row, col: col });
+        let target = this.field.get(Point.of(row, col));
         if (target.isMine) {
           continue;
         }
 
-        target.count = this.field.arround(row, col)
-          .map(p => this.field.at(p))
+        target.count = this.field.arround(Point.of(row, col))
+          .map(p => this.field.get(p))
           .filter(cell => cell.isMine)
           .length;
       }
@@ -122,7 +121,61 @@ class Game {
    * @param {Number} col 列番号
    */
   open(row, col) {
-    this.state.open(this, row, col);
+    this.state.open(this, Point.of(row, col));
+  }
+
+  /**
+   * 指定したセルを開く。
+   * 
+   * @param {Point} point 座標
+   */
+  doOpen(point) {
+    const cell = this.field.get(point);
+
+    if (cell.isFlagged) {
+      return;
+    }
+
+    if (cell.isOpen) {
+      let arroundFlagCount = this.field.arround(point)
+        .map(p => this.field.get(p)) //
+        .filter(c => c.isFlagged) //
+        .length;
+
+      if (cell.count === arroundFlagCount) {
+        this.openNeighbors(point);
+      }
+
+      return;
+    }
+
+    cell.open();
+
+    if (cell.count === 0) {
+      this.openNeighbors(point);
+    }
+  }
+
+  /**
+   * フラグをつける。
+   * @param {Number} row 行番号
+   * @param {Number} col 列番号
+   */
+  flag(row, col) {
+    this.state.flag(this, Point.of(row, col));
+  }
+
+  /**
+   * フラグをつける。
+   * @param {Point} point 座標
+   */
+  doFlag(point) {
+    let cell = this.field.get(point);
+    if (cell.isFlagged) {
+      cell.unflag();
+    } else {
+      cell.flag();
+    }
   }
 
   /**
@@ -148,86 +201,29 @@ class Game {
   }
 
   /**
-   * 指定したセルを開く。
-   * 
-   * @param {Number} row 行番頭
-   * @param {Number} col 列番号
-   */
-  doOpen(row, col) {
-    const cell = this.field.at({ row: row, col: col });
-
-    if (cell.isFlagged) {
-      return;
-    }
-
-    if (cell.isOpen) {
-      let arroundFlagCount = this.field.arround(row, col) //
-        .map(p => this.field.at(p)) //
-        .filter(c => c.isFlagged) //
-        .length;
-
-      if (cell.count === arroundFlagCount) {
-        this.openNeighbors(row, col);
-      }
-
-      return;
-    }
-
-    cell.open();
-
-    if (cell.count === 0) {
-      this.openNeighbors(row, col);
-    }
-  }
-
-  /**
-   * フラグをつける。
-   * @param {Number} row 行番号
-   * @param {Number} col 列番号
-   */
-  flag(row, col) {
-    this.state.flag(this, row, col);
-  }
-
-  /**
-   * フラグをつける。
-   * @param {Number} row 行番号
-   * @param {Number} col 列番号
-   */
-  doFlag(row, col) {
-    let cell = this.field.at({ row: row, col: col });
-    if (cell.isFlagged) {
-      cell.unflag();
-    } else {
-      cell.flag();
-    }
-  }
-
-  /**
    * 周囲のセルを再帰的に開く。
    * 
    * 数字、フラグ付きセルに到達したらそこで終了します。
-   * @param {Number} row 行番号
-   * @param {Number} col 列番号
+   * @param {Point} point 座標
    */
-  openNeighbors(row, col) {
-    let targetList = this.field.arround(row, col)
-      .filter(p => !this.field.at(p).isOpen)
-      .filter(p => !this.field.at(p).isFlagged);
+  openNeighbors(point) {
+    let targetList = this.field.arround(point)
+      .filter(p => !this.field.get(p).isOpen)
+      .filter(p => !this.field.get(p).isFlagged);
 
     while (targetList.length !== 0) {
       let p = targetList.pop();
-      let targetCell = this.field.at(p);
+      let targetCell = this.field.get(p);
       targetCell.open();
       if (targetCell.count === 0) {
-        this.field.arround(p.row, p.col)
-          .filter(s => !this.field.at(s).isOpen)
-          .filter(s => !this.field.at(s).isFlagged)
+        this.field.arround(p)
+          .filter(s => !this.field.get(s).isOpen)
+          .filter(s => !this.field.get(s).isFlagged)
           .forEach(s => targetList.push(s));
       }
     }
-
   }
+
 }
 
 export default Game;

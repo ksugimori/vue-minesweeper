@@ -22,7 +22,7 @@ class Field {
    * 指定した座標のセルを取得する
    * @param {Point} point 
    */
-  at(point) {
+  get(point) {
     return this.table[point.row][point.col];
   }
 
@@ -35,37 +35,37 @@ class Field {
 
   /**
    * 周囲のセルを配列にして取得する。
-   * @param {Number} row 行番号
-   * @param {Number} col 列番号
+   * @param {Point} center 座標
    */
-  arround(row, col) {
+  arround(center) {
     let result = [];
 
-    const pushIfContains = (r, c) => {
-      if (this.contains(r, c)) result.push({ row: r, col: c });
+    const pushIfContains = (p) => {
+      this.contains(p) && result.push(p);
     }
 
-    pushIfContains(row - 1, col - 1);
-    pushIfContains(row - 1, col);
-    pushIfContains(row - 1, col + 1);
+    let above = center.plusRow(-1);
+    pushIfContains(above.plusCol(-1));
+    pushIfContains(above);
+    pushIfContains(above.plusCol(1));
 
-    pushIfContains(row, col - 1);
-    pushIfContains(row, col + 1);
+    pushIfContains(center.plusCol(-1));
+    pushIfContains(center.plusCol(1));
 
-    pushIfContains(row + 1, col - 1);
-    pushIfContains(row + 1, col);
-    pushIfContains(row + 1, col + 1);
+    let below = center.plusRow(1);
+    pushIfContains(below.plusCol(-1));
+    pushIfContains(below);
+    pushIfContains(below.plusCol(1));
 
     return result;
   }
 
   /**
    * フィールド内の座標か？
-   * @param {Number} row 行番号
-   * @param {Number} col 列番号
+   * @param {Point} p 座標
    */
-  contains(row, col) {
-    return (row in this.table) && (col in this.table[row])
+  contains(p) {
+    return (p.row in this.table) && (p.col in this.table[p.row])
   }
 }
 

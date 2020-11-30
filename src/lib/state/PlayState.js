@@ -11,11 +11,10 @@ class PlayState extends AbstractState {
   /**
    * セルを開く。
    * @param {Game} game ゲーム
-   * @param {Number} row 行番号
-   * @param {Number} col 列番頭
+   * @param {Point} point 座標
    */
-  open(game, row, col) {
-    game.doOpen(row, col);
+  open(game, point) {
+    game.doOpen(point);
 
     // 終了判定
     let endState = game.judge();
@@ -29,11 +28,10 @@ class PlayState extends AbstractState {
   /**
    * フラグを立てる。
    * @param {Game} game ゲーム
-   * @param {Number} row 行番号
-   * @param {Number} col 列番頭
+   * @param {Point} point 座標
    */
-  flag(game, row, col) {
-    game.doFlag(row, col);
+  flag(game, point) {
+    game.doFlag(point);
   }
 }
 

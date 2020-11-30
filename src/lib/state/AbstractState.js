@@ -9,21 +9,19 @@ class AbstractState {
   /**
    * 指定した座標のセルを開く。
    * @param {Game} game ゲーム
-   * @param {Number} row 行番号
-   * @param {Number} col 列番頭
+   * @param {Point} point 座標
    */
-  open(game, row, col) {
-    throw new Error(`Method Unimplemented! open(${game}, ${row}, ${col})`);
+  open(game, point) {
+    throw new Error(`Method Unimplemented! open(${game}, ${point})`);
   }
 
   /**
    * 指定した座標のセルにフラグを立てる。
    * @param {Game} game ゲーム
-   * @param {Number} row 行番号
-   * @param {Number} col 列番頭
+   * @param {Point} point 座標
    */
-  flag(game, row, col) {
-    throw new Error(`Method Unimplemented! flag(${game}, ${row}, ${col})`);
+  flag(game, point) {
+    throw new Error(`Method Unimplemented! flag(${game}, ${point}`);
   }
 }
 

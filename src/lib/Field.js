@@ -1,3 +1,4 @@
+import Point from './Point';
 import Cell from './Cell';
 
 /**
@@ -41,31 +42,30 @@ class Field {
   arround(row, col) {
     let result = [];
 
-    const pushIfContains = (r, c) => {
-      if (this.contains(r, c)) result.push({ row: r, col: c });
+    const pushIfContains = (p) => {
+      if (this.contains(p)) result.push(p);
     }
 
-    pushIfContains(row - 1, col - 1);
-    pushIfContains(row - 1, col);
-    pushIfContains(row - 1, col + 1);
+    pushIfContains(Point.of(row - 1, col - 1));
+    pushIfContains(Point.of(row - 1, col));
+    pushIfContains(Point.of(row - 1, col + 1));
 
-    pushIfContains(row, col - 1);
-    pushIfContains(row, col + 1);
+    pushIfContains(Point.of(row, col - 1));
+    pushIfContains(Point.of(row, col + 1));
 
-    pushIfContains(row + 1, col - 1);
-    pushIfContains(row + 1, col);
-    pushIfContains(row + 1, col + 1);
+    pushIfContains(Point.of(row + 1, col - 1));
+    pushIfContains(Point.of(row + 1, col));
+    pushIfContains(Point.of(row + 1, col + 1));
 
     return result;
   }
 
   /**
    * フィールド内の座標か？
-   * @param {Number} row 行番号
-   * @param {Number} col 列番号
+   * @param {Point} p 座標
    */
-  contains(row, col) {
-    return (row in this.table) && (col in this.table[row])
+  contains(p) {
+    return (p.row in this.table) && (p.col in this.table[p.row])
   }
 }
 

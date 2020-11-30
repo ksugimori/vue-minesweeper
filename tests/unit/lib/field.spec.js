@@ -1,3 +1,4 @@
+import Point from '@/lib/Point'
 import Field from '@/lib/Field'
 
 describe('Field', () => {
@@ -7,19 +8,19 @@ describe('Field', () => {
       const field = new Field(2, 3);
 
       // -1 行目
-      expect(field.contains(-1, 0)).toBeFalsy();
+      expect(field.contains(Point.of(-1, 0))).toBeFalsy();
 
       // １行目
-      expect(field.contains(0, 0)).toBeTruthy();
-      expect(field.contains(0, 1)).toBeTruthy();
-      expect(field.contains(0, 2)).toBeTruthy();
-      expect(field.contains(0, 3)).toBeFalsy();
+      expect(field.contains(Point.of(0, 0))).toBeTruthy();
+      expect(field.contains(Point.of(0, 1))).toBeTruthy();
+      expect(field.contains(Point.of(0, 2))).toBeTruthy();
+      expect(field.contains(Point.of(0, 3))).toBeFalsy();
 
       // ２行目
-      expect(field.contains(1, 2)).toBeTruthy();
+      expect(field.contains(Point.of(1, 2))).toBeTruthy();
 
       // ３行目
-      expect(field.contains(2, 2)).toBeFalsy();
+      expect(field.contains(Point.of(2, 2))).toBeFalsy();
     })
   })
 

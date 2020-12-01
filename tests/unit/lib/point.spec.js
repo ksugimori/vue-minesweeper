@@ -1,29 +1,29 @@
 import Point from '@/lib/Point'
 
 describe('Point', () => {
-  it("contains row and col", () => {
-    let p = Point.of(1, 2);
+  it("contains y and x", () => {
+    let p = Point.of(2, 1);
 
-    expect(p.row).toBe(1);
-    expect(p.col).toBe(2);
-    expect(p).toEqual({ row: 1, col: 2 });
+    expect(p.y).toBe(1);
+    expect(p.x).toBe(2);
+    expect(p).toEqual({ y: 1, x: 2 });
   })
 
-  it("plus rows and cols", () => {
+  it("plus Ys and Xs", () => {
     let p = Point.of(0, 0);
 
     // 初期値
-    expect(p).toEqual({ row: 0, col: 0 });
+    expect(p).toEqual({ y: 0, x: 0 });
 
     // 行の変更
-    expect(p.plusRow(1)).toEqual({ row: 1, col: 0 });
-    expect(p.plusRow(-2)).toEqual({ row: -2, col: 0 });
+    expect(p.plusY(1)).toEqual({ y: 1, x: 0 });
+    expect(p.plusY(-2)).toEqual({ y: -2, x: 0 });
 
     // 列の変更
-    expect(p.plusCol(10)).toEqual({ row: 0, col: 10 });
-    expect(p.plusCol(-5)).toEqual({ row: 0, col: -5 });
+    expect(p.plusX(10)).toEqual({ y: 0, x: 10 });
+    expect(p.plusX(-5)).toEqual({ y: 0, x: -5 });
 
     // チェインできること
-    expect(p.plusRow(2).plusCol(3).plusRow(2)).toEqual({ row: 4, col: 3 });
+    expect(p.plusY(2).plusX(3).plusY(2)).toEqual({ y: 4, x: 3 });
   })
 })

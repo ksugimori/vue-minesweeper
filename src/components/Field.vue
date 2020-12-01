@@ -1,11 +1,11 @@
 <template>
   <div class="field">
     <row
-      v-for="(row, index) in game.field.table"
+      v-for="(row, index) in game.field.rows"
       :key="index"
       :cells="row"
-      :onClickCell="(col) => game.open(index, col)"
-      :onRightClickCell="(col) => game.flag(index, col)"
+      :onClickCell="(x) => game.open(x, index)"
+      :onRightClickCell="(x) => game.flag(x, index)"
     ></row>
   </div>
 </template>

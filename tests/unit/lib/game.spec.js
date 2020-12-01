@@ -6,18 +6,17 @@ describe('Game', () => {
   describe('#initialize', () => {
     it("行数、列数が引数で渡された値に一致すること", () => {
       const game = new Game();
-      game.initialize(3, 2, 2);
+      game.initialize(2, 3, 2);
 
-      expect(game.field.table.length).toBe(3); // ３行
-      expect(game.field.table[0].length).toBe(2); // 2列
-      expect(game.field.table[1].length).toBe(2); // 2列
+      expect(game.field.width).toBe(2); // 2列
+      expect(game.field.height).toBe(3); // ３行
     });
 
     it("ステータスは INIT になること", () => {
       const game = new Game();
-      game.initialize(3, 2, 2);
+      game.initialize(2, 3, 2);
       game.open(0, 0); // ここで PLAY になっている
-      game.initialize(3, 2, 2); // 再度 initialize を呼ぶと INIT になっていること
+      game.initialize(2, 3, 2); // 再度 initialize を呼ぶと INIT になっていること
 
       expect(game.state).toBe(State.INIT);
     });
@@ -27,14 +26,14 @@ describe('Game', () => {
       game.initialize(3, 3, 2);
 
       // 一箇所だけ開いておく
-      game.field.table[0][0].open();
+      game.open(0, 0);
 
       // initialize が呼ばれるとクリアされることを確認
       game.initialize(3, 3, 2);
 
-      expect(game.field.table[0].map(c => c.isOpen)).toStrictEqual([false, false, false]);
-      expect(game.field.table[1].map(c => c.isOpen)).toStrictEqual([false, false, false]);
-      expect(game.field.table[2].map(c => c.isOpen)).toStrictEqual([false, false, false]);
+      expect(game.field.rows[0].map(c => c.isOpen)).toEqual([false, false, false]);
+      expect(game.field.rows[1].map(c => c.isOpen)).toEqual([false, false, false]);
+      expect(game.field.rows[2].map(c => c.isOpen)).toEqual([false, false, false]);
     })
 
     it("すべてのセルが isFlagged=false となっていること", () => {
@@ -42,20 +41,21 @@ describe('Game', () => {
       game.initialize(3, 3, 2);
 
       // フラグを立てておくが、
-      game.field.table[0][0].flag();
+      game.open(0, 0);
+      game.flag(2, 2);
 
       // initialize が呼ばれるとクリアされることを確認
       game.initialize(3, 3, 2);
 
-      expect(game.field.table[0].map(c => c.isFlagged)).toStrictEqual([false, false, false]);
-      expect(game.field.table[1].map(c => c.isFlagged)).toStrictEqual([false, false, false]);
-      expect(game.field.table[2].map(c => c.isFlagged)).toStrictEqual([false, false, false]);
+      expect(game.field.rows[0].map(c => c.isFlagged)).toEqual([false, false, false]);
+      expect(game.field.rows[1].map(c => c.isFlagged)).toEqual([false, false, false]);
+      expect(game.field.rows[2].map(c => c.isFlagged)).toEqual([false, false, false]);
     })
 
     it("closedCount がセル数と一致すること", () => {
       const game = new Game();
 
-      game.initialize(3, 4, 10);
+      game.initialize(4, 3, 10);
 
       expect(game.closedCount).toBe(12);
     })
@@ -68,7 +68,7 @@ describe('Game', () => {
       // 9 * 9 = 81 マスのうち 10 個
       game.initialize(9, 9, 10).open(0, 0);
 
-      const count = game.field.table.flat().filter(c => c.isMine).length;
+      const count = game.field.rows.flat().filter(c => c.isMine).length;
 
       expect(count).toBe(10);
     })
@@ -89,16 +89,16 @@ describe('Game', () => {
       game.initialize(2, 2).open(0, 0);
 
       // initialize メソッドでランダムに地雷がセットされるので、強制的に上書きする
-      game.field.table = [
-        [new Cell({ count: 0, isOpen: false }), new Cell({ count: 1, isOpen: false })],
-        [new Cell({ count: 2, isOpen: false }), new Cell({ count: 3, isOpen: false })],
+      game.field.values = [
+        new Cell({ count: 0, isOpen: false }), new Cell({ count: 1, isOpen: false }),
+        new Cell({ count: 2, isOpen: false }), new Cell({ count: 3, isOpen: false }),
       ];
 
       // テスト実行
-      game.open(1, 0);
+      game.open(0, 1);
 
       // 検証
-      expect(game.field.table).toEqual([
+      expect(game.field.rows).toEqual([
         [new Cell({ count: 0, isOpen: false }), new Cell({ count: 1, isOpen: false })],
         [new Cell({ count: 2, isOpen: true }), new Cell({ count: 3, isOpen: false })],
       ]);
@@ -111,17 +111,17 @@ describe('Game', () => {
 
       // initialize メソッドでランダムに地雷がセットされるので、強制的に上書きする
       // 中央だけ 0 
-      game.field.table = [
-        [new Cell({ count: 1, isOpen: false }), new Cell({ count: 1, isOpen: false }), new Cell({ count: 1, isOpen: false })],
-        [new Cell({ count: 1, isOpen: false }), new Cell({ count: 0, isOpen: false }), new Cell({ count: 1, isOpen: false })],
-        [new Cell({ count: 1, isOpen: false }), new Cell({ count: 1, isOpen: false }), new Cell({ count: 1, isOpen: false })],
+      game.field.values = [
+        new Cell({ count: 1, isOpen: false }), new Cell({ count: 1, isOpen: false }), new Cell({ count: 1, isOpen: false }),
+        new Cell({ count: 1, isOpen: false }), new Cell({ count: 0, isOpen: false }), new Cell({ count: 1, isOpen: false }),
+        new Cell({ count: 1, isOpen: false }), new Cell({ count: 1, isOpen: false }), new Cell({ count: 1, isOpen: false }),
       ];
 
       // テスト実行
       game.open(1, 1);
 
       // 検証
-      expect(game.field.table).toEqual([
+      expect(game.field.rows).toEqual([
         [new Cell({ count: 1, isOpen: true }), new Cell({ count: 1, isOpen: true }), new Cell({ count: 1, isOpen: true })],
         [new Cell({ count: 1, isOpen: true }), new Cell({ count: 0, isOpen: true }), new Cell({ count: 1, isOpen: true })],
         [new Cell({ count: 1, isOpen: true }), new Cell({ count: 1, isOpen: true }), new Cell({ count: 1, isOpen: true })],
@@ -135,17 +135,17 @@ describe('Game', () => {
 
       // initialize メソッドでランダムに地雷がセットされるので、強制的に上書きする
       // 中央だけ 0, 左上だけ isFlagged=true
-      game.field.table = [
-        [new Cell({ count: 1, isOpen: false, isFlagged: true }), new Cell({ count: 1, isOpen: false }), new Cell({ count: 1, isOpen: false })],
-        [new Cell({ count: 1, isOpen: false }), new Cell({ count: 0, isOpen: false }), new Cell({ count: 1, isOpen: false })],
-        [new Cell({ count: 1, isOpen: false }), new Cell({ count: 1, isOpen: false }), new Cell({ count: 1, isOpen: false })],
+      game.field.values = [
+        new Cell({ count: 1, isOpen: false, isFlagged: true }), new Cell({ count: 1, isOpen: false }), new Cell({ count: 1, isOpen: false }),
+        new Cell({ count: 1, isOpen: false }), new Cell({ count: 0, isOpen: false }), new Cell({ count: 1, isOpen: false }),
+        new Cell({ count: 1, isOpen: false }), new Cell({ count: 1, isOpen: false }), new Cell({ count: 1, isOpen: false }),
       ];
 
       // テスト実行
       game.open(1, 1);
 
       // 検証（左上は isOpen=false のまま）
-      expect(game.field.table).toEqual([
+      expect(game.field.rows).toEqual([
         [new Cell({ count: 1, isOpen: false, isFlagged: true }), new Cell({ count: 1, isOpen: true }), new Cell({ count: 1, isOpen: true })],
         [new Cell({ count: 1, isOpen: true }), new Cell({ count: 0, isOpen: true }), new Cell({ count: 1, isOpen: true })],
         [new Cell({ count: 1, isOpen: true }), new Cell({ count: 1, isOpen: true }), new Cell({ count: 1, isOpen: true })],
@@ -158,9 +158,9 @@ describe('Game', () => {
       game.initialize(2, 2).open(0, 0);
 
       // initialize メソッドでランダムに地雷がセットされるので、強制的に上書きする
-      game.field.table = [
-        [new Cell({ count: 1, isOpen: false }), new Cell({ count: 1, isOpen: false })],
-        [new Cell({ count: 1, isOpen: false }), new Cell({ count: 0, isOpen: false, isMine: true })],
+      game.field.values = [
+        new Cell({ count: 1, isOpen: false }), new Cell({ count: 1, isOpen: false }),
+        new Cell({ count: 1, isOpen: false }), new Cell({ count: 0, isOpen: false, isMine: true }),
       ];
 
       // テスト実行
@@ -168,7 +168,7 @@ describe('Game', () => {
 
       // 検証
       // すべて開かれること
-      expect(game.field.table).toEqual([
+      expect(game.field.rows).toEqual([
         [new Cell({ count: 1, isOpen: true }), new Cell({ count: 1, isOpen: true })],
         [new Cell({ count: 1, isOpen: true }), new Cell({ count: 0, isOpen: true, isMine: true })],
       ]);
@@ -184,10 +184,10 @@ describe('Game', () => {
 
       // initialize メソッドでランダムに地雷がセットされるので、強制的に上書きする
       // ２列目に地雷が埋まっている
-      game.field.table = [
-        [new Cell({ count: 2, isOpen: false }), new Cell({ count: 0, isOpen: false, isMine: true }), new Cell({ count: 2, isOpen: false })],
-        [new Cell({ count: 3, isOpen: false }), new Cell({ count: 0, isOpen: false, isMine: true }), new Cell({ count: 3, isOpen: false })],
-        [new Cell({ count: 2, isOpen: false }), new Cell({ count: 0, isOpen: false, isMine: true }), new Cell({ count: 2, isOpen: false })],
+      game.field.values = [
+        new Cell({ count: 2, isOpen: false }), new Cell({ count: 0, isOpen: false, isMine: true }), new Cell({ count: 2, isOpen: false }),
+        new Cell({ count: 3, isOpen: false }), new Cell({ count: 0, isOpen: false, isMine: true }), new Cell({ count: 3, isOpen: false }),
+        new Cell({ count: 2, isOpen: false }), new Cell({ count: 0, isOpen: false, isMine: true }), new Cell({ count: 2, isOpen: false }),
       ];
 
       // この時点では全て閉じている
@@ -197,15 +197,15 @@ describe('Game', () => {
       game.open(0, 0);
       expect(game.closedCount).toBe(8);
 
-      game.open(1, 0);
+      game.open(0, 1);
       expect(game.closedCount).toBe(7);
 
-      game.open(2, 0);
+      game.open(0, 2);
       expect(game.closedCount).toBe(6);
 
       // のこりすべてを開く
-      game.open(0, 2);
-      game.open(1, 2);
+      game.open(2, 0);
+      game.open(2, 1);
       game.open(2, 2);
 
       // ゲーム終了したので自動的にすべて開く
@@ -222,9 +222,9 @@ describe('Game', () => {
       game.initialize(2, 2, 1).open(0, 0);
 
       // initialize メソッドでランダムに地雷がセットされるので、強制的に上書きする
-      game.field.table = [
-        [new Cell({ count: 0, isOpen: false }), new Cell({ count: 0, isOpen: false })],
-        [new Cell({ count: 0, isOpen: false }), new Cell({ count: 0, isOpen: false })],
+      game.field.values = [
+        new Cell({ count: 0, isOpen: false }), new Cell({ count: 0, isOpen: false }),
+        new Cell({ count: 0, isOpen: false }), new Cell({ count: 0, isOpen: false }),
       ];
 
       // この時点では 0 個
@@ -247,14 +247,14 @@ describe('Game', () => {
       game.initialize(2, 2, 1).open(0, 0);
 
       // initialize メソッドでランダムに地雷がセットされるので、強制的に上書きする
-      game.field.table = [
-        [new Cell({ count: 0, isOpen: false, isMine: true }), new Cell({ count: 1, isOpen: false })],
-        [new Cell({ count: 1, isOpen: false }), new Cell({ count: 1, isOpen: false })],
+      game.field.values = [
+        new Cell({ count: 0, isOpen: false, isMine: true }), new Cell({ count: 1, isOpen: false }),
+        new Cell({ count: 1, isOpen: false }), new Cell({ count: 1, isOpen: false }),
       ];
 
       // 地雷以外を開く
-      game.open(0, 1);
       game.open(1, 0);
+      game.open(0, 1);
       game.open(1, 1);
 
       // この時点で WIN

@@ -2,34 +2,34 @@
  * 座標を表すクラス
  */
 class Point {
-  constructor(row, col) {
-    this.row = row;
-    this.col = col;
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
   }
 
   /**
    * ファクトリーメソッド。
-   * @param {Number} row 行番号
-   * @param {Number} col 列番号
+   * @param {Number} x x座標
+   * @param {Number} y y座標
    */
-  static of(row, col) {
-    return new Point(row, col);
+  static of(x, y) {
+    return new Point(x, y);
   }
 
   /**
-   * row に n 加えた座標を得る
+   * y に n 加えた座標を得る
    * @param {Number} n 移動量
    */
-  plusRow(n) {
-    return new Point(this.row + n, this.col);
+  plusY(n) {
+    return new Point(this.x, this.y + n);
   }
 
   /**
-   * col に n 加えた座標を得る
+   * x に n 加えた座標を得る
    * @param {Number} n 移動量
    */
-  plusCol(n) {
-    return new Point(this.row, this.col + n);
+  plusX(n) {
+    return new Point(this.x + n, this.y);
   }
 }
 

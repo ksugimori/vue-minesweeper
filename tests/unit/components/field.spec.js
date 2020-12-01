@@ -6,9 +6,9 @@ import Cell from '@/components/Cell.vue'
 describe('Row.vue', () => {
   it('配列数だけ Row が作成されること', () => {
     const game = {
-      open: (row, col) => { },
+      open: (x, y) => { },
       field: {
-        table: [
+        rows: [
           [
             { count: 0, isOpen: false },
             { count: 0, isOpen: false },
@@ -42,7 +42,7 @@ describe('Row.vue', () => {
     const game = {
       open: mockOpen,
       field: {
-        table: [
+        rows: [
           [
             { count: 0, isOpen: false },
             { count: 0, isOpen: false },
@@ -71,7 +71,7 @@ describe('Row.vue', () => {
 
     const args = mockOpen.mock.calls[0];
     // 引数に index が渡されていること
-    expect(args[0]).toBe(1);
-    expect(args[1]).toBe(2);
+    expect(args[0]).toBe(2);
+    expect(args[1]).toBe(1);
   })
 })

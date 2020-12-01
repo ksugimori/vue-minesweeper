@@ -2,20 +2,31 @@ import Cell from './Cell';
 
 /**
  * 盤面
+ * 
+ * このクラスには幾何学的な情報、操作のみを持ち、ゲームに関する知識は極力持たないようにする。
  */
 class Field {
-  constructor(numRows, numCols) {
-    this.table = [];
-    this.numRows = numRows;
-    this.numCols = numCols;
+  constructor(width, height) {
+    this.width = width;
+    this.height = height;
+    this.values = [];
 
-    for (let row = 0; row < numRows; row++) {
-      let row = [];
-      for (let i = 0; i < numCols; i++) {
-        row.push(new Cell());
-      }
-      this.table.push(row);
+    for (let i = 0; i < width * height; i++) {
+      this.values.push(new Cell());
     }
+  }
+
+  /**
+   * 行単位にまとめた配列を返す
+   */
+  get rows() {
+    let result = [];
+    for (let row = 0; row < this.height; row++) {
+      let from = row * this.width;
+      let to = from + this.width;
+      result.push(this.values.slice(from, to));
+    }
+    return result;
   }
 
   /**
@@ -23,14 +34,8 @@ class Field {
    * @param {Point} point 
    */
   get(point) {
-    return this.table[point.row][point.col];
-  }
-
-  /**
-   * すべてのセル
-   */
-  all() {
-    return this.table.flat();
+    let index = point.y * this.width + point.x;
+    return this.values[index];
   }
 
   /**
@@ -44,18 +49,18 @@ class Field {
       this.contains(p) && result.push(p);
     }
 
-    let above = center.plusRow(-1);
-    pushIfContains(above.plusCol(-1));
+    let above = center.plusY(-1);
+    pushIfContains(above.plusX(-1));
     pushIfContains(above);
-    pushIfContains(above.plusCol(1));
+    pushIfContains(above.plusX(1));
 
-    pushIfContains(center.plusCol(-1));
-    pushIfContains(center.plusCol(1));
+    pushIfContains(center.plusX(-1));
+    pushIfContains(center.plusX(1));
 
-    let below = center.plusRow(1);
-    pushIfContains(below.plusCol(-1));
+    let below = center.plusY(1);
+    pushIfContains(below.plusX(-1));
     pushIfContains(below);
-    pushIfContains(below.plusCol(1));
+    pushIfContains(below.plusX(1));
 
     return result;
   }
@@ -65,7 +70,7 @@ class Field {
    * @param {Point} p 座標
    */
   contains(p) {
-    return (p.row in this.table) && (p.col in this.table[p.row])
+    return (0 <= p.x && p.x < this.width) && (0 <= p.y && p.y < this.height);
   }
 }
 

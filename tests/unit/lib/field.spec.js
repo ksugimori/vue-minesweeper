@@ -5,19 +5,19 @@ describe('Field', () => {
   describe('#contains', () => {
     it('範囲内にあるときのみ true が返ること', () => {
       // ２行、３列で初期化
-      const field = new Field(2, 3);
+      const field = new Field(3, 2);
 
       // -1 行目
-      expect(field.contains(Point.of(-1, 0))).toBeFalsy();
+      expect(field.contains(Point.of(0, -1))).toBeFalsy();
 
       // １行目
       expect(field.contains(Point.of(0, 0))).toBeTruthy();
-      expect(field.contains(Point.of(0, 1))).toBeTruthy();
-      expect(field.contains(Point.of(0, 2))).toBeTruthy();
-      expect(field.contains(Point.of(0, 3))).toBeFalsy();
+      expect(field.contains(Point.of(1, 0))).toBeTruthy();
+      expect(field.contains(Point.of(2, 0))).toBeTruthy();
+      expect(field.contains(Point.of(3, 0))).toBeFalsy();
 
       // ２行目
-      expect(field.contains(Point.of(1, 2))).toBeTruthy();
+      expect(field.contains(Point.of(2, 1))).toBeTruthy();
 
       // ３行目
       expect(field.contains(Point.of(2, 2))).toBeFalsy();
@@ -33,26 +33,26 @@ describe('Field', () => {
 
       expect(result.length).toBe(8);
 
-      expect(result).toContainEqual({ row: 0, col: 0 });
-      expect(result).toContainEqual({ row: 0, col: 1 });
-      expect(result).toContainEqual({ row: 0, col: 2 });
+      expect(result).toContainEqual({ y: 0, x: 0 });
+      expect(result).toContainEqual({ y: 0, x: 1 });
+      expect(result).toContainEqual({ y: 0, x: 2 });
 
-      expect(result).toContainEqual({ row: 1, col: 0 });
-      // row: 1, col: 1 が引数なのでこれは返ってこない
-      expect(result).toContainEqual({ row: 1, col: 2 });
+      expect(result).toContainEqual({ y: 1, x: 0 });
+      // y: 1, x: 1 が引数なのでこれは返ってこない
+      expect(result).toContainEqual({ y: 1, x: 2 });
 
-      expect(result).toContainEqual({ row: 2, col: 0 });
-      expect(result).toContainEqual({ row: 2, col: 1 });
-      expect(result).toContainEqual({ row: 2, col: 2 });
+      expect(result).toContainEqual({ y: 2, x: 0 });
+      expect(result).toContainEqual({ y: 2, x: 1 });
+      expect(result).toContainEqual({ y: 2, x: 2 });
     })
 
     it("範囲外のセルは除外されていること", () => {
       // １行、３列で初期化
-      const field = new Field(1, 3);
+      const field = new Field(3, 1);
 
       const result = field.arround(Point.of(0, 0));
 
-      expect(result).toEqual([{ row: 0, col: 1 }]);
+      expect(result).toEqual([{ y: 0, x: 1 }]);
     })
   })
 

@@ -11,8 +11,8 @@ class Game {
    */
   constructor() {
     this.field = new Field();
-    this.numRows = 9;
-    this.numCols = 9;
+    this.height = 9;
+    this.width = 9;
     this.numMines = 10;
 
     this.playTime = 0;
@@ -25,31 +25,31 @@ class Game {
    * フラグの数
    */
   get flagCount() {
-    return this.field.all().map(cell => cell.isFlagged ? 1 : 0).reduce((sum, x) => sum + x);
+    return this.field.values.map(cell => cell.isFlagged ? 1 : 0).reduce((sum, x) => sum + x);
   }
 
   /**
    * 閉じているセルの数
    */
   get closedCount() {
-    return this.field.all().map(cell => cell.isOpen ? 0 : 1).reduce((sum, x) => sum + x);
+    return this.field.values.map(cell => cell.isOpen ? 0 : 1).reduce((sum, x) => sum + x);
   }
 
   /**
    * 盤面を初期化する。
-   * @param {Number} numRows 
-   * @param {Number} numCols 
+   * @param {Number} width 
+   * @param {Number} height 
    * @param {Number} nunmMines
    */
-  initialize(numRows, numCols, numMines) {
-    this.numRows = numRows || this.numRows;
-    this.numCols = numCols || this.numCols;
+  initialize(width, height, numMines) {
+    this.height = height || this.height;
+    this.width = width || this.width;
     this.numMines = numMines || this.numMines;
-    if (this.numRows * this.numCols < this.numMines) {
-      this.numMines = Math.floor(this.numRows * this.numCols / 2);
+    if (this.height * this.width < this.numMines) {
+      this.numMines = Math.floor(this.height * this.width / 2);
     }
 
-    this.field = new Field(this.numRows, this.numCols);
+    this.field = new Field(this.width, this.height);
 
     this.state = State.INIT;
     this.stopTimer();
@@ -69,26 +69,26 @@ class Game {
     // 地雷をランダムにセット
     let mines = [];
     while (mines.length < this.numMines) {
-      let randomRow = Math.floor(Math.random() * this.numRows);
-      let randomCol = Math.floor(Math.random() * this.numCols);
-      if (exclude.row === randomRow && exclude.col === randomCol) continue;
+      let randomX = Math.floor(Math.random() * this.width);
+      let randomY = Math.floor(Math.random() * this.height);
+      if (exclude.y === randomY && exclude.x === randomX) continue;
 
-      if (mines.some(x => x.row === randomRow && x.col === randomCol)) continue;
+      if (mines.some(p => p.y === randomY && p.x === randomX)) continue;
 
-      mines.push({ row: randomRow, col: randomCol });
+      mines.push({ y: randomY, x: randomX });
     }
 
     mines.forEach(p => this.field.get(p).mine());
 
     // 各マスの周囲の地雷数をカウントし、value にセットする。
-    for (let row = 0; row < this.field.numRows; row++) {
-      for (let col = 0; col < this.field.numCols; col++) {
-        let target = this.field.get(Point.of(row, col));
+    for (let y = 0; y < this.field.height; y++) {
+      for (let x = 0; x < this.field.width; x++) {
+        let target = this.field.get(Point.of(x, y));
         if (target.isMine) {
           continue;
         }
 
-        target.count = this.field.arround(Point.of(row, col))
+        target.count = this.field.arround(Point.of(x, y))
           .map(p => this.field.get(p))
           .filter(cell => cell.isMine)
           .length;
@@ -117,11 +117,11 @@ class Game {
 
   /**
    * セルを開く
-   * @param {Number} row 行番号
-   * @param {Number} col 列番号
+   * @param {Number} x x座標
+   * @param {Number} y y座標
    */
-  open(row, col) {
-    this.state.open(this, Point.of(row, col));
+  open(x, y) {
+    this.state.open(this, Point.of(x, y));
   }
 
   /**
@@ -158,11 +158,11 @@ class Game {
 
   /**
    * フラグをつける。
-   * @param {Number} row 行番号
-   * @param {Number} col 列番号
+   * @param {Number} x x座標
+   * @param {Number} y y座標
    */
-  flag(row, col) {
-    this.state.flag(this, Point.of(row, col));
+  flag(x, y) {
+    this.state.flag(this, Point.of(x, y));
   }
 
   /**
@@ -184,7 +184,7 @@ class Game {
    * ゲームが終了していればそのステータスを返す。
    */
   judge() {
-    if (this.field.all().filter(cell => cell.isMine).some(cell => cell.isOpen)) {
+    if (this.field.values.filter(cell => cell.isMine).some(cell => cell.isOpen)) {
       return State.LOSE;
     }
 
@@ -197,7 +197,7 @@ class Game {
    * すべてのセルを開く
    */
   openAll() {
-    this.field.all().forEach(c => c.open());
+    this.field.values.forEach(c => c.open());
   }
 
   /**

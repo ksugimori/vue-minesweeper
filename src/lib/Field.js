@@ -43,26 +43,19 @@ class Field {
    * @param {Point} center 座標
    */
   arround(center) {
-    let result = [];
-
-    const pushIfContains = (p) => {
-      this.contains(p) && result.push(p);
-    }
-
-    let above = center.plusY(-1);
-    pushIfContains(above.plusX(-1));
-    pushIfContains(above);
-    pushIfContains(above.plusX(1));
-
-    pushIfContains(center.plusX(-1));
-    pushIfContains(center.plusX(1));
-
-    let below = center.plusY(1);
-    pushIfContains(below.plusX(-1));
-    pushIfContains(below);
-    pushIfContains(below.plusX(1));
-
-    return result;
+    return [
+      // ひとつ上の行
+      center.plusY(-1).plusX(-1),
+      center.plusY(-1),
+      center.plusY(-1).plusX(1),
+      // 同じ行
+      center.plusX(-1),
+      center.plusX(1),
+      // ひとつ下の行
+      center.plusY(1).plusX(-1),
+      center.plusY(1),
+      center.plusY(1).plusX(1)
+    ].filter(p => this.contains(p));
   }
 
   /**

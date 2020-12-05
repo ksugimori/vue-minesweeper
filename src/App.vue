@@ -36,6 +36,10 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 1rem;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 </style>
 

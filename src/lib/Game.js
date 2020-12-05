@@ -1,6 +1,7 @@
 import Point from './Point';
 import State from './state/State';
 import Field from './Field';
+import StopWatch from './StopWatch';
 
 /**
  * マインスイーパー全体を管理するクラス
@@ -15,9 +16,7 @@ class Game {
     this.width = 9;
     this.numMines = 10;
 
-    this.playTime = 0;
-    this.startTime = null;
-    this.timer = null;
+    this.stopWatch = new StopWatch();
     this.state = State.INIT;
   }
 
@@ -33,6 +32,13 @@ class Game {
    */
   get closedCount() {
     return this.field.values.map(cell => cell.isOpen ? 0 : 1).reduce((sum, x) => sum + x);
+  }
+
+  /**
+   * プレイ時間
+   */
+  get playTime() {
+    return this.stopWatch.playTime;
   }
 
   /**
@@ -52,11 +58,27 @@ class Game {
     this.field = new Field(this.width, this.height);
 
     this.state = State.INIT;
-    this.stopTimer();
-    this.playTime = 0;
-    this.startTime = null;
+    this.stopWatch.reset();
 
     return this;
+  }
+
+  /**
+   * ゲームを開始する。
+   */
+  startGame() {
+    this.stopWatch.start();
+    this.state = State.PLAY;
+  }
+
+  /**
+   * ゲームを終了する。
+   * 
+   */
+  endGame(state) {
+    this.field.values.forEach(c => c.open());
+    this.stopWatch.stop();
+    this.state = state;
   }
 
   /**
@@ -69,13 +91,13 @@ class Game {
     // 地雷をランダムにセット
     let mines = [];
     while (mines.length < this.numMines) {
-      let randomX = Math.floor(Math.random() * this.width);
-      let randomY = Math.floor(Math.random() * this.height);
-      if (exclude.y === randomY && exclude.x === randomX) continue;
+      let mine = Point.of(Math.floor(Math.random() * this.width), Math.floor(Math.random() * this.height));
 
-      if (mines.some(p => p.y === randomY && p.x === randomX)) continue;
+      if (exclude === mine || mines.some(p => p === mine)) {
+        continue;
+      }
 
-      mines.push({ y: randomY, x: randomX });
+      mines.push(mine);
     }
 
     mines.forEach(p => this.field.get(p).mine());
@@ -94,25 +116,6 @@ class Game {
           .length;
       }
     }
-
-    this.state = State.PLAY;
-  }
-
-  /**
-   * タイマーを起動する
-   */
-  startTimer() {
-    this.startTime = Date.now();
-    this.timer = setInterval(() => {
-      this.playTime = Math.floor((Date.now() - this.startTime) / 1000);
-    }, 1000);
-  }
-
-  /**
-   * タイマーを停止する
-   */
-  stopTimer() {
-    clearInterval(this.timer);
   }
 
   /**
@@ -191,13 +194,6 @@ class Game {
     if (this.closedCount === this.numMines) {
       return State.WIN;
     }
-  }
-
-  /**
-   * すべてのセルを開く
-   */
-  openAll() {
-    this.field.values.forEach(c => c.open());
   }
 
   /**

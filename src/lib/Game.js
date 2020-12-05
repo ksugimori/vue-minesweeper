@@ -69,13 +69,13 @@ class Game {
     // 地雷をランダムにセット
     let mines = [];
     while (mines.length < this.numMines) {
-      let randomX = Math.floor(Math.random() * this.width);
-      let randomY = Math.floor(Math.random() * this.height);
-      if (exclude.y === randomY && exclude.x === randomX) continue;
+      let mine = Point.of(Math.floor(Math.random() * this.width), Math.floor(Math.random() * this.height));
 
-      if (mines.some(p => p.y === randomY && p.x === randomX)) continue;
+      if (exclude === mine || mines.some(p => p === mine)) {
+        continue;
+      }
 
-      mines.push({ y: randomY, x: randomX });
+      mines.push(mine);
     }
 
     mines.forEach(p => this.field.get(p).mine());

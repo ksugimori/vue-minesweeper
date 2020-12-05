@@ -33,17 +33,17 @@ describe('Field', () => {
 
       expect(result.length).toBe(8);
 
-      expect(result).toContainEqual({ y: 0, x: 0 });
-      expect(result).toContainEqual({ y: 0, x: 1 });
-      expect(result).toContainEqual({ y: 0, x: 2 });
+      expect(result).toContainEqual(Point.of(0, 0));
+      expect(result).toContainEqual(Point.of(0, 1));
+      expect(result).toContainEqual(Point.of(0, 2));
 
-      expect(result).toContainEqual({ y: 1, x: 0 });
-      // y: 1, x: 1 が引数なのでこれは返ってこない
-      expect(result).toContainEqual({ y: 1, x: 2 });
+      expect(result).toContainEqual(Point.of(1, 0));
+      // x: 1, y: 1 が引数なのでこれは返ってこない
+      expect(result).toContainEqual(Point.of(1, 2));
 
-      expect(result).toContainEqual({ y: 2, x: 0 });
-      expect(result).toContainEqual({ y: 2, x: 1 });
-      expect(result).toContainEqual({ y: 2, x: 2 });
+      expect(result).toContainEqual(Point.of(2, 0));
+      expect(result).toContainEqual(Point.of(2, 1));
+      expect(result).toContainEqual(Point.of(2, 2));
     })
 
     it("範囲外のセルは除外されていること", () => {
@@ -52,7 +52,7 @@ describe('Field', () => {
 
       const result = field.arround(Point.of(0, 0));
 
-      expect(result).toEqual([{ y: 0, x: 1 }]);
+      expect(result).toEqual([Point.of(1, 0)]);
     })
   })
 

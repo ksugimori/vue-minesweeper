@@ -64,6 +64,24 @@ class Game {
   }
 
   /**
+   * ゲームを開始する。
+   */
+  startGame() {
+    this.stopWatch.start();
+    this.state = State.PLAY;
+  }
+
+  /**
+   * ゲームを終了する。
+   * 
+   */
+  endGame(state) {
+    this.field.values.forEach(c => c.open());
+    this.stopWatch.stop();
+    this.state = state;
+  }
+
+  /**
    * 地雷を配置する。
    * 
    * 初手アウトを防ぐため、引数で渡された場所には配置しない。
@@ -98,8 +116,6 @@ class Game {
           .length;
       }
     }
-
-    this.state = State.PLAY;
   }
 
   /**
@@ -178,13 +194,6 @@ class Game {
     if (this.closedCount === this.numMines) {
       return State.WIN;
     }
-  }
-
-  /**
-   * すべてのセルを開く
-   */
-  openAll() {
-    this.field.values.forEach(c => c.open());
   }
 
   /**

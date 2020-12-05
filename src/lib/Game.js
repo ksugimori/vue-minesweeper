@@ -1,6 +1,7 @@
 import Point from './Point';
 import State from './state/State';
 import Field from './Field';
+import StopWatch from './StopWatch';
 
 /**
  * マインスイーパー全体を管理するクラス
@@ -15,9 +16,7 @@ class Game {
     this.width = 9;
     this.numMines = 10;
 
-    this.playTime = 0;
-    this.startTime = null;
-    this.timer = null;
+    this.stopWatch = new StopWatch();
     this.state = State.INIT;
   }
 
@@ -33,6 +32,13 @@ class Game {
    */
   get closedCount() {
     return this.field.values.map(cell => cell.isOpen ? 0 : 1).reduce((sum, x) => sum + x);
+  }
+
+  /**
+   * プレイ時間
+   */
+  get playTime() {
+    return this.stopWatch.playTime;
   }
 
   /**
@@ -52,9 +58,7 @@ class Game {
     this.field = new Field(this.width, this.height);
 
     this.state = State.INIT;
-    this.stopTimer();
-    this.playTime = 0;
-    this.startTime = null;
+    this.stopWatch.reset();
 
     return this;
   }
@@ -96,23 +100,6 @@ class Game {
     }
 
     this.state = State.PLAY;
-  }
-
-  /**
-   * タイマーを起動する
-   */
-  startTimer() {
-    this.startTime = Date.now();
-    this.timer = setInterval(() => {
-      this.playTime = Math.floor((Date.now() - this.startTime) / 1000);
-    }, 1000);
-  }
-
-  /**
-   * タイマーを停止する
-   */
-  stopTimer() {
-    clearInterval(this.timer);
   }
 
   /**

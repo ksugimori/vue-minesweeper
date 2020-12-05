@@ -20,7 +20,7 @@ class PlayState extends AbstractState {
     let endState = game.judge();
     if (endState) {
       game.openAll();
-      game.stopTimer();
+      game.stopWatch.stop();
       game.state = endState;
     }
   }

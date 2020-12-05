@@ -18,7 +18,7 @@ class InitialState extends AbstractState {
   open(game, point) {
     // 開始準備
     game.mine(point);
-    game.startTimer();
+    game.stopWatch.start();
 
     // セルを開く
     game.doOpen(point);
@@ -27,7 +27,7 @@ class InitialState extends AbstractState {
     let endState = game.judge();
     if (endState) {
       game.openAll();
-      game.stopTimer();
+      game.stopWatch.stop();
       game.state = endState;
     }
   }

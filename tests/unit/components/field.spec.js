@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils'
-import Field from '@/components/Field.vue'
-import Row from '@/components/Row.vue'
-import Cell from '@/components/Cell.vue'
+import Field from '@/components/game/Field.vue'
+import Row from '@/components/game/Row.vue'
+import Cell from '@/components/game/Cell.vue'
 
 describe('Row.vue', () => {
   it('配列数だけ Row が作成されること', () => {

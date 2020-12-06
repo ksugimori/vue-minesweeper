@@ -3,7 +3,7 @@
     <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/play">Play</router-link> |
-      <router-link to="/settings">Settings</router-link> |
+      <router-link to="/setting">Setting</router-link>
     </div>
     <router-view :game="game" />
   </div>

@@ -18,8 +18,8 @@ export default new Router({
       component: Play,
     },
     {
-      path: '/settings',
-      component: Setting
+      path: '/setting',
+      component: Setting,
     }
   ]
 })

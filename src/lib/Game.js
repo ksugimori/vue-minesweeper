@@ -12,7 +12,7 @@ class Game {
    */
   constructor() {
     this.field = new Field();
-    this.settings = {
+    this.setting = {
       height: 9,
       width: 9,
       numMines: 10
@@ -50,14 +50,14 @@ class Game {
    * @param {Number} nunmMines
    */
   initialize(width, height, numMines) {
-    this.settings.height = height || this.settings.height;
-    this.settings.width = width || this.settings.width;
-    this.settings.numMines = numMines || this.settings.numMines;
-    if (this.settings.height * this.settings.width < this.settings.numMines) {
-      this.settings.numMines = Math.floor(this.settings.height * this.settings.width / 2);
+    this.setting.height = height || this.setting.height;
+    this.setting.width = width || this.setting.width;
+    this.setting.numMines = numMines || this.setting.numMines;
+    if (this.setting.height * this.setting.width < this.setting.numMines) {
+      this.setting.numMines = Math.floor(this.setting.height * this.setting.width / 2);
     }
 
-    this.field = new Field(this.settings.width, this.settings.height);
+    this.field = new Field(this.setting.width, this.setting.height);
 
     this.state = State.INIT;
     this.stopWatch.reset();
@@ -92,8 +92,8 @@ class Game {
   mine(exclude) {
     // 地雷をランダムにセット
     let mines = [];
-    while (mines.length < this.settings.numMines) {
-      let mine = Point.of(Math.floor(Math.random() * this.settings.width), Math.floor(Math.random() * this.settings.height));
+    while (mines.length < this.setting.numMines) {
+      let mine = Point.of(Math.floor(Math.random() * this.setting.width), Math.floor(Math.random() * this.setting.height));
 
       if (exclude === mine || mines.some(p => p === mine)) {
         continue;
@@ -193,7 +193,7 @@ class Game {
       return State.LOSE;
     }
 
-    if (this.closedCount === this.settings.numMines) {
+    if (this.closedCount === this.setting.numMines) {
       return State.WIN;
     }
   }

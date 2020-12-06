@@ -1,6 +1,6 @@
 <template>
   <div class="status-bar">
-    <counter title="mines" :value="game.numMines - game.flagCount"></counter>
+    <counter title="mines" :value="game.settings.numMines - game.flagCount"></counter>
     <reset-button :game="game"></reset-button>
     <counter title="time" :value="game.playTime"></counter>
   </div>

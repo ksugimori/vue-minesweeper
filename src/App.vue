@@ -1,26 +1,22 @@
 <template>
   <div id="app">
-    <div class="board">
-      <status-bar :game="game"></status-bar>
-      <field :game="game"></field>
+    <div id="nav">
+      <router-link to="/">Home</router-link> |
+      <router-link to="/play">Play</router-link> |
+      <router-link to="/settings">Settings</router-link> |
     </div>
+    <router-view :game="game" />
   </div>
 </template>
 
 <script>
-import Game from "../src/lib/Game";
-import StatusBar from "./components/StatusBar.vue";
-import Field from "./components/Field";
+import Game from "@/lib/Game";
 
 export default {
   name: "app",
-  components: {
-    Field,
-    StatusBar,
-  },
   data() {
     let game = new Game();
-    game.initialize(9, 9, 10);
+    game.initialize();
     return {
       game: game,
     };
@@ -35,18 +31,9 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 1rem;
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
 }
-</style>
 
-<style scoped>
-.board {
-  border: 0.3em solid #000;
-  padding: 0.2em;
-  display: inline-grid;
+#nav {
+  margin: 1rem 0;
 }
 </style>

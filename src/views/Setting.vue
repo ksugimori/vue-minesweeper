@@ -4,18 +4,30 @@
 
     <form>
       <div class="form-item">
-        <label>行</label>
-        <input type="number" v-model.number="game.setting.height" />
+        <label>Height</label>
+        <number-input
+          v-model="game.setting.height"
+          :min="0"
+          :max="100"
+        ></number-input>
       </div>
 
       <div class="form-item">
-        <label>列</label>
-        <input type="number" v-model.number="game.setting.width" />
+        <label>Width</label>
+        <number-input
+          v-model="game.setting.width"
+          :min="0"
+          :max="100"
+        ></number-input>
       </div>
 
       <div class="form-item">
-        <label>地雷数</label>
-        <input type="number" v-model.number="game.setting.numMines" />
+        <label>MINE</label>
+        <number-input
+          v-model="game.setting.numMines"
+          :min="0"
+          :max="100"
+        ></number-input>
       </div>
     </form>
 
@@ -24,22 +36,28 @@
 </template>
 
 <script>
+import NumberInput from "../components/NumberInput.vue";
 export default {
+  components: { NumberInput },
   props: {
     game: Object,
   },
   methods: {
-    back: function() {
+    back: function () {
       this.game.initialize();
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style scoped>
 .form-item {
   display: flex;
+  justify-content: flex-end;
   margin-top: 1rem;
+  line-height: 2.6rem;
+  font-weight: 700;
+  font-size: 1.2rem;
 }
 
 .form-item label {

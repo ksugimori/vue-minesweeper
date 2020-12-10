@@ -2,19 +2,23 @@
   <div class="number-input">
     <div
       class="btn btn-minus"
-      @click="decrement"
+      @touchstart="startCountDown"
+      @touchend="stopCountDown"
       @mousedown="startCountDown"
       @mouseup="stopCountDown"
       @mouseout="stopCountDown"
     ></div>
     <input
-      type="text"
-      v-bind:value="value"
-      v-on:input="$emit('input', $event.target.value)"
+      type="number"
+      :min="min"
+      :max="max"
+      :value="value"
+      @input="$emit('input', parseValue($event.target.value))"
     />
     <div
       class="btn btn-plus"
-      @click="increment"
+      @touchstart="startCountUp"
+      @touchend="stopCountUp"
       @mousedown="startCountUp"
       @mouseup="stopCountUp"
       @mouseout="stopCountUp"
@@ -30,6 +34,9 @@ export default {
     max: Number,
   },
   methods: {
+    parseValue: function (val) {
+      return parseInt(val) || 0;
+    },
     emitInput: function (nextValue) {
       this.$emit("input", nextValue);
     },
@@ -48,24 +55,31 @@ export default {
       this.emitInput(this.value - 1);
     },
     startCountUp: function () {
-      this.timer = setInterval(() => {
-        if (this.value >= this.max) {
-          clearInterval(this.timer);
-        }
-        this.increment();
-      }, 50);
+      this.increment();
+      this.clickTimer = setTimeout(() => {
+        this.timer = setInterval(() => {
+          if (this.value >= this.max) {
+            clearInterval(this.timer);
+          }
+          this.increment();
+        }, 50);
+      }, 500);
     },
     stopCountUp: function () {
+      clearTimeout(this.clickTimer);
       clearInterval(this.timer);
     },
     startCountDown: function () {
-      this.timer = setInterval(() => {
-        if (this.value <= this.min) {
-          clearInterval(this.timer);
-          return;
-        }
-        this.decrement();
-      }, 50);
+      this.decrement();
+      this.clickTimer = setTimeout(() => {
+        this.timer = setInterval(() => {
+          if (this.value <= this.min) {
+            clearInterval(this.timer);
+            return;
+          }
+          this.decrement();
+        }, 50);
+      }, 500);
     },
     stopCountDown: function () {
       clearInterval(this.timer);
@@ -75,6 +89,16 @@ export default {
 </script>
 
 <style scoped>
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 .number-input {
   display: flex;
   border: 0.3rem solid #000;
@@ -147,5 +171,11 @@ export default {
   line-height: 2rem;
   font-size: 1rem;
   text-align: right;
+}
+
+input:invalid {
+  color: #fe0000;
+  outline: none;
+  box-shadow: none;
 }
 </style>

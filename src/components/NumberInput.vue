@@ -73,6 +73,7 @@ export default {
       }, 500);
     },
     stopCountDown: function () {
+      clearTimeout(this.clickTimer);
       clearInterval(this.timer);
     },
   },
@@ -88,6 +89,10 @@ input::-webkit-inner-spin-button {
 
 input[type="number"] {
   -moz-appearance: textfield;
+  -moz-user-select: text;
+  -webkit-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
 }
 
 .number-input {
@@ -104,10 +109,6 @@ input[type="number"] {
   background-color: #000;
   color: #fff;
   text-align: center;
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
 }
 
 .btn::before,

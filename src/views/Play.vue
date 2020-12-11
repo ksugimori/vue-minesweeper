@@ -22,15 +22,6 @@ export default {
 };
 </script>
 
-<style>
-.game {
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-</style>
-
 <style scoped>
 .board {
   border: 0.3em solid #000;

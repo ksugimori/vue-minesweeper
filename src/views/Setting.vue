@@ -4,18 +4,18 @@
 
     <form>
       <div class="form-item">
-        <label>Height</label>
+        <label>WIDTH</label>
         <number-input
-          v-model="game.setting.height"
+          v-model="game.setting.width"
           :min="0"
           :max="100"
         ></number-input>
       </div>
 
       <div class="form-item">
-        <label>Width</label>
+        <label>HEIGHT</label>
         <number-input
-          v-model="game.setting.width"
+          v-model="game.setting.height"
           :min="0"
           :max="100"
         ></number-input>
@@ -31,7 +31,17 @@
       </div>
     </form>
 
-    <router-link to="/play" @click.native="back">Back</router-link>
+    <div class="btn-row">
+      <button class="btn" @click="update(9, 9, 10)">EASY</button>
+      <button class="btn" @click="update(16, 16, 40)">NORMAL</button>
+      <button class="btn" @click="update(30, 16, 90)">HARD</button>
+    </div>
+
+    <div class="btn-row">
+      <router-link to="/play" @click.native="back" :class="['btn', 'btn-text']"
+        >Back</router-link
+      >
+    </div>
   </div>
 </template>
 
@@ -45,6 +55,13 @@ export default {
   methods: {
     back: function () {
       this.game.initialize();
+    },
+    update: function (w, h, m) {
+      this.game.setting = {
+        width: w,
+        height: h,
+        numMines: m,
+      };
     },
   },
 };
@@ -61,7 +78,6 @@ export default {
 }
 
 .form-item label {
-  width: 10em;
   text-align: right;
   padding: 0 0.5rem;
 }
@@ -77,17 +93,40 @@ export default {
   text-align: left;
 }
 
-.setting h1 {
+h1 {
   margin: 0;
   background-color: #000;
   color: #fff;
   padding: 0.5rem;
 }
 
-.setting a {
+.btn {
+  cursor: pointer;
   text-decoration: none;
   border: 0.3rem solid #000;
-  padding: 0.2rem;
+  width: 7rem;
+  height: 3rem;
+  font-size: 1.2rem;
+  background-color: #000;
+  color: #fff;
+}
+
+.btn:hover {
+  background-color: #fff;
   color: #000;
+}
+
+.btn-text {
+  border: none;
+  padding: none;
+  margin: 0;
+  background-color: transparent;
+  color: #000;
+}
+
+.btn-row {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
 }
 </style>

@@ -60,7 +60,6 @@ export default {
   border: 0.3rem solid #000;
   margin: 0.15rem;
   background-color: #000;
-  user-select: none;
   color: transparent;
   font-family: monospace;
   font-weight: bold;

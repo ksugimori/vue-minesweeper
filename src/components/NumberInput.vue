@@ -13,7 +13,7 @@
       :min="min"
       :max="max"
       :value="value"
-      @input="$emit('input', parseValue($event.target.value))"
+      @input="emitInput($event.target.value)"
     />
     <div
       class="btn btn-plus"
@@ -34,27 +34,17 @@ export default {
     max: Number,
   },
   methods: {
-    parseValue: function (val) {
-      return parseInt(val) || 0;
-    },
     emitInput: function (nextValue) {
       this.$emit("input", nextValue);
     },
     increment: function () {
-      if (this.value >= this.max) {
-        this.emitInput(this.max);
-        return;
-      }
-      this.emitInput(this.value + 1);
+      this.emitInput(Math.min(this.value + 1, this.max));
     },
     decrement: function () {
-      if (this.value <= this.min) {
-        this.emitInput(this.min);
-        return;
-      }
-      this.emitInput(this.value - 1);
+      this.emitInput(Math.max(this.value - 1, this.min));
     },
     startCountUp: function () {
+      this.stopCountUp();
       this.increment();
       this.clickTimer = setTimeout(() => {
         this.timer = setInterval(() => {
@@ -70,6 +60,7 @@ export default {
       clearInterval(this.timer);
     },
     startCountDown: function () {
+      this.stopCountDown();
       this.decrement();
       this.clickTimer = setTimeout(() => {
         this.timer = setInterval(() => {

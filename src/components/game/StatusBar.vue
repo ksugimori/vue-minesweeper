@@ -28,7 +28,7 @@ export default {
 }
 .status-bar >>> .box {
   margin: 0.15rem;
-  width: 6.75rem;
+  width: 6.9rem;
 }
 
 </style>

@@ -1,6 +1,7 @@
 # vue-minesweeper
 
-![Node.js CI](https://github.com/ksugimori/vue-minesweeper/workflows/Node.js%20CI/badge.svg?branch=main)
+![test](https://github.com/ksugimori/vue-minesweeper/workflows/Test/badge.svg)
+![deploy](https://github.com/ksugimori/vue-minesweeper/workflows/Deploy/badge.svg)
 
 ## Project setup
 ```

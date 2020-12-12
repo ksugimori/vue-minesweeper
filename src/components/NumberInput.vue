@@ -97,13 +97,13 @@ input[type="number"] {
 
 .number-input {
   display: flex;
-  border: 0.3rem solid #000;
-  height: 2rem;
 }
 
 .btn {
   position: relative;
   width: 2rem;
+  height: 2rem;
+  border: 0.3rem solid #000;
   font-size: 2rem;
   line-height: 1em;
   background-color: #000;
@@ -153,10 +153,10 @@ input[type="number"] {
 
 .number-input input {
   font-family: "Roboto Mono", monospace;
-  border-top: none;
-  border-bottom: none;
-  border-right: 0.3rem solid #000;
-  border-left: 0.3rem solid #000;
+  border-top: 0.3rem solid #000;
+  border-bottom: 0.3rem solid #000;
+  border-right: none;
+  border-left: none;
   width: 3rem;
   height: 2rem;
   padding: 0 1em;

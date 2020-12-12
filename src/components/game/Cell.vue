@@ -10,7 +10,16 @@
     @touchend="touchEnd"
     @contextmenu.prevent
   >
-    {{ valueString }}
+    <div v-if="obj.isMine && obj.isOpen" class="bomb">
+      <div class="circle"></div>
+      <div class="bar-0"></div>
+      <div class="bar-45"></div>
+      <div class="bar-90"></div>
+      <div class="bar-135"></div>
+    </div>
+    <span v-else>
+      {{ valueString }}
+    </span>
   </div>
 </template>
 
@@ -19,7 +28,7 @@ export default {
   props: {
     obj: Object,
     onClick: Function,
-    onRightClick: Function
+    onRightClick: Function,
   },
   computed: {
     colorClassName() {
@@ -55,68 +64,91 @@ export default {
 
 <style scoped>
 .cell {
-  width: 1.5rem;
-  height: 1.5rem;
-  border: 0.3rem solid #000;
+  width: 2.1rem;
+  height: 2.1rem;
+  line-height: 2.1rem;
+  font-size: 1.5rem;
   margin: 0.15rem;
   background-color: #000;
-  color: transparent;
-  font-family: monospace;
+  font-family: "Roboto Mono", monospace;
   font-weight: bold;
-  font-size: 1.5rem;
-  line-height: 1.5rem;
   text-align: center;
+  position: relative;
 }
 .cell.open {
   background-color: #fff;
-  color: #000;
+  color: #fff;
 }
 
 /**
  * 数字のカラー
  */
 .cell.color-0 {
-  color: #000;
-  border-color: #000;
-  border-style: dotted;
+  background-color: #e3e3e3;
 }
 .cell.color-1 {
-  color: #0200fb;
-  border-color: #0200fb;
+  background-color: #0200fb;
 }
 .cell.color-2 {
-  color: #017e00;
-  border-color: #017e00;
+  background-color: #017e00;
 }
 .cell.color-3 {
-  color: #fe0000;
-  border-color: #fe0000;
+  background-color: #fe0000;
 }
 .cell.color-4 {
-  color: #010180;
-  border-color: #010180;
+  background-color: #010180;
 }
 .cell.color-5 {
-  color: #7f0203;
-  border-color: #7f0203;
+  background-color: #7f0203;
 }
 .cell.color-6 {
-  color: #027f80;
-  border-color: #027f80;
+  background-color: #027f80;
 }
 .cell.color-7 {
-  color: #000;
-  border-color: #000;
+  background-color: #000;
 }
 .cell.color-8 {
-  color: #808080;
-  border-color: #808080;
+  background-color: #808080;
 }
 /** 地雷 */
 .cell.color-bomb {
-  background-color: red;
-  color: #fff;
+  background-color: #e3e3e3;
 }
+.bomb > .circle,
+.bomb > .bar-0,
+.bomb > .bar-45,
+.bomb > .bar-90,
+.bomb > .bar-135 {
+  background-color: #000;
+  position: absolute;
+}
+.bomb > .circle {
+  width: 1.2rem;
+  height: 1.2rem;
+  top: 0.45rem;
+  left: 0.45rem;
+  border-radius: 0.6rem;
+}
+.bomb > .bar-0,
+.bomb > .bar-45,
+.bomb > .bar-90,
+.bomb > .bar-135 {
+  width: 1.7rem;
+  height: 0.3rem;
+  top: 0.9rem;
+  left: 0.2rem;
+  border-radius: 0.15rem;
+}
+.bomb > .bar-45 {
+  transform: rotate(45deg);
+}
+.bomb > .bar-90 {
+  transform: rotate(90deg);
+}
+.bomb > .bar-135 {
+  transform: rotate(135deg);
+}
+
 /** フラグ */
 .flag {
   background-color: yellow;

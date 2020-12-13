@@ -10,25 +10,17 @@
     @touchend="touchEnd"
     @contextmenu.prevent
   >
-    <span>
-      {{ valueString }}
-    </span>
-    <div class="bomb">
-      <div class="circle"></div>
-      <div class="bar-0"></div>
-      <div class="bar-45"></div>
-      <div class="bar-90"></div>
-      <div class="bar-135"></div>
-    </div>
-    <div class="flag">
-      <div class="pole"></div>
-      <div class="field"></div>
-    </div>
+    {{ valueString }}
+    <mine v-if="obj.isMine && obj.isOpen"></mine>
+    <flag v-if="obj.isFlagged && !obj.isOpen"></flag>
   </div>
 </template>
 
 <script>
+import Mine from "./icon/Mine.vue";
+import Flag from "./icon/Flag.vue";
 export default {
+  components: { Mine, Flag },
   props: {
     obj: Object,
     onClick: Function,
@@ -36,7 +28,7 @@ export default {
   },
   computed: {
     colorClassName() {
-      return this.obj.isMine ? "color-bomb" : `color-${this.obj.count}`;
+      return this.obj.isMine ? "color-mine" : `color-${this.obj.count}`;
     },
     valueString() {
       if (!this.obj.isOpen || this.obj.count === 0) {
@@ -115,76 +107,7 @@ export default {
   background-color: #808080;
 }
 /** 地雷 */
-.cell.color-bomb {
+.cell.color-mine {
   background-color: #e3e3e3;
-}
-.bomb {
-  visibility: hidden;
-}
-.cell.color-bomb .bomb {
-  visibility: initial;
-}
-
-.bomb > .circle,
-.bomb > .bar-0,
-.bomb > .bar-45,
-.bomb > .bar-90,
-.bomb > .bar-135 {
-  background-color: #000;
-  position: absolute;
-}
-.bomb > .circle {
-  width: 1.2rem;
-  height: 1.2rem;
-  top: 0.45rem;
-  left: 0.45rem;
-  border-radius: 0.6rem;
-}
-.bomb > .bar-0,
-.bomb > .bar-45,
-.bomb > .bar-90,
-.bomb > .bar-135 {
-  width: 1.7rem;
-  height: 0.3rem;
-  top: 0.9rem;
-  left: 0.2rem;
-  border-radius: 0.15rem;
-}
-.bomb > .bar-45 {
-  transform: rotate(45deg);
-}
-.bomb > .bar-90 {
-  transform: rotate(90deg);
-}
-.bomb > .bar-135 {
-  transform: rotate(135deg);
-}
-
-/** フラグ */
-.flag {
-  position: relative;
-  visibility: hidden;
-}
-.flagged .flag {
-  visibility: initial;
-}
-
-.flag > .pole {
-  position: absolute;
-  background-color: #fff;
-  width: 0.3rem;
-  height: 0.7rem;
-  top: 1rem;
-  left: 0.6rem;
-}
-.flag > .field {
-  position: absolute;
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 0.6rem 0 0.6rem 1rem;
-  border-color: transparent transparent transparent #fff;
-  top: 0.3rem;
-  left: 0.6rem;
 }
 </style>

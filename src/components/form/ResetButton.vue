@@ -50,8 +50,8 @@ export default {
 .btn {
   width: 6.15rem !important;
   height: 2.5rem !important;
-  border: 0.3rem solid #000;
-  background-color: #000;
+  border: 0.3rem solid #35495e;
+  background-color: #35495e;
   color: #fff;
   font-weight: bold;
   font-size: 1.5rem;
@@ -60,7 +60,7 @@ export default {
 }
 .btn:hover {
   background-color: #fff;
-  color: #000;
+  color: #35495e;
 }
 .btn.color-win {
   color: #fff;

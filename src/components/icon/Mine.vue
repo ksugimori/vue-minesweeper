@@ -17,7 +17,7 @@
 .bomb > .bar-45,
 .bomb > .bar-90,
 .bomb > .bar-135 {
-  background-color: #000;
+  background-color: #35495e;
   position: absolute;
 }
 .bomb > .circle {

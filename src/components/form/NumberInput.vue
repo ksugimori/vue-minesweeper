@@ -117,10 +117,10 @@ input[type="number"] {
   position: relative;
   width: 2rem;
   height: 2rem;
-  border: 0.3rem solid #000;
+  border: 0.3rem solid #35495e;
   font-size: 2rem;
   line-height: 1em;
-  background-color: #000;
+  background-color: #35495e;
   color: #fff;
   text-align: center;
 }
@@ -135,7 +135,7 @@ input[type="number"] {
 
 .btn:hover::before,
 .btn:hover::after {
-  background-color: #000;
+  background-color: #35495e;
 }
 
 .btn-minus::before {
@@ -161,14 +161,14 @@ input[type="number"] {
 
 .btn:hover {
   background-color: #fff;
-  color: #000;
+  color: #35495e;
   cursor: pointer;
 }
 
 .number-input input {
   font-family: "Roboto Mono", monospace;
-  border-top: 0.3rem solid #000;
-  border-bottom: 0.3rem solid #000;
+  border-top: 0.3rem solid #35495e;
+  border-bottom: 0.3rem solid #35495e;
   border-right: none;
   border-left: none;
   width: 3rem;

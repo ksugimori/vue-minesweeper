@@ -16,7 +16,7 @@ export default {
 
 <style scoped>
 .counter > .title {
-  color: #000;
+  color: #35495e;
   height: 1rem;
   text-align: left;
   font-size: 0.8rem;
@@ -28,7 +28,7 @@ export default {
   font-size: 1.5rem;
   font-weight: bold;
   color: #fff;
-  background-color: #000;
+  background-color: #35495e;
   padding: 0.6rem;
 }
 </style>

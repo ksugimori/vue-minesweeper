@@ -43,6 +43,13 @@ class Cell {
   unflag() {
     this.isFlagged = false;
   }
+
+  /**
+   * 数字文字列
+   */
+  get text() {
+    return this.count === 0 ? "" : this.count.toString();
+  }
 }
 
 export default Cell;

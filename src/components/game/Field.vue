@@ -4,8 +4,8 @@
       v-for="(row, index) in game.field.rows"
       :key="index"
       :cells="row"
-      :onClickCell="(x) => game.open(x, index)"
-      :onRightClickCell="(x) => game.flag(x, index)"
+      @cellClick="x => game.open(x, index)"
+      @cellRightClick="x => game.flag(x, index)"
     ></row>
   </div>
 </template>

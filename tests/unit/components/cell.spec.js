@@ -2,80 +2,55 @@ import { shallowMount } from '@vue/test-utils'
 import Cell from '@/components/game/Cell.vue'
 
 describe('Cell.vue', () => {
-  it('isOpen=false の場合は count が描画されないこと', () => {
-    const obj = {
-      count: 8,
-      isOpen: false,
-    };
-
+  it('opened=false の場合は count が描画されないこと', () => {
     const wrapper = shallowMount(Cell, {
       propsData: {
-        obj: obj,
-        onClick: () => { },
+        count: 8,
+        opened: false,
       }
     })
 
     expect(wrapper.text()).not.toContain("8");
   })
 
-  it('isOpen=true の場合は count が描画されること', () => {
-    const obj = {
-      count: 8,
-      isOpen: true,
-    };
-
+  it('opened=true の場合は count が描画されること', () => {
     const wrapper = shallowMount(Cell, {
       propsData: {
-        obj: obj,
-        onClick: () => { },
+        count: 8,
+        opened: true,
       }
     })
 
     expect(wrapper.text()).toContain("8");
   })
 
-  it('クリックしたら onClick で渡したコールバック関数が呼ばれること', () => {
-    const obj = {
-      count: 8,
-      isOpen: true,
-    };
-
-    // コールバック関数のモック
-    const mockOnClick = jest.fn();
-
+  it('クリックしたら cellClick イベントが発火されること', () => {
     const wrapper = shallowMount(Cell, {
       propsData: {
-        obj: obj,
-        onClick: mockOnClick
+        count: 8,
+        opened: true,
       }
     });
 
     // click イベントを発火
     wrapper.trigger('click');
 
-    expect(mockOnClick.mock.calls.length).toBe(1);
+    // cellClick イベントとして通知されていること
+    expect(wrapper.emitted().cellClick).not.toBeUndefined();
   })
 
-  it('右クリックしたら onRightClick で渡したコールバック関数が呼ばれること', () => {
-    const obj = {
-      count: 8,
-      isOpen: true,
-    };
-
-    // コールバック関数のモック
-    const mockOnRightClick = jest.fn();
-
+  it('右クリックしたら cellRightClick イベントが発火されること', () => {
     const wrapper = shallowMount(Cell, {
       propsData: {
-        obj: obj,
-        onClick: () => {},
-        onRightClick: mockOnRightClick
+        count: 8,
+        opened: true,
       }
     });
 
-    // click イベントを発火
+    // 右クリックイベントを発火
     wrapper.trigger('contextmenu');
 
-    expect(mockOnRightClick.mock.calls.length).toBe(1);
+    // cellRightClick イベントとして通知されていること
+    expect(wrapper.emitted().cellRightClick).not.toBeUndefined();
   })
 })

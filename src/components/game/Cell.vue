@@ -1,18 +1,16 @@
 <template>
   <div
     class="cell"
-    :class="
-      obj.isFlagged ? ['flagged'] : obj.isOpen ? ['open', colorClassName] : []
-    "
-    @click="onClick"
-    @click.right.prevent="onRightClick"
+    :class="flagged ? ['flagged'] : opened ? ['open', `color-${count}`] : []"
+    @click="$emit('cellClick')"
+    @click.right.prevent="$emit('cellRightClick')"
     @touchstart="touchStart"
     @touchend="touchEnd"
     @contextmenu.prevent
   >
-    {{ valueString }}
-    <mine v-if="obj.isMine && obj.isOpen"></mine>
-    <flag v-if="obj.isFlagged && !obj.isOpen"></flag>
+    {{ opened ? count : "" }}
+    <mine v-if="hasMine && opened"></mine>
+    <flag v-if="flagged && !opened"></flag>
   </div>
 </template>
 
@@ -22,25 +20,10 @@ import Flag from "./icon/Flag.vue";
 export default {
   components: { Mine, Flag },
   props: {
-    obj: Object,
-    onClick: Function,
-    onRightClick: Function,
-  },
-  computed: {
-    colorClassName() {
-      return this.obj.isMine ? "color-mine" : `color-${this.obj.count}`;
-    },
-    valueString() {
-      if (!this.obj.isOpen || this.obj.count === 0) {
-        return "";
-      }
-
-      if (this.obj.isMine) {
-        return "＊"; // TODO これ見づらい
-      }
-
-      return this.obj.count.toString();
-    },
+    count: Number,
+    hasMine: Boolean,
+    flagged: Boolean,
+    opened: Boolean,
   },
   data: function () {
     return {
@@ -49,7 +32,10 @@ export default {
   },
   methods: {
     touchStart: function () {
-      this.longPressTimer = window.setTimeout(this.onRightClick, 500);
+      this.longPressTimer = window.setTimeout(
+        () => this.$emit("cellRightClick"),
+        500
+      );
     },
     touchEnd: function () {
       clearTimeout(this.longPressTimer);
@@ -79,7 +65,7 @@ export default {
 /**
  * 数字のカラー
  */
-.cell.color-0 {
+.cell.open {
   background-color: #e3e3e3;
 }
 .cell.color-1 {
@@ -113,9 +99,5 @@ export default {
 .cell.color-8 {
   background-color: #b4b4b4;
   color: black;
-}
-/** 地雷 */
-.cell.color-mine {
-  background-color: #e3e3e3;
 }
 </style>

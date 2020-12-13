@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import NumberInput from "../components/NumberInput.vue";
+import NumberInput from "../components/form/NumberInput.vue";
 export default {
   components: { NumberInput },
   props: {

@@ -8,8 +8,8 @@
 </template>
 
 <script>
-import StatusBar from "@/components/game/StatusBar";
-import Field from "@/components/game/Field";
+import StatusBar from "@/components/layout/StatusBar";
+import Field from "@/components/layout/Field";
 
 export default {
   props: {

@@ -58,6 +58,12 @@ export default {
     stopCountUp: function () {
       clearTimeout(this.clickTimer);
       clearInterval(this.timer);
+
+      if (this.clickTimer || this.timer) {
+        this.$emit("complete");
+        delete this.clickTimer;
+        delete this.timer;
+      }
     },
     startCountDown: function () {
       this.stopCountDown();
@@ -75,6 +81,12 @@ export default {
     stopCountDown: function () {
       clearTimeout(this.clickTimer);
       clearInterval(this.timer);
+
+      if (this.clickTimer || this.timer) {
+        this.$emit("complete");
+        delete this.clickTimer;
+        delete this.timer;
+      }
     },
   },
 };
@@ -88,6 +100,8 @@ input::-webkit-inner-spin-button {
 }
 
 input[type="number"] {
+  -webkit-appearance: textfield;
+  border-radius: 0;
   -moz-appearance: textfield;
   -moz-user-select: text;
   -webkit-user-select: text;

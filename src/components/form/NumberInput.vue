@@ -88,6 +88,8 @@ input::-webkit-inner-spin-button {
 }
 
 input[type="number"] {
+  -webkit-appearance: textfield;
+  border-radius: 0;
   -moz-appearance: textfield;
   -moz-user-select: text;
   -webkit-user-select: text;

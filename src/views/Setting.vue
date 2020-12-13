@@ -114,17 +114,17 @@ section > h1 {
 .btn {
   cursor: pointer;
   text-decoration: none;
-  border: 0.3rem solid #000;
+  border: 0.3rem solid #35495e;
   width: 7rem;
   height: 3rem;
   font-size: 1.2rem;
-  background-color: #000;
+  background-color: #35495e;
   color: #fff;
 }
 
 .btn:hover {
   background-color: #fff;
-  color: #000;
+  color: #35495e;
 }
 
 .btn-text {
@@ -132,7 +132,7 @@ section > h1 {
   padding: none;
   margin: 0;
   background-color: transparent;
-  color: #000;
+  color: #35495e;
 }
 
 .btn-row {

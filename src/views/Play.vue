@@ -24,8 +24,7 @@ export default {
 
 <style scoped>
 .board {
-  border: 0.3em solid #000;
-  padding: 0.2em;
+  padding: 0.5em;
   display: inline-grid;
 }
 </style>

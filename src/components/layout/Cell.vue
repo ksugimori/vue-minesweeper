@@ -63,7 +63,7 @@ export default {
   line-height: 2.1rem;
   font-size: 1.5rem;
   margin: 0.15rem;
-  background-color: #000;
+  background-color: #35495e;
   font-family: "Roboto Mono", monospace;
   font-weight: bold;
   text-align: center;
@@ -85,8 +85,8 @@ export default {
   color: #0200fb;
 }
 .cell.color-2 {
-  background-color: #a8d3a8;
-  color: #017e00;
+  background-color: #B6E4CE;
+  color: #1f8255;
 }
 .cell.color-3 {
   background-color: #ffadad;
@@ -106,7 +106,7 @@ export default {
 }
 .cell.color-7 {
   background-color: #cbcbcb;
-  color: #000;
+  color: #42b983;
 }
 .cell.color-8 {
   background-color: #b4b4b4;

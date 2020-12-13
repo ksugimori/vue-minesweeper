@@ -4,7 +4,6 @@
       <div class="contents">
         <h1>vue-minesweeper</h1>
         <nav>
-          <router-link to="/">Top</router-link>
           <router-link to="/play">Play</router-link>
           <router-link to="/setting">Setting</router-link>
         </nav>
@@ -47,7 +46,7 @@ export default {
 }
 
 .contents {
-  width: 23rem;
+  width: 73rem;
   margin: 0 auto;
 }
 
@@ -57,7 +56,7 @@ body {
 
 header {
   margin-bottom: 1rem;
-  background-color: #000;
+  background-color: #42b983;
   color: #fff;
 }
 
@@ -69,6 +68,7 @@ header h1 {
 
 nav {
   display: flex;
+  justify-content: right;
 }
 
 nav a {
@@ -82,6 +82,6 @@ nav a {
 
 nav .router-link-exact-active {
   background-color: #fff;
-  color: #000;
+  color: #42b983;
 }
 </style>

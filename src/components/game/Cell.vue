@@ -10,25 +10,17 @@
     @touchend="touchEnd"
     @contextmenu.prevent
   >
-    <span>
-      {{ valueString }}
-    </span>
-    <div class="bomb">
-      <div class="circle"></div>
-      <div class="bar-0"></div>
-      <div class="bar-45"></div>
-      <div class="bar-90"></div>
-      <div class="bar-135"></div>
-    </div>
-    <div class="flag">
-      <div class="pole"></div>
-      <div class="field"></div>
-    </div>
+    {{ valueString }}
+    <mine v-if="obj.isMine && obj.isOpen"></mine>
+    <flag v-if="obj.isFlagged && !obj.isOpen"></flag>
   </div>
 </template>
 
 <script>
+import Mine from "./icon/Mine.vue";
+import Flag from "./icon/Flag.vue";
 export default {
+  components: { Mine, Flag },
   props: {
     obj: Object,
     onClick: Function,
@@ -36,7 +28,7 @@ export default {
   },
   computed: {
     colorClassName() {
-      return this.obj.isMine ? "color-bomb" : `color-${this.obj.count}`;
+      return this.obj.isMine ? "color-mine" : `color-${this.obj.count}`;
     },
     valueString() {
       if (!this.obj.isOpen || this.obj.count === 0) {
@@ -91,100 +83,39 @@ export default {
   background-color: #e3e3e3;
 }
 .cell.color-1 {
-  background-color: #0200fb;
+  background-color: #babafe;
+  color: #0200fb;
 }
 .cell.color-2 {
-  background-color: #017e00;
+  background-color: #a8d3a8;
+  color: #017e00;
 }
 .cell.color-3 {
-  background-color: #fe0000;
+  background-color: #ffadad;
+  color: #fe0000;
 }
 .cell.color-4 {
-  background-color: #010180;
+  background-color: #9292d0;
+  color: #010180;
 }
 .cell.color-5 {
-  background-color: #7f0203;
+  background-color: #c78f90;
+  color: #7f0203;
 }
 .cell.color-6 {
-  background-color: #027f80;
+  background-color: #82c0c1;
+  color: #027f80;
 }
 .cell.color-7 {
-  background-color: #000;
+  background-color: #cbcbcb;
+  color: #000;
 }
 .cell.color-8 {
-  background-color: #808080;
+  background-color: #b4b4b4;
+  color: black;
 }
 /** 地雷 */
-.cell.color-bomb {
+.cell.color-mine {
   background-color: #e3e3e3;
-}
-.bomb {
-  visibility: hidden;
-}
-.cell.color-bomb .bomb {
-  visibility: initial;
-}
-
-.bomb > .circle,
-.bomb > .bar-0,
-.bomb > .bar-45,
-.bomb > .bar-90,
-.bomb > .bar-135 {
-  background-color: #000;
-  position: absolute;
-}
-.bomb > .circle {
-  width: 1.2rem;
-  height: 1.2rem;
-  top: 0.45rem;
-  left: 0.45rem;
-  border-radius: 0.6rem;
-}
-.bomb > .bar-0,
-.bomb > .bar-45,
-.bomb > .bar-90,
-.bomb > .bar-135 {
-  width: 1.7rem;
-  height: 0.3rem;
-  top: 0.9rem;
-  left: 0.2rem;
-  border-radius: 0.15rem;
-}
-.bomb > .bar-45 {
-  transform: rotate(45deg);
-}
-.bomb > .bar-90 {
-  transform: rotate(90deg);
-}
-.bomb > .bar-135 {
-  transform: rotate(135deg);
-}
-
-/** フラグ */
-.flag {
-  position: relative;
-  visibility: hidden;
-}
-.flagged .flag {
-  visibility: initial;
-}
-
-.flag > .pole {
-  position: absolute;
-  background-color: #fff;
-  width: 0.3rem;
-  height: 0.7rem;
-  top: 1rem;
-  left: 0.6rem;
-}
-.flag > .field {
-  position: absolute;
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 0.6rem 0 0.6rem 1rem;
-  border-color: transparent transparent transparent #fff;
-  top: 0.3rem;
-  left: 0.6rem;
 }
 </style>

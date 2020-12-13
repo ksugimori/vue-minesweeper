@@ -1,6 +1,12 @@
 import Game from '@/lib/Game'
 import Cell from '@/lib/Cell'
 import State from '@/lib/state/State'
+import StopWatch from '@/lib/StopWatch';
+jest.mock('@/lib/StopWatch');
+
+beforeEach(() => {
+  StopWatch.mockClear();
+})
 
 describe('Game', () => {
   describe('#initialize', () => {
@@ -88,7 +94,7 @@ describe('Game', () => {
 
       game.initialize(2, 2).open(0, 0);
 
-      // initialize メソッドでランダムに地雷がセットされるので、強制的に上書きする
+      // open メソッドでランダムに地雷がセットされるので、強制的に上書きする
       game.field.values = [
         new Cell({ count: 0, isOpen: false }), new Cell({ count: 1, isOpen: false }),
         new Cell({ count: 2, isOpen: false }), new Cell({ count: 3, isOpen: false }),
@@ -109,7 +115,7 @@ describe('Game', () => {
 
       game.initialize(3, 3).open(0, 0);
 
-      // initialize メソッドでランダムに地雷がセットされるので、強制的に上書きする
+      // open メソッドでランダムに地雷がセットされるので、強制的に上書きする
       // 中央だけ 0 
       game.field.values = [
         new Cell({ count: 1, isOpen: false }), new Cell({ count: 1, isOpen: false }), new Cell({ count: 1, isOpen: false }),
@@ -133,7 +139,7 @@ describe('Game', () => {
 
       game.initialize(3, 3).open(0, 0);
 
-      // initialize メソッドでランダムに地雷がセットされるので、強制的に上書きする
+      // open メソッドでランダムに地雷がセットされるので、強制的に上書きする
       // 中央だけ 0, 左上だけ isFlagged=true
       game.field.values = [
         new Cell({ count: 1, isOpen: false, isFlagged: true }), new Cell({ count: 1, isOpen: false }), new Cell({ count: 1, isOpen: false }),
@@ -157,7 +163,7 @@ describe('Game', () => {
 
       game.initialize(2, 2).open(0, 0);
 
-      // initialize メソッドでランダムに地雷がセットされるので、強制的に上書きする
+      // open メソッドでランダムに地雷がセットされるので、強制的に上書きする
       game.field.values = [
         new Cell({ count: 1, isOpen: false }), new Cell({ count: 1, isOpen: false }),
         new Cell({ count: 1, isOpen: false }), new Cell({ count: 0, isOpen: false, isMine: true }),
@@ -182,7 +188,7 @@ describe('Game', () => {
 
       game.initialize(3, 3, 3).open(0, 0);
 
-      // initialize メソッドでランダムに地雷がセットされるので、強制的に上書きする
+      // open メソッドでランダムに地雷がセットされるので、強制的に上書きする
       // ２列目に地雷が埋まっている
       game.field.values = [
         new Cell({ count: 2, isOpen: false }), new Cell({ count: 0, isOpen: false, isMine: true }), new Cell({ count: 2, isOpen: false }),
@@ -221,7 +227,7 @@ describe('Game', () => {
 
       game.initialize(2, 2, 1).open(0, 0);
 
-      // initialize メソッドでランダムに地雷がセットされるので、強制的に上書きする
+      // open メソッドでランダムに地雷がセットされるので、強制的に上書きする
       game.field.values = [
         new Cell({ count: 0, isOpen: false }), new Cell({ count: 0, isOpen: false }),
         new Cell({ count: 0, isOpen: false }), new Cell({ count: 0, isOpen: false }),
@@ -246,7 +252,7 @@ describe('Game', () => {
 
       game.initialize(2, 2, 1).open(0, 0);
 
-      // initialize メソッドでランダムに地雷がセットされるので、強制的に上書きする
+      // open メソッドでランダムに地雷がセットされるので、強制的に上書きする
       game.field.values = [
         new Cell({ count: 0, isOpen: false, isMine: true }), new Cell({ count: 1, isOpen: false }),
         new Cell({ count: 1, isOpen: false }), new Cell({ count: 1, isOpen: false }),
@@ -266,6 +272,60 @@ describe('Game', () => {
       expect(game.flagCount).toBe(0);
     });
   });
-})
 
-// TODO Field のテストクラス作成
+  describe('#startGame', () => {
+    it("PLAYステートに移行すること", () => {
+      const game = new Game();
+
+      game.initialize().startGame();
+
+      expect(game.state).toBe(State.PLAY);
+    });
+
+    it("ストップウォッチが開始されること", () => {
+      const game = new Game();
+
+      game.initialize().startGame();
+
+      expect(StopWatch.mock.instances[0].start).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('#endGame', () => {
+    it("渡した state に変更されること", () => {
+      const game = new Game();
+
+      // WIN
+      game.initialize().endGame(State.WIN);
+      expect(game.state).toBe(State.WIN);
+
+      // LOSE
+      game.initialize().endGame(State.LOSE);
+      expect(game.state).toBe(State.LOSE);
+    });
+
+    it("ストップウォッチが停止されること", () => {
+      const game = new Game();
+
+      game.initialize().endGame(State.WIN);
+
+      expect(StopWatch.mock.instances[0].stop).toHaveBeenCalledTimes(1);
+    });
+
+    it("すべてのセルが開かれ、フラグが外されること", () => {
+      const game = new Game();
+
+      game.initialize(2, 2, 1);
+
+      game.field.values = [
+        new Cell({ count: 0, isOpen: false, isMine: true }), new Cell({ count: 1, isOpen: true }),
+        new Cell({ count: 1, isOpen: false, isFlagged: true }), new Cell({ count: 1, isOpen: false }),
+      ];
+
+      game.endGame(State.WIN);
+
+      expect(game.flagCount).toBe(0);
+      expect(game.closedCount).toBe(0);
+    });
+  });
+})

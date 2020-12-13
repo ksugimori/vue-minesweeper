@@ -83,28 +83,36 @@ export default {
   background-color: #e3e3e3;
 }
 .cell.color-1 {
-  background-color: #0200fb;
+  background-color: #babafe;
+  color: #0200fb;
 }
 .cell.color-2 {
-  background-color: #017e00;
+  background-color: #a8d3a8;
+  color: #017e00;
 }
 .cell.color-3 {
-  background-color: #fe0000;
+  background-color: #ffadad;
+  color: #fe0000;
 }
 .cell.color-4 {
-  background-color: #010180;
+  background-color: #9292d0;
+  color: #010180;
 }
 .cell.color-5 {
-  background-color: #7f0203;
+  background-color: #c78f90;
+  color: #7f0203;
 }
 .cell.color-6 {
-  background-color: #027f80;
+  background-color: #82c0c1;
+  color: #027f80;
 }
 .cell.color-7 {
-  background-color: #000;
+  background-color: #cbcbcb;
+  color: #000;
 }
 .cell.color-8 {
-  background-color: #808080;
+  background-color: #b4b4b4;
+  color: black;
 }
 /** 地雷 */
 .cell.color-mine {

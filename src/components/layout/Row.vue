@@ -3,7 +3,7 @@
     <cell
       v-for="(cell, index) in cells"
       :key="index"
-      :count="cell.text"
+      :text="cell.text"
       :hasMine="cell.isMine"
       :flagged="cell.isFlagged"
       :opened="cell.isOpen"

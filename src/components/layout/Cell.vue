@@ -1,14 +1,14 @@
 <template>
   <div
     class="cell"
-    :class="flagged ? ['flagged'] : opened ? ['open', `color-${count}`] : []"
+    :class="classArray"
     @click="$emit('cellClick')"
     @click.right.prevent="$emit('cellRightClick')"
     @touchstart="touchStart"
     @touchend="touchEnd"
     @contextmenu.prevent
   >
-    {{ opened ? count : "" }}
+    {{ opened ? text : "" }}
     <mine v-if="hasMine && opened"></mine>
     <flag v-if="flagged && !opened"></flag>
   </div>
@@ -20,10 +20,22 @@ import Flag from "../icon/Flag.vue";
 export default {
   components: { Mine, Flag },
   props: {
-    count: Number,
+    text: String,
     hasMine: Boolean,
     flagged: Boolean,
     opened: Boolean,
+  },
+  computed: {
+    classArray: function () {
+      if (this.opened) {
+        return ["open", `color-${this.text}`];
+      }
+      if (this.flagged) {
+        return ["flagged"];
+      }
+
+      return [];
+    },
   },
   data: function () {
     return {

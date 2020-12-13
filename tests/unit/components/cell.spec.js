@@ -5,7 +5,7 @@ describe('Cell.vue', () => {
   it('opened=false の場合は count が描画されないこと', () => {
     const wrapper = shallowMount(Cell, {
       propsData: {
-        count: 8,
+        text: "8",
         opened: false,
       }
     })
@@ -16,7 +16,7 @@ describe('Cell.vue', () => {
   it('opened=true の場合は count が描画されること', () => {
     const wrapper = shallowMount(Cell, {
       propsData: {
-        count: 8,
+        text: "8",
         opened: true,
       }
     })
@@ -27,7 +27,7 @@ describe('Cell.vue', () => {
   it('クリックしたら cellClick イベントが発火されること', () => {
     const wrapper = shallowMount(Cell, {
       propsData: {
-        count: 8,
+        text: "8",
         opened: true,
       }
     });
@@ -42,7 +42,7 @@ describe('Cell.vue', () => {
   it('右クリックしたら cellRightClick イベントが発火されること', () => {
     const wrapper = shallowMount(Cell, {
       propsData: {
-        count: 8,
+        text: "8",
         opened: true,
       }
     });

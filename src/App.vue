@@ -4,6 +4,7 @@
       <div class="contents">
         <h1>vue-minesweeper</h1>
         <nav>
+          <router-link to="/">Top</router-link>
           <router-link to="/play">Play</router-link>
           <router-link to="/setting">Setting</router-link>
         </nav>
@@ -79,7 +80,7 @@ nav a {
   display: inline-block;
 }
 
-nav .router-link-active {
+nav .router-link-exact-active {
   background-color: #fff;
   color: #000;
 }

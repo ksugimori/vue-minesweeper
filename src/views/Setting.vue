@@ -16,7 +16,8 @@
         <div class="form-item">
           <label>WIDTH</label>
           <number-input
-            v-model="game.setting.width"
+            v-model="setting.width"
+            @complete="confirm"
             :min="0"
             :max="100"
           ></number-input>
@@ -25,7 +26,8 @@
         <div class="form-item">
           <label>HEIGHT</label>
           <number-input
-            v-model="game.setting.height"
+            v-model="setting.height"
+            @complete="confirm"
             :min="0"
             :max="100"
           ></number-input>
@@ -34,7 +36,8 @@
         <div class="form-item">
           <label>MINE</label>
           <number-input
-            v-model="game.setting.numMines"
+            v-model="setting.numMines"
+            @complete="confirm"
             :min="0"
             :max="100"
           ></number-input>
@@ -51,13 +54,23 @@ export default {
   props: {
     game: Object,
   },
+  data: function () {
+    return {
+      setting: { ...this.game.setting },
+    };
+  },
   methods: {
     update: function (w, h, m) {
-      this.game.setting = {
+      this.setting = {
         width: w,
         height: h,
         numMines: m,
       };
+      this.confirm();
+    },
+    confirm: function () {
+      this.game.setting = { ...this.setting };
+      this.game.initialize();
     },
   },
 };

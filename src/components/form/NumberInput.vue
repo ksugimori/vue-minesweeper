@@ -58,6 +58,12 @@ export default {
     stopCountUp: function () {
       clearTimeout(this.clickTimer);
       clearInterval(this.timer);
+
+      if (this.clickTimer || this.timer) {
+        this.$emit("complete");
+        delete this.clickTimer;
+        delete this.timer;
+      }
     },
     startCountDown: function () {
       this.stopCountDown();
@@ -75,6 +81,12 @@ export default {
     stopCountDown: function () {
       clearTimeout(this.clickTimer);
       clearInterval(this.timer);
+
+      if (this.clickTimer || this.timer) {
+        this.$emit("complete");
+        delete this.clickTimer;
+        delete this.timer;
+      }
     },
   },
 };

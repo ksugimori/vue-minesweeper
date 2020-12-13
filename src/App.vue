@@ -1,9 +1,14 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/play">Play</router-link> |
-      <router-link to="/setting">Setting</router-link>
-    </div>
+    <header>
+      <div class="contents">
+        <h1>vue-minesweeper</h1>
+        <nav>
+          <router-link to="/play">Play</router-link>
+          <router-link to="/setting">Setting</router-link>
+        </nav>
+      </div>
+    </header>
     <router-view :game="game" />
   </div>
 </template>
@@ -40,7 +45,42 @@ export default {
   user-select: none;
 }
 
-#nav {
-  margin: 1rem 0;
+.contents {
+  width: 23rem;
+  margin: 0 auto;
+}
+
+body {
+  margin: 0;
+}
+
+header {
+  margin-bottom: 1rem;
+  background-color: #000;
+  color: #fff;
+}
+
+header h1 {
+  padding: 0.5em 0;
+  margin: 0;
+  text-align: left;
+}
+
+nav {
+  display: flex;
+}
+
+nav a {
+  text-decoration: none;
+  color: #fff;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  width: 6.3rem;
+  display: inline-block;
+}
+
+nav .router-link-active {
+  background-color: #fff;
+  color: #000;
 }
 </style>

@@ -15,8 +15,8 @@
 </template>
 
 <script>
-import Mine from "./icon/Mine.vue";
-import Flag from "./icon/Flag.vue";
+import Mine from "../icon/Mine.vue";
+import Flag from "../icon/Flag.vue";
 export default {
   components: { Mine, Flag },
   props: {

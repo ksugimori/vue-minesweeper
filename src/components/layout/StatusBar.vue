@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import Counter from './Counter.vue';
-import ResetButton from "./ResetButton";
+import Counter from '../form/Counter.vue';
+import ResetButton from "../form/ResetButton";
 
 export default {
   props: {

@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils'
-import Cell from '@/components/game/Cell.vue'
+import Cell from '@/components/layout/Cell.vue'
 
 describe('Cell.vue', () => {
   it('opened=false の場合は count が描画されないこと', () => {

@@ -75,10 +75,12 @@ class Game {
 
   /**
    * ゲームを終了する。
-   * 
    */
   endGame(state) {
-    this.field.values.forEach(c => c.open());
+    this.field.values.forEach(cell => {
+      cell.open();
+      cell.unflag();
+    });
     this.stopWatch.stop();
     this.state = state;
   }

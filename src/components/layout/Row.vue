@@ -3,9 +3,12 @@
     <cell
       v-for="(cell, index) in cells"
       :key="index"
-      :obj="cell"
-      :onClick="() => onClickCell(index)"
-      :onRightClick="() => onRightClickCell(index)"
+      :text="cell.text"
+      :hasMine="cell.isMine"
+      :flagged="cell.isFlagged"
+      :opened="cell.isOpen"
+      @cellClick="$emit('cellClick', index)"
+      @cellRightClick="$emit('cellRightClick', index)"
     ></cell>
   </div>
 </template>
@@ -16,8 +19,6 @@ import Cell from "./Cell";
 export default {
   props: {
     cells: Array,
-    onClickCell: Function,
-    onRightClickCell: Function,
   },
   components: {
     Cell,

@@ -64,20 +64,20 @@ export default {
 }
 .btn.color-win {
   color: #fff;
-  background-color: #0200fb;
-  border-color: #0200fb;
+  background-color: #2E81E6;
+  border-color: #2E81E6;
 }
 .btn.color-win:hover {
-  color: #0200fb;
+  color: #2E81E6;
   background-color: #fff;
 }
 .btn.color-lose {
   color: #fff;
-  background-color: #fe0000;
-  border-color: #fe0000;
+  background-color: #E60067;
+  border-color: #E60067;
 }
 .btn.color-lose:hover {
-  color: #fe0000;
+  color: #E60067;
   background-color: #fff;
 }
 </style>

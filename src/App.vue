@@ -9,7 +9,9 @@
         </nav>
       </div>
     </header>
-    <router-view :game="game" />
+    <main>
+      <router-view :game="game" />
+    </main>
   </div>
 </template>
 
@@ -45,9 +47,17 @@ export default {
   user-select: none;
 }
 
-.contents {
-  width: 73rem;
-  margin: 0 auto;
+@media screen and (min-width: 640px) {
+  .contents {
+    max-width: 640px;
+    padding: 0 0.5rem;
+    margin: 0 auto;
+  }
+}
+
+main {
+  width: 100%;
+  overflow-x: auto;
 }
 
 body {
@@ -61,14 +71,14 @@ header {
 }
 
 header h1 {
-  padding: 0.5em 0;
+  padding: 0.5em 0.25em;
   margin: 0;
   text-align: left;
 }
 
 nav {
   display: flex;
-  justify-content: right;
+  justify-content: flex-end;
 }
 
 nav a {

@@ -1,6 +1,6 @@
 import Game from '@/lib/Game'
 import Cell from '@/lib/Cell'
-import State from '@/lib/state/State'
+import Status from '@/lib/status/Status'
 import StopWatch from '@/lib/StopWatch';
 jest.mock('@/lib/StopWatch');
 
@@ -24,7 +24,7 @@ describe('Game', () => {
       game.open(0, 0); // ここで PLAY になっている
       game.initialize(2, 3, 2); // 再度 initialize を呼ぶと INIT になっていること
 
-      expect(game.state).toBe(State.INIT);
+      expect(game.status).toBe(Status.INIT);
     });
 
     it("すべてのセルが isOpen=false となっていること", () => {
@@ -84,7 +84,7 @@ describe('Game', () => {
 
       game.initialize(9, 9, 10).open(0, 0);
 
-      expect(game.state).toBe(State.PLAY);
+      expect(game.status).toBe(Status.PLAY);
     })
   })
 
@@ -180,7 +180,7 @@ describe('Game', () => {
       ]);
 
       // ステータスは LOSE になること
-      expect(game.state).toBe(State.LOSE);
+      expect(game.status).toBe(Status.LOSE);
     });
 
     it("開いたセルの数だけ closedCount が減ること", () => {
@@ -216,7 +216,7 @@ describe('Game', () => {
 
       // ゲーム終了したので自動的にすべて開く
       expect(game.closedCount).toBe(0);
-      expect(game.state).toBe(State.WIN);
+      expect(game.status).toBe(Status.WIN);
     });
 
   })
@@ -264,7 +264,7 @@ describe('Game', () => {
       game.open(1, 1);
 
       // この時点で WIN
-      expect(game.state).toBe(State.WIN);
+      expect(game.status).toBe(Status.WIN);
       expect(game.flagCount).toBe(0);
 
       // フラグを立てられないこと
@@ -279,7 +279,7 @@ describe('Game', () => {
 
       game.initialize().startGame();
 
-      expect(game.state).toBe(State.PLAY);
+      expect(game.status).toBe(Status.PLAY);
     });
 
     it("ストップウォッチが開始されること", () => {
@@ -292,22 +292,22 @@ describe('Game', () => {
   });
 
   describe('#endGame', () => {
-    it("渡した state に変更されること", () => {
+    it("渡した status に変更されること", () => {
       const game = new Game();
 
       // WIN
-      game.initialize().endGame(State.WIN);
-      expect(game.state).toBe(State.WIN);
+      game.initialize().endGame(Status.WIN);
+      expect(game.status).toBe(Status.WIN);
 
       // LOSE
-      game.initialize().endGame(State.LOSE);
-      expect(game.state).toBe(State.LOSE);
+      game.initialize().endGame(Status.LOSE);
+      expect(game.status).toBe(Status.LOSE);
     });
 
     it("ストップウォッチが停止されること", () => {
       const game = new Game();
 
-      game.initialize().endGame(State.WIN);
+      game.initialize().endGame(Status.WIN);
 
       expect(StopWatch.mock.instances[0].stop).toHaveBeenCalledTimes(1);
     });
@@ -322,7 +322,7 @@ describe('Game', () => {
         new Cell({ count: 1, isOpen: false, isFlagged: true }), new Cell({ count: 1, isOpen: false }),
       ];
 
-      game.endGame(State.WIN);
+      game.endGame(Status.WIN);
 
       expect(game.flagCount).toBe(0);
       expect(game.closedCount).toBe(0);

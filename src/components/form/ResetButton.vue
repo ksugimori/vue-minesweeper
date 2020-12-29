@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import State from "@/lib/state/State";
+import Status from "@/lib/status/Status";
 
 export default {
   props: {
@@ -16,10 +16,10 @@ export default {
   },
   computed: {
     text: function () {
-      switch (this.game.state) {
-        case State.WIN:
+      switch (this.game.status) {
+        case Status.WIN:
           return "Win!";
-        case State.LOSE:
+        case Status.LOSE:
           return "Lose";
         default:
           return "Reset";
@@ -28,10 +28,10 @@ export default {
   },
   methods: {
     color: function () {
-      switch (this.game.state) {
-        case State.WIN:
+      switch (this.game.status) {
+        case Status.WIN:
           return "color-win";
-        case State.LOSE:
+        case Status.LOSE:
           return "color-lose";
         default:
           return "";

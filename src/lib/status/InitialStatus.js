@@ -1,9 +1,9 @@
-import AbstractState from './AbstractState';
+import AbstractStatus from './AbstractStatus';
 
 /**
  * 初期状態
  */
-class InitialState extends AbstractState {
+class InitialStatus extends AbstractStatus {
   constructor() {
     super("INIT")
   }
@@ -24,9 +24,9 @@ class InitialState extends AbstractState {
     game.doOpen(point);
 
     // 終了判定
-    let endState = game.judge();
-    if (endState) {
-      game.endGame(endState);
+    let endStatus = game.judge();
+    if (endStatus) {
+      game.endGame(endStatus);
     }
   }
 
@@ -38,4 +38,4 @@ class InitialState extends AbstractState {
   }
 }
 
-export default InitialState;
+export default InitialStatus;

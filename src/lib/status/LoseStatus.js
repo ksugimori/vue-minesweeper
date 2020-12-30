@@ -1,11 +1,11 @@
-import AbstractState from './AbstractState';
+import AbstractStatus from './AbstractStatus';
 
 /**
- * ゲーム終了状態（勝利）
+ * ゲーム終了状態（負け）
  */
-class WinState extends AbstractState {
+class LoseStatus extends AbstractStatus {
   constructor() {
-    super("WIN")
+    super("LOSE")
   }
 
   /**
@@ -23,4 +23,4 @@ class WinState extends AbstractState {
   }
 }
 
-export default WinState;
+export default LoseStatus;

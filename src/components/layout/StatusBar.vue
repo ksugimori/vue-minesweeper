@@ -1,8 +1,8 @@
 <template>
   <div class="status-bar">
-    <counter title="mines" :value="game.setting.numMines - game.flagCount"></counter>
-    <reset-button :game="game"></reset-button>
-    <counter title="time" :value="game.playTime"></counter>
+    <counter title="mines" :value="mines"></counter>
+    <reset-button></reset-button>
+    <counter title="time" :value="playTime"></counter>
   </div>
 </template>
 
@@ -11,13 +11,18 @@ import Counter from '../form/Counter.vue';
 import ResetButton from "../form/ResetButton";
 
 export default {
-  props: {
-    game: Object,
-  },
   components: {
     ResetButton,
     Counter,
   },
+  computed: {
+    mines: function() {
+      return this.$store.state.game.setting.numMines - this.$store.state.game.flagCount;
+    },
+    playTime: function() {
+      return this.$store.state.game.playTime;
+    }
+  }
 };
 </script>
 

@@ -1,5 +1,5 @@
 import Point from './Point';
-import State from './state/State';
+import Status from './status/Status';
 import Field from './Field';
 import StopWatch from './StopWatch';
 
@@ -19,7 +19,7 @@ class Game {
     }
 
     this.stopWatch = new StopWatch();
-    this.state = State.INIT;
+    this.status = Status.INIT;
   }
 
   /**
@@ -59,7 +59,7 @@ class Game {
 
     this.field = new Field(this.setting.width, this.setting.height);
 
-    this.state = State.INIT;
+    this.status = Status.INIT;
     this.stopWatch.reset();
 
     return this;
@@ -70,19 +70,19 @@ class Game {
    */
   startGame() {
     this.stopWatch.start();
-    this.state = State.PLAY;
+    this.status = Status.PLAY;
   }
 
   /**
    * ゲームを終了する。
    */
-  endGame(state) {
+  endGame(status) {
     this.field.values.forEach(cell => {
       cell.open();
       cell.unflag();
     });
     this.stopWatch.stop();
-    this.state = state;
+    this.status = status;
   }
 
   /**
@@ -128,7 +128,7 @@ class Game {
    * @param {Number} y y座標
    */
   open(x, y) {
-    this.state.open(this, Point.of(x, y));
+    this.status.open(this, Point.of(x, y));
   }
 
   /**
@@ -169,7 +169,7 @@ class Game {
    * @param {Number} y y座標
    */
   flag(x, y) {
-    this.state.flag(this, Point.of(x, y));
+    this.status.flag(this, Point.of(x, y));
   }
 
   /**
@@ -192,11 +192,11 @@ class Game {
    */
   judge() {
     if (this.field.values.filter(cell => cell.isMine).some(cell => cell.isOpen)) {
-      return State.LOSE;
+      return Status.LOSE;
     }
 
     if (this.closedCount === this.setting.numMines) {
-      return State.WIN;
+      return Status.WIN;
     }
   }
 

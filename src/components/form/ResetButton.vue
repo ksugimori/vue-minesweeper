@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="padding"></div>
-    <div @click="game.initialize()" :class="['btn', 'box', color()]">
+    <div @click="reset" :class="['btn', 'box', color()]">
       {{ text }}
     </div>
   </div>
@@ -11,12 +11,12 @@
 import Status from "@/lib/status/Status";
 
 export default {
-  props: {
-    game: Object,
-  },
   computed: {
+    status: function () {
+      return this.$store.state.game.status;
+    },
     text: function () {
-      switch (this.game.status) {
+      switch (this.status) {
         case Status.WIN:
           return "Win!";
         case Status.LOSE:
@@ -28,7 +28,7 @@ export default {
   },
   methods: {
     color: function () {
-      switch (this.game.status) {
+      switch (this.status) {
         case Status.WIN:
           return "color-win";
         case Status.LOSE:
@@ -36,6 +36,9 @@ export default {
         default:
           return "";
       }
+    },
+    reset: function () {
+      this.$store.commit("initialize");
     },
   },
 };
@@ -64,20 +67,20 @@ export default {
 }
 .btn.color-win {
   color: #fff;
-  background-color: #2E81E6;
-  border-color: #2E81E6;
+  background-color: #2e81e6;
+  border-color: #2e81e6;
 }
 .btn.color-win:hover {
-  color: #2E81E6;
+  color: #2e81e6;
   background-color: #fff;
 }
 .btn.color-lose {
   color: #fff;
-  background-color: #E60067;
-  border-color: #E60067;
+  background-color: #e60067;
+  border-color: #e60067;
 }
 .btn.color-lose:hover {
-  color: #E60067;
+  color: #e60067;
   background-color: #fff;
 }
 </style>

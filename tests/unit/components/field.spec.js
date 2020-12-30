@@ -1,7 +1,11 @@
-import { mount } from '@vue/test-utils'
+import { mount, createLocalVue } from '@vue/test-utils'
 import Field from '@/components/layout/Field.vue'
 import Row from '@/components/layout/Row.vue'
 import Cell from '@/components/layout/Cell.vue'
+import Vuex from 'vuex'
+
+const localVue = createLocalVue()
+localVue.use(Vuex)
 
 describe('Row.vue', () => {
   it('配列数だけ Row が作成されること', () => {
@@ -24,10 +28,14 @@ describe('Row.vue', () => {
       numMines: 1
     }
 
-    const wrapper = mount(Field, {
-      propsData: {
-        game: game,
+    let store = new Vuex.Store({
+      state: {
+        game
       }
+    })
+
+    const wrapper = mount(Field, {
+      store, localVue
     })
 
     expect(wrapper.findAllComponents(Row).length).toBe(2);
@@ -35,11 +43,7 @@ describe('Row.vue', () => {
   })
 
   it('Cell をクリックすると cellClick イベントが発火され、インデックスが引数として渡されること', () => {
-    // モックする関数
-    const mockOpen = jest.fn();
-
     const game = {
-      open: mockOpen,
       field: {
         rows: [
           [
@@ -57,11 +61,22 @@ describe('Row.vue', () => {
       numMines: 1,
     }
 
-    const wrapper = mount(Field, {
-      propsData: {
-        game: game,
+    // モックする関数
+    const mockOpen = jest.fn();
+
+    let store = new Vuex.Store({
+      state: {
+        game
+      },
+      mutations: {
+        open: mockOpen,
       }
     })
+
+    const wrapper = mount(Field, {
+      store, localVue
+    })
+
 
     // ２行目、３列目の Cell をクリック
     wrapper.findAllComponents(Row).at(1)
@@ -70,16 +85,12 @@ describe('Row.vue', () => {
 
     const args = mockOpen.mock.calls[0];
     // 引数に index が渡されていること
-    expect(args[0]).toBe(2);
-    expect(args[1]).toBe(1);
+    expect(args[1].x).toBe(2);
+    expect(args[1].y).toBe(1);
   })
 
   it('Cell を右クリックすると cellRightClick イベントが発火され、インデックスが引数として渡されること', () => {
-    // モックする関数
-    const mockFlag = jest.fn();
-
     const game = {
-      flag: mockFlag,
       field: {
         rows: [
           [
@@ -97,11 +108,22 @@ describe('Row.vue', () => {
       numMines: 1,
     }
 
-    const wrapper = mount(Field, {
-      propsData: {
-        game: game,
+    // モックする関数
+    const mockFlag = jest.fn();
+
+    let store = new Vuex.Store({
+      state: {
+        game
+      },
+      mutations: {
+        flag: mockFlag,
       }
     })
+
+    const wrapper = mount(Field, {
+      store, localVue
+    })
+
 
     // ２行目、３列目の Cell を右クリック
     wrapper.findAllComponents(Row).at(1)
@@ -110,7 +132,7 @@ describe('Row.vue', () => {
 
     const args = mockFlag.mock.calls[0];
     // 引数に index が渡されていること
-    expect(args[0]).toBe(2);
-    expect(args[1]).toBe(1);
+    expect(args[1].x).toBe(2);
+    expect(args[1].y).toBe(1);
   })
 })

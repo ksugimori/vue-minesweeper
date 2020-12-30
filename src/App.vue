@@ -10,24 +10,16 @@
       </div>
     </header>
     <main>
-      <router-view :game="game" />
+      <router-view />
     </main>
   </div>
 </template>
 
 <script>
 import "normalize.css";
-import Game from "@/lib/Game";
 
 export default {
   name: "app",
-  data() {
-    let game = new Game();
-    game.initialize();
-    return {
-      game: game,
-    };
-  },
 };
 </script>
 

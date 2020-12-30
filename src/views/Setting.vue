@@ -51,12 +51,9 @@
 import NumberInput from "../components/form/NumberInput.vue";
 export default {
   components: { NumberInput },
-  props: {
-    game: Object,
-  },
   data: function () {
     return {
-      setting: { ...this.game.setting },
+      setting: { ...this.$store.state.game.setting },
     };
   },
   methods: {
@@ -69,8 +66,8 @@ export default {
       this.confirm();
     },
     confirm: function () {
-      this.game.setting = { ...this.setting };
-      this.game.initialize();
+      this.$store.commit("updateSetting", { setting: this.setting });
+      this.$store.commit("initialize");
     },
   },
 };

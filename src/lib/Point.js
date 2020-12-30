@@ -65,7 +65,7 @@ class Point {
    * x に n 加えた座標を得る
    * @param {Number} n 移動量
    */
-  plusX(n) {
+  addX(n) {
     return Point.of(this._x + n, this._y);
   }
 
@@ -73,7 +73,7 @@ class Point {
    * y に n 加えた座標を得る
    * @param {Number} n 移動量
    */
-  plusY(n) {
+  addY(n) {
     return Point.of(this._x, this._y + n);
   }
 }

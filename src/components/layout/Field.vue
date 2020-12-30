@@ -1,11 +1,11 @@
 <template>
   <div class="field">
     <row
-      v-for="(row, index) in game.field.rows"
+      v-for="(row, index) in rows"
       :key="index"
       :cells="row"
-      @cellClick="x => game.open(x, index)"
-      @cellRightClick="x => game.flag(x, index)"
+      @cellClick="(x) => open(x, index)"
+      @cellRightClick="(x) => flag(x, index)"
     ></row>
   </div>
 </template>
@@ -14,11 +14,21 @@
 import Row from "./Row";
 
 export default {
-  props: {
-    game: Object,
-  },
   components: {
     Row,
+  },
+  computed: {
+    rows: function () {
+      return this.$store.state.game.field.rows;
+    },
+  },
+  methods: {
+    open: function (x, y) {
+      this.$store.commit("open", { x, y });
+    },
+    flag: function (x, y) {
+      this.$store.commit("flag", { x, y });
+    },
   },
 };
 </script>

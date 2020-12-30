@@ -1,7 +1,7 @@
 /**
  * ゲームの状態
  */
-class AbstractState {
+class AbstractStatus {
   constructor(name) {
     this.name = name;
   }
@@ -25,4 +25,4 @@ class AbstractState {
   }
 }
 
-export default AbstractState;
+export default AbstractStatus;

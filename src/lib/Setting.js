@@ -10,13 +10,13 @@ class Setting {
    * @param {Number} numMines 地雷数
    */
   constructor(width, height, numMines) {
-    this.width = width || 9;
-    this.height = height || 9;
-    this.numMines = numMines || 10;
+    this.width = width;
+    this.height = height;
+    this.numMines = numMines;
   }
 
   /**
-   * 等価であるか判定する。
+   * 同値であるか判定する。
    * @param {Setting} other 比較するオブジェクト
    */
   equals(other) {
@@ -25,6 +25,40 @@ class Setting {
     return this.height === other.height
       && this.width === other.width
       && this.numMines === other.numMines;
+  }
+
+  /**
+   * オブジェクトをコピーする。
+   */
+  clone() {
+    let result = new Setting();
+
+    result.width = this.width;
+    result.height = this.height;
+    result.numMines = this.numMines;
+
+    return result;
+  }
+
+  /**
+   * 設定値を EASY のものにする。
+   */
+  setEasy() {
+    Object.assign(this, Setting.EASY);
+  }
+
+  /**
+   * 設定値を NORMAL のものにする。
+   */
+  setNormal() {
+    Object.assign(this, Setting.NORMAL);
+  }
+
+  /**
+   * 設定値を HARD のものにする。
+   */
+  setHard() {
+    Object.assign(this, Setting.HARD);
   }
 
   /**

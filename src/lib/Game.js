@@ -2,6 +2,7 @@ import Point from './Point';
 import Status from './status/Status';
 import Field from './Field';
 import StopWatch from './StopWatch';
+import Setting from './Setting';
 
 /**
  * マインスイーパー全体を管理するクラス
@@ -12,13 +13,8 @@ class Game {
    */
   constructor() {
     this.field = new Field();
-    this.setting = {
-      height: 9,
-      width: 9,
-      numMines: 10
-    }
-
     this.stopWatch = new StopWatch();
+    this.setting = Setting.EASY;
     this.status = Status.INIT;
   }
 

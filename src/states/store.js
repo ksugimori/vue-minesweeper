@@ -18,7 +18,7 @@ const store = {
       state.game.flag(x, y);
     },
     updateSetting(state, { setting }) {
-      state.game.setting = { ...setting };
+      state.game.setting = setting;
     }
   }
 }

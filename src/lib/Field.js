@@ -45,16 +45,16 @@ class Field {
   arround(center) {
     return [
       // ひとつ上の行
-      center.plusY(-1).plusX(-1),
-      center.plusY(-1),
-      center.plusY(-1).plusX(1),
+      center.addY(-1).addX(-1),
+      center.addY(-1),
+      center.addY(-1).addX(1),
       // 同じ行
-      center.plusX(-1),
-      center.plusX(1),
+      center.addX(-1),
+      center.addX(1),
       // ひとつ下の行
-      center.plusY(1).plusX(-1),
-      center.plusY(1),
-      center.plusY(1).plusX(1)
+      center.addY(1).addX(-1),
+      center.addY(1),
+      center.addY(1).addX(1)
     ].filter(p => this.contains(p));
   }
 

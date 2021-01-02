@@ -2,16 +2,6 @@ import Setting from '@/lib/Setting'
 
 describe('Setting', () => {
 
-  it("デフォルトで EASY の設定値がセットされていること", () => {
-    let setting = new Setting();
-
-    expect(setting.width).toBe(9);
-    expect(setting.height).toBe(9);
-    expect(setting.numMines).toBe(10);
-
-    expect(setting.equals(Setting.EASY)).toBeTruthy();
-  })
-
   it("(9, 9, 10) のときだけ isEasy = true になること", () => {
     let setting = new Setting(9, 9, 10);
     expect(setting.isEasy).toBeTruthy();

@@ -4,9 +4,24 @@
       <h1>Preset</h1>
 
       <div class="btn-row">
-        <button class="btn" @click="update(9, 9, 10)">EASY</button>
-        <button class="btn" @click="update(16, 16, 40)">NORMAL</button>
-        <button class="btn" @click="update(30, 16, 90)">HARD</button>
+        <button
+          :class="['btn', setting.isEasy ? 'btn-selected' : '']"
+          @click="setting.setEasy(); confirm()"
+        >
+          EASY
+        </button>
+        <button
+          :class="['btn', setting.isNormal ? 'btn-selected' : '']"
+          @click="setting.setNormal(); confirm()"
+        >
+          NORMAL
+        </button>
+        <button
+          :class="['btn', setting.isHard ? 'btn-selected' : '']"
+          @click="setting.setHard(); confirm()"
+        >
+          HARD
+        </button>
       </div>
     </section>
 
@@ -49,24 +64,18 @@
 
 <script>
 import NumberInput from "../components/form/NumberInput.vue";
+
 export default {
   components: { NumberInput },
   data: function () {
     return {
-      setting: { ...this.$store.state.game.setting },
+      // ページ内ではコピーしたインスタンスを使い、confirm が呼ばれるまで反映しない
+      setting: this.$store.state.game.setting.clone(),
     };
   },
   methods: {
-    update: function (w, h, m) {
-      this.setting = {
-        width: w,
-        height: h,
-        numMines: m,
-      };
-      this.confirm();
-    },
     confirm: function () {
-      this.$store.commit("updateSetting", { setting: this.setting });
+      this.$store.commit("updateSetting", { setting: this.setting.clone() });
       this.$store.commit("initialize");
     },
   },
@@ -119,9 +128,14 @@ section > h1 {
   color: #fff;
 }
 
-.btn:hover {
+.btn:hover,
+.btn-selected {
   background-color: #fff;
   color: #35495e;
+}
+
+.btn-selected {
+  pointer-events: none;
 }
 
 .btn-text {

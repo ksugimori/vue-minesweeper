@@ -2,46 +2,20 @@ import Setting from '@/lib/Setting'
 
 describe('Setting', () => {
 
-  it("(9, 9, 10) のときだけ isEasy = true になること", () => {
-    let setting = new Setting(9, 9, 10);
-    expect(setting.isEasy).toBeTruthy();
+  it("全項目が一致する場合のみ同値と判定されること", () => {
+    let setting = new Setting("original", 9, 9, 10);
 
-    setting = new Setting(10, 9, 10);
-    expect(setting.isEasy).toBeFalsy();
+    let same = new Setting("same", 9, 9, 10);
+    expect(setting.equals(same)).toBeTruthy();
 
-    setting = new Setting(9, 10, 10);
-    expect(setting.isEasy).toBeFalsy();
+    let diffWidth = new Setting("different width", 10, 9, 10);
+    expect(setting.equals(diffWidth)).toBeFalsy();
 
-    setting = new Setting(9, 9, 11);
-    expect(setting.isEasy).toBeFalsy();
-  })
+    let diffHeight = new Setting("different height", 9, 10, 10);
+    expect(setting.equals(diffHeight)).toBeFalsy();
 
-  it("(16, 16, 40) のときだけ isNormal = true になること", () => {
-    let setting = new Setting(16, 16, 40);
-    expect(setting.isNormal).toBeTruthy();
-
-    setting = new Setting(17, 16, 40);
-    expect(setting.isNormal).toBeFalsy();
-
-    setting = new Setting(16, 17, 40);
-    expect(setting.isNormal).toBeFalsy();
-
-    setting = new Setting(16, 16, 41);
-    expect(setting.isNormal).toBeFalsy();
-  })
-
-  it("(30, 16, 99) のときだけ isHard = true になること", () => {
-    let setting = new Setting(30, 16, 99);
-    expect(setting.isHard).toBeTruthy();
-
-    setting = new Setting(29, 16, 99);
-    expect(setting.isHard).toBeFalsy();
-
-    setting = new Setting(30, 17, 99);
-    expect(setting.isHard).toBeFalsy();
-
-    setting = new Setting(30, 16, 100);
-    expect(setting.isHard).toBeFalsy();
+    let diffMines = new Setting("different numMines", 9, 9, 11);
+    expect(setting.equals(diffMines)).toBeFalsy();
   })
 
 })

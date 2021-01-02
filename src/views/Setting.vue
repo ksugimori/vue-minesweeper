@@ -4,9 +4,17 @@
       <h1>Preset</h1>
 
       <div class="btn-row">
-        <button class="btn" @click="update(9, 9, 10)">EASY</button>
-        <button class="btn" @click="update(16, 16, 40)">NORMAL</button>
-        <button class="btn" @click="update(30, 16, 90)">HARD</button>
+        <button
+          v-for="preset in presets"
+          :key="preset.name"
+          :class="['btn', setting.equals(preset) ? 'btn-selected' : '']"
+          @click="
+            setting.merge(preset);
+            confirm();
+          "
+        >
+          {{ preset.name }}
+        </button>
       </div>
     </section>
 
@@ -49,24 +57,20 @@
 
 <script>
 import NumberInput from "../components/form/NumberInput.vue";
+import Setting from "../lib/Setting";
+
 export default {
   components: { NumberInput },
   data: function () {
     return {
-      setting: { ...this.$store.state.game.setting },
+      // ページ内ではコピーしたインスタンスを使い、confirm が呼ばれるまで反映しない
+      setting: this.$store.state.game.setting.clone(),
+      presets: [Setting.EASY, Setting.NORMAL, Setting.HARD],
     };
   },
   methods: {
-    update: function (w, h, m) {
-      this.setting = {
-        width: w,
-        height: h,
-        numMines: m,
-      };
-      this.confirm();
-    },
     confirm: function () {
-      this.$store.commit("updateSetting", { setting: this.setting });
+      this.$store.commit("updateSetting", { setting: this.setting.clone() });
       this.$store.commit("initialize");
     },
   },
@@ -119,9 +123,14 @@ section > h1 {
   color: #fff;
 }
 
-.btn:hover {
+.btn:hover,
+.btn-selected {
   background-color: #fff;
   color: #35495e;
+}
+
+.btn-selected {
+  pointer-events: none;
 }
 
 .btn-text {

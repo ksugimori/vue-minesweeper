@@ -28,14 +28,14 @@ describe('Point', () => {
     expect(p).toEqual(Point.of(0, 0));
 
     // 行の変更
-    expect(p.plusY(1)).toEqual(Point.of(0, 1));
-    expect(p.plusY(-2)).toEqual(Point.of(0, -2));
+    expect(p.addY(1)).toEqual(Point.of(0, 1));
+    expect(p.addY(-2)).toEqual(Point.of(0, -2));
 
     // 列の変更
-    expect(p.plusX(10)).toEqual(Point.of(10, 0));
-    expect(p.plusX(-5)).toEqual(Point.of(-5, 0));
+    expect(p.addX(10)).toEqual(Point.of(10, 0));
+    expect(p.addX(-5)).toEqual(Point.of(-5, 0));
 
     // チェインできること
-    expect(p.plusY(2).plusX(3).plusY(2)).toEqual(Point.of(3, 4));
+    expect(p.addY(2).addX(3).addY(2)).toEqual(Point.of(3, 4));
   })
 })

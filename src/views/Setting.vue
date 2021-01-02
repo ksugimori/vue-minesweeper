@@ -5,22 +5,15 @@
 
       <div class="btn-row">
         <button
-          :class="['btn', setting.isEasy ? 'btn-selected' : '']"
-          @click="setting.setEasy(); confirm()"
+          v-for="preset in presets"
+          :key="preset.name"
+          :class="['btn', setting.equals(preset) ? 'btn-selected' : '']"
+          @click="
+            setting.merge(preset);
+            confirm();
+          "
         >
-          EASY
-        </button>
-        <button
-          :class="['btn', setting.isNormal ? 'btn-selected' : '']"
-          @click="setting.setNormal(); confirm()"
-        >
-          NORMAL
-        </button>
-        <button
-          :class="['btn', setting.isHard ? 'btn-selected' : '']"
-          @click="setting.setHard(); confirm()"
-        >
-          HARD
+          {{ preset.name }}
         </button>
       </div>
     </section>
@@ -64,6 +57,7 @@
 
 <script>
 import NumberInput from "../components/form/NumberInput.vue";
+import Setting from "../lib/Setting";
 
 export default {
   components: { NumberInput },
@@ -71,6 +65,7 @@ export default {
     return {
       // ページ内ではコピーしたインスタンスを使い、confirm が呼ばれるまで反映しない
       setting: this.$store.state.game.setting.clone(),
+      presets: [Setting.EASY, Setting.NORMAL, Setting.HARD],
     };
   },
   methods: {

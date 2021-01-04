@@ -1,17 +1,15 @@
 class Setting {
-  static EASY = new Setting("EASY", 9, 9, 10);
-  static NORMAL = new Setting("NORMAL", 16, 16, 40);
-  static HARD = new Setting("HARD", 30, 16, 99);
+  static EASY = new Setting(9, 9, 10);
+  static NORMAL = new Setting(16, 16, 40);
+  static HARD = new Setting(30, 16, 99);
 
   /**
    * コンストラクタ
-   * @param {String} name 名前
    * @param {Number} width 幅
    * @param {Number} height 高さ
    * @param {Number} numMines 地雷数
    */
-  constructor(name, width, height, numMines) {
-    this.name = name;
+  constructor(width, height, numMines) {
     this.width = width;
     this.height = height;
     this.numMines = numMines;
@@ -35,7 +33,6 @@ class Setting {
   clone() {
     let result = new Setting();
 
-    result.name = this.name;
     result.merge(this);
 
     return result;
@@ -43,8 +40,6 @@ class Setting {
 
   /**
    * 他のオブジェクトをマージする。
-   * 
-   * このメソッドでは name は反映しません。
    * @param {Setting} other 
    */
   merge(other) {
@@ -53,6 +48,24 @@ class Setting {
     this.numMines = other.numMines;
   }
 
+  /**
+   * 名前。
+   * 
+   * プリセットの難易度の場合はその名前、それ以外の場合は CUSTOM が返ります。
+   */
+  get name() {
+    if (this.equals(Setting.EASY)) {
+      return "EASY";
+    }
+    if (this.equals(Setting.NORMAL)) {
+      return "NORMAL";
+    }
+    if (this.equals(Setting.HARD)) {
+      return "HARD";
+    }
+
+    return "CUSTOM";
+  }
 }
 
 export default Setting;

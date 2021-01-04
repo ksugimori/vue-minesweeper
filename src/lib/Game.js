@@ -41,18 +41,8 @@ class Game {
 
   /**
    * 盤面を初期化する。
-   * @param {Number} width 
-   * @param {Number} height 
-   * @param {Number} nunmMines
    */
-  initialize(width, height, numMines) {
-    this.setting.height = height || this.setting.height;
-    this.setting.width = width || this.setting.width;
-    this.setting.numMines = numMines || this.setting.numMines;
-    if (this.setting.height * this.setting.width < this.setting.numMines) {
-      this.setting.numMines = Math.floor(this.setting.height * this.setting.width / 2);
-    }
-
+  initialize() {
     this.field = new Field(this.setting.width, this.setting.height);
 
     this.status = Status.INIT;

@@ -5,7 +5,8 @@ game.initialize();
 
 const store = {
   state: {
-    game
+    game: game,
+    setting: game.setting.clone()
   },
   mutations: {
     initialize(state) {
@@ -17,8 +18,8 @@ const store = {
     flag(state, { x, y }) {
       state.game.flag(x, y);
     },
-    updateSetting(state, { setting }) {
-      state.game.setting = setting;
+    updateSetting(state) {
+      state.game.setting = state.setting.clone();
     }
   }
 }

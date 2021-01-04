@@ -63,14 +63,17 @@ export default {
   components: { NumberInput },
   data: function () {
     return {
-      // ページ内ではコピーしたインスタンスを使い、confirm が呼ばれるまで反映しない
-      setting: this.$store.state.game.setting.clone(),
       presets: [Setting.EASY, Setting.NORMAL, Setting.HARD],
     };
   },
+  computed: {
+    setting: function() {
+      return this.$store.state.setting;
+    },
+  },
   methods: {
     confirm: function () {
-      this.$store.commit("updateSetting", { setting: this.setting.clone() });
+      this.$store.commit("updateSetting");
       this.$store.commit("initialize");
     },
   },

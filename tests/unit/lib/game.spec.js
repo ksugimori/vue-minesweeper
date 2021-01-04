@@ -12,7 +12,8 @@ describe('Game', () => {
   describe('#initialize', () => {
     it("行数、列数が引数で渡された値に一致すること", () => {
       const game = new Game();
-      game.initialize(2, 3, 2);
+      game.setting.merge({ width: 2, height: 3, numMines: 2 });
+      game.initialize();
 
       expect(game.field.width).toBe(2); // 2列
       expect(game.field.height).toBe(3); // ３行
@@ -20,22 +21,25 @@ describe('Game', () => {
 
     it("ステータスは INIT になること", () => {
       const game = new Game();
-      game.initialize(2, 3, 2);
+      game.setting.merge({ width: 2, height: 3, numMines: 2 });
+      game.initialize();
+
       game.open(0, 0); // ここで PLAY になっている
-      game.initialize(2, 3, 2); // 再度 initialize を呼ぶと INIT になっていること
+      game.initialize(); // 再度 initialize を呼ぶと INIT になっていること
 
       expect(game.status).toBe(Status.INIT);
     });
 
     it("すべてのセルが isOpen=false となっていること", () => {
       const game = new Game();
-      game.initialize(3, 3, 2);
+      game.setting.merge({ width: 3, height: 3, numMines: 2 });
+      game.initialize();
 
       // 一箇所だけ開いておく
       game.open(0, 0);
 
       // initialize が呼ばれるとクリアされることを確認
-      game.initialize(3, 3, 2);
+      game.initialize();
 
       expect(game.field.rows[0].map(c => c.isOpen)).toEqual([false, false, false]);
       expect(game.field.rows[1].map(c => c.isOpen)).toEqual([false, false, false]);
@@ -44,14 +48,15 @@ describe('Game', () => {
 
     it("すべてのセルが isFlagged=false となっていること", () => {
       const game = new Game();
-      game.initialize(3, 3, 2);
+      game.setting.merge({ width: 3, height: 3, numMines: 2 });
+      game.initialize();
 
       // フラグを立てておくが、
       game.open(0, 0);
       game.flag(2, 2);
 
       // initialize が呼ばれるとクリアされることを確認
-      game.initialize(3, 3, 2);
+      game.initialize();
 
       expect(game.field.rows[0].map(c => c.isFlagged)).toEqual([false, false, false]);
       expect(game.field.rows[1].map(c => c.isFlagged)).toEqual([false, false, false]);
@@ -61,7 +66,8 @@ describe('Game', () => {
     it("closedCount がセル数と一致すること", () => {
       const game = new Game();
 
-      game.initialize(4, 3, 10);
+      game.setting.merge({ width: 4, height: 3, numMines: 10 });
+      game.initialize();
 
       expect(game.closedCount).toBe(12);
     })
@@ -72,7 +78,8 @@ describe('Game', () => {
       const game = new Game();
 
       // 9 * 9 = 81 マスのうち 10 個
-      game.initialize(9, 9, 10).open(0, 0);
+      game.setting.merge({ width: 9, height: 9, numMines: 10 });
+      game.initialize().open(0, 0);
 
       const count = game.field.rows.flat().filter(c => c.isMine).length;
 
@@ -82,7 +89,8 @@ describe('Game', () => {
     it("ステータスが PLAY になっていること", () => {
       const game = new Game();
 
-      game.initialize(9, 9, 10).open(0, 0);
+      game.setting.merge({ width: 9, height: 9, numMines: 10 });
+      game.initialize().open(0, 0);
 
       expect(game.status).toBe(Status.PLAY);
     })
@@ -92,7 +100,8 @@ describe('Game', () => {
     it("指定したセルが数字の場合、そのセルの isOpen フラグが立つこと", () => {
       const game = new Game();
 
-      game.initialize(2, 2).open(0, 0);
+      game.setting.merge({ width: 2, height: 2 });
+      game.initialize().open(0, 0);
 
       // open メソッドでランダムに地雷がセットされるので、強制的に上書きする
       game.field.values = [
@@ -113,7 +122,8 @@ describe('Game', () => {
     it("指定したセルが空の場合、そのセルの周囲８セルに isOpen フラグが立つこと", () => {
       const game = new Game();
 
-      game.initialize(3, 3).open(0, 0);
+      game.setting.merge({ width: 3, height: 3 });
+      game.initialize().open(0, 0);
 
       // open メソッドでランダムに地雷がセットされるので、強制的に上書きする
       // 中央だけ 0 
@@ -137,7 +147,8 @@ describe('Game', () => {
     it("指定したセルが空の場合、そのセルの周囲８セルに isOpen フラグが立つが、isFlagged=true となっているセルは変更されないこと", () => {
       const game = new Game();
 
-      game.initialize(3, 3).open(0, 0);
+      game.setting.merge({ width: 3, height: 3 });
+      game.initialize().open(0, 0);
 
       // open メソッドでランダムに地雷がセットされるので、強制的に上書きする
       // 中央だけ 0, 左上だけ isFlagged=true
@@ -161,7 +172,8 @@ describe('Game', () => {
     it("指定したセルに地雷がある場合、ステータスが LOSE になること", () => {
       const game = new Game();
 
-      game.initialize(2, 2).open(0, 0);
+      game.setting.merge({ width: 2, height: 2 });
+      game.initialize().open(0, 0);
 
       // open メソッドでランダムに地雷がセットされるので、強制的に上書きする
       game.field.values = [
@@ -186,7 +198,8 @@ describe('Game', () => {
     it("開いたセルの数だけ closedCount が減ること", () => {
       const game = new Game();
 
-      game.initialize(3, 3, 3).open(0, 0);
+      game.setting.merge({ width: 3, height: 3, numMines: 3 });
+      game.initialize().open(0, 0);
 
       // open メソッドでランダムに地雷がセットされるので、強制的に上書きする
       // ２列目に地雷が埋まっている
@@ -225,7 +238,8 @@ describe('Game', () => {
     it("選択したセルのフラグが立つこと", () => {
       const game = new Game();
 
-      game.initialize(2, 2, 1).open(0, 0);
+      game.setting.merge({ width: 2, height: 2, numMines: 1 });
+      game.initialize().open(0, 0);
 
       // open メソッドでランダムに地雷がセットされるので、強制的に上書きする
       game.field.values = [
@@ -250,7 +264,8 @@ describe('Game', () => {
     it("ゲーム終了時はフラグが立てられないこと", () => {
       const game = new Game();
 
-      game.initialize(2, 2, 1).open(0, 0);
+      game.setting.merge({ width: 2, height: 2, numMines: 1 });
+      game.initialize().open(0, 0);
 
       // open メソッドでランダムに地雷がセットされるので、強制的に上書きする
       game.field.values = [
@@ -315,7 +330,8 @@ describe('Game', () => {
     it("すべてのセルが開かれ、フラグが外されること", () => {
       const game = new Game();
 
-      game.initialize(2, 2, 1);
+      game.setting.merge({ width: 2, height: 2, numMines: 1 });
+      game.initialize().open(0, 0);
 
       game.field.values = [
         new Cell({ count: 0, isOpen: false, isMine: true }), new Cell({ count: 1, isOpen: true }),

@@ -11,7 +11,8 @@ localVue.use(Vuex)
 describe('Row.vue', () => {
   it('配列数だけ Row が作成されること', () => {
     const game = new Game();
-    game.initialize(3, 2, 1);
+    game.setting.merge({ width: 3, height: 2, numMines: 1 });
+    game.initialize();
 
     let store = new Vuex.Store({
       state: { game }
@@ -25,7 +26,8 @@ describe('Row.vue', () => {
 
   it('Cell をクリックすると cellClick イベントが発火され、インデックスが引数として渡されること', () => {
     const game = new Game();
-    game.initialize(3, 2, 1);
+    game.setting.merge({ width: 3, height: 2, numMines: 1 });
+    game.initialize();
 
     // モックする関数
     const mockOpen = jest.fn();
@@ -51,7 +53,8 @@ describe('Row.vue', () => {
 
   it('Cell を右クリックすると cellRightClick イベントが発火され、インデックスが引数として渡されること', () => {
     const game = new Game();
-    game.initialize(3, 2, 1);
+    game.setting.merge({ width: 3, height: 2, numMines: 1 });
+    game.initialize();
 
     // モックする関数
     const mockFlag = jest.fn();

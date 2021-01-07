@@ -48,7 +48,14 @@ class Cell {
    * 数字文字列
    */
   get text() {
-    return this.count === 0 ? "" : this.count.toString();
+    return this.isEmpty ? "" : this.count.toString();
+  }
+
+  /**
+   * 空のセルであるか？
+   */
+  get isEmpty() {
+    return this.count === 0;
   }
 }
 

@@ -85,4 +85,16 @@ describe('Cell', () => {
       expect(cell.isFlagged).toBe(false);
     })
   })
+
+  describe('#isEmpty', () => {
+    it('count が 0 なら true を返し、それ以外なら false を返すこと', () => {
+      const cell = new Cell();
+
+      cell.count = 0;
+      expect(cell.isEmpty).toBeTruthy();
+
+      cell.count = 1;
+      expect(cell.isEmpty).toBeFalsy();
+    })
+  })
 })

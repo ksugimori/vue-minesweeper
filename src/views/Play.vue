@@ -1,8 +1,8 @@
 <template>
   <div id="game">
     <div class="board">
-      <status-bar :game="game"></status-bar>
-      <field :game="game"></field>
+      <status-bar></status-bar>
+      <field></field>
     </div>
   </div>
 </template>
@@ -12,9 +12,6 @@ import StatusBar from "@/components/layout/StatusBar";
 import Field from "@/components/layout/Field";
 
 export default {
-  props: {
-    game: Object
-  },
   components: {
     Field,
     StatusBar,

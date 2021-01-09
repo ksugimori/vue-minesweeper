@@ -197,18 +197,23 @@ class Game {
    * @param {Point} point 座標
    */
   openNeighbors(point) {
-    let queue = this.field.arround(point)
-      .filter(p => !this.cellAt(p).isOpen)
-      .filter(p => !this.cellAt(p).isFlagged);
+    const canOpen = (p) => {
+      let cell = this.field.get(p);
+      return !cell.isOpen && !cell.isFlagged;
+    };
 
-    while ((point = queue.shift()) !== undefined) {
-      this.cellAt(point).open();
+    let queue = this.field.arround(point).filter(p => canOpen(p));
+
+    let target;
+    while ((target = queue.shift()) !== undefined) {
+      let cell = this.cellAt(target);
+
+      cell.open();
 
       // 開いたセルが空白なら、その周囲を再帰的に開く
-      if (this.cellAt(point).isEmpty) {
-        this.field.arround(point)
-          .filter(p => !this.cellAt(p).isOpen)
-          .filter(p => !this.cellAt(p).isFlagged)
+      if (cell.isEmpty) {
+        this.field.arround(target).filter(p => canOpen(p))
+          .filter(p => !queue.includes(p))
           .forEach(p => queue.push(p));
       }
     }

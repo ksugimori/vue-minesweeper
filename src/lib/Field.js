@@ -1,4 +1,5 @@
 import Cell from './Cell';
+import Point from './Point';
 
 /**
  * 盤面
@@ -14,6 +15,21 @@ class Field {
     for (let i = 0; i < width * height; i++) {
       this.values.push(new Cell());
     }
+  }
+
+  /**
+   * 範囲内の座標
+   */
+  get points() {
+    let result = [];
+
+    for (let x = 0; x < this.width; x++) {
+      for (let y = 0; y < this.height; y++) {
+        result.push(Point.of(x, y));
+      }
+    }
+
+    return result;
   }
 
   /**

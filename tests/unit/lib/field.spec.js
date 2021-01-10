@@ -56,4 +56,14 @@ describe('Field', () => {
     })
   })
 
+  describe('#points', () => {
+    it('範囲内の座標がすべて返されること', () => {
+      const field = new Field(2, 2);
+
+      expect(field.points.sort()).toEqual([
+        Point.of(0, 0), Point.of(0, 1),
+        Point.of(1, 0), Point.of(1, 1)
+      ].sort());
+    })
+  })
 })

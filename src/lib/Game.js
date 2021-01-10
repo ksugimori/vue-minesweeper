@@ -85,18 +85,12 @@ class Game {
       .forEach(p => this.cellAt(p).mine());
 
     // 各マスの周囲の地雷数をカウントし、value にセットする。
-    for (let y = 0; y < this.field.height; y++) {
-      for (let x = 0; x < this.field.width; x++) {
-        let target = this.cellAt(Point.of(x, y));
-        if (target.isMine) {
-          continue;
-        }
-
-        target.count = this.field.arround(Point.of(x, y))
-          .filter(p => this.cellAt(p).isMine)
-          .length;
+    this.field.points.forEach(p => {
+      let cell = this.cellAt(p);
+      if (!cell.isMine) {
+        cell.count = this.field.arround(p).filter(q => this.cellAt(q).isMine).length;
       }
-    }
+    })
   }
 
   /**

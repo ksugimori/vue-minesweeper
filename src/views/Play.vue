@@ -24,4 +24,12 @@ export default {
   padding: 0.5em;
   display: inline-grid;
 }
+
+* {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
 </style>

@@ -12,7 +12,6 @@ export default new Router({
     {
       path: '/',
       component: Home,
-      redirect: '/play'
     },
     {
       path: '/play',

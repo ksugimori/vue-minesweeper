@@ -8,19 +8,19 @@ class Random {
   /**
    * ランダムな Point の配列を生成する。
    * 
-   * x座標は 0 から rangeX まで（rangeX は含まない）、
-   * y座標は 0 から rangeY まで（rangeY は含まない）、
+   * x座標は 0 から maxX まで（maxX は含まない）、
+   * y座標は 0 から maxY まで（maxY は含まない）、
    * の範囲からランダムに選択します。
-   * @param {Number} rangeX x座標の範囲
-   * @param {Number} rangeY y座標の範囲
+   * @param {Number} maxX x座標の上限
+   * @param {Number} maxY y座標の上限
    * @param {Number} length 生成する配列の長さ
    * @param {Point} excludePoint 除外する座標
    */
-  randomPoints(rangeX, rangeY, length, excludePoint) {
+  randomPoints(maxX, maxY, length, excludePoint) {
     let result = [];
     while (result.length < length) {
-      let randomX = Math.floor(Math.random() * rangeX);
-      let randomY = Math.floor(Math.random() * rangeY);
+      let randomX = Math.floor(Math.random() * maxX);
+      let randomY = Math.floor(Math.random() * maxY);
       let point = Point.of(randomX, randomY);
 
       if (excludePoint === point) {

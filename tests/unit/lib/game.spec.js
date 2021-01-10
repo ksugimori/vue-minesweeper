@@ -1,13 +1,46 @@
 import Game from '@/lib/Game'
-import Cell from '@/lib/Cell'
 import Status from '@/lib/status/Status'
+import Point from '@/lib/Point';
 import StopWatch from '@/lib/StopWatch';
 jest.mock('@/lib/StopWatch');
 
+/**
+ * Game のフィールドから全行を取り出し、mapFunc を適用して返す。
+ * @param {Game} game game
+ * @param {Function} mapFunc cell に対する mapping
+ */
+function extractRows(game, mapFunc) {
+  return game.field.rows.map(row => row.map(mapFunc));
+}
+
+/**
+ * Game オブジェクトを初期化する。
+ * @param {Number} width 幅
+ * @param {Number} height 高さ
+ * @param {Array} mines 地雷の座標
+ */
+function initGame(width, height, ...mines) {
+  let game = new Game();
+
+  let numMines = mines.length;
+  game.setting.merge({ width, height, numMines });
+  game.random = { randomPoints: () => mines };
+
+  game.initialize();
+
+  return game;
+}
+
+/**
+ * 前処理
+ */
 beforeEach(() => {
   StopWatch.mockClear();
 })
 
+/**
+ * テストケース
+ */
 describe('Game', () => {
   describe('#initialize', () => {
     it("行数、列数が引数で渡された値に一致すること", () => {
@@ -41,9 +74,11 @@ describe('Game', () => {
       // initialize が呼ばれるとクリアされることを確認
       game.initialize();
 
-      expect(game.field.rows[0].map(c => c.isOpen)).toEqual([false, false, false]);
-      expect(game.field.rows[1].map(c => c.isOpen)).toEqual([false, false, false]);
-      expect(game.field.rows[2].map(c => c.isOpen)).toEqual([false, false, false]);
+      expect(extractRows(game, c => c.isOpen)).toEqual([
+        [false, false, false],
+        [false, false, false],
+        [false, false, false]
+      ]);
     })
 
     it("すべてのセルが isFlagged=false となっていること", () => {
@@ -58,9 +93,11 @@ describe('Game', () => {
       // initialize が呼ばれるとクリアされることを確認
       game.initialize();
 
-      expect(game.field.rows[0].map(c => c.isFlagged)).toEqual([false, false, false]);
-      expect(game.field.rows[1].map(c => c.isFlagged)).toEqual([false, false, false]);
-      expect(game.field.rows[2].map(c => c.isFlagged)).toEqual([false, false, false]);
+      expect(extractRows(game, cell => cell.isFlagged)).toEqual([
+        [false, false, false],
+        [false, false, false],
+        [false, false, false]
+      ])
     })
 
     it("closedCount がセル数と一致すること", () => {
@@ -98,116 +135,77 @@ describe('Game', () => {
 
   describe('#open', () => {
     it("指定したセルが数字の場合、そのセルの isOpen フラグが立つこと", () => {
-      const game = new Game();
+      const game = initGame(2, 2, Point.of(1, 1));
 
-      game.setting.merge({ width: 2, height: 2 });
-      game.initialize().open(0, 0);
-
-      // open メソッドでランダムに地雷がセットされるので、強制的に上書きする
-      game.field.values = [
-        new Cell({ count: 0, isOpen: false }), new Cell({ count: 1, isOpen: false }),
-        new Cell({ count: 2, isOpen: false }), new Cell({ count: 3, isOpen: false }),
-      ];
-
-      // テスト実行
-      game.open(0, 1);
+      // テスト
+      game.open(0, 0);
 
       // 検証
-      expect(game.field.rows).toEqual([
-        [new Cell({ count: 0, isOpen: false }), new Cell({ count: 1, isOpen: false })],
-        [new Cell({ count: 2, isOpen: true }), new Cell({ count: 3, isOpen: false })],
+      expect(extractRows(game, c => c.isOpen)).toEqual([
+        [true, false],
+        [false, false]
       ]);
     });
 
     it("指定したセルが空の場合、そのセルの周囲８セルに isOpen フラグが立つこと", () => {
-      const game = new Game();
+      // 3行4列で、4列目に１つ地雷が埋まっている想定
+      const game = initGame(3, 4, Point.of(1, 3));
 
-      game.setting.merge({ width: 3, height: 3 });
-      game.initialize().open(0, 0);
-
-      // open メソッドでランダムに地雷がセットされるので、強制的に上書きする
-      // 中央だけ 0 
-      game.field.values = [
-        new Cell({ count: 1, isOpen: false }), new Cell({ count: 1, isOpen: false }), new Cell({ count: 1, isOpen: false }),
-        new Cell({ count: 1, isOpen: false }), new Cell({ count: 0, isOpen: false }), new Cell({ count: 1, isOpen: false }),
-        new Cell({ count: 1, isOpen: false }), new Cell({ count: 1, isOpen: false }), new Cell({ count: 1, isOpen: false }),
-      ];
-
-      // テスト実行
+      // この状態で (1, 1) を開くと、
+      game.initialize();
       game.open(1, 1);
 
-      // 検証
-      expect(game.field.rows).toEqual([
-        [new Cell({ count: 1, isOpen: true }), new Cell({ count: 1, isOpen: true }), new Cell({ count: 1, isOpen: true })],
-        [new Cell({ count: 1, isOpen: true }), new Cell({ count: 0, isOpen: true }), new Cell({ count: 1, isOpen: true })],
-        [new Cell({ count: 1, isOpen: true }), new Cell({ count: 1, isOpen: true }), new Cell({ count: 1, isOpen: true })],
+      // 周囲８セルも開かれること
+      expect(extractRows(game, c => c.isOpen)).toEqual([
+        [true, true, true],
+        [true, true, true],
+        [true, true, true],
+        [false, false, false]
       ]);
     });
 
     it("指定したセルが空の場合、そのセルの周囲８セルに isOpen フラグが立つが、isFlagged=true となっているセルは変更されないこと", () => {
-      const game = new Game();
+      // 3 行 5 列、4 行目に地雷がある
+      const game = initGame(3, 5, Point.of(0, 3), Point.of(1, 3), Point.of(2, 3));
 
-      game.setting.merge({ width: 3, height: 3 });
-      game.initialize().open(0, 0);
+      game.open(0, 4); // はじめに１個開いたときに盤面が初期化されるのでクリアしない位置を開く
 
-      // open メソッドでランダムに地雷がセットされるので、強制的に上書きする
-      // 中央だけ 0, 左上だけ isFlagged=true
-      game.field.values = [
-        new Cell({ count: 1, isOpen: false, isFlagged: true }), new Cell({ count: 1, isOpen: false }), new Cell({ count: 1, isOpen: false }),
-        new Cell({ count: 1, isOpen: false }), new Cell({ count: 0, isOpen: false }), new Cell({ count: 1, isOpen: false }),
-        new Cell({ count: 1, isOpen: false }), new Cell({ count: 1, isOpen: false }), new Cell({ count: 1, isOpen: false }),
-      ];
-
-      // テスト実行
+      game.flag(0, 0);
       game.open(1, 1);
 
       // 検証（左上は isOpen=false のまま）
-      expect(game.field.rows).toEqual([
-        [new Cell({ count: 1, isOpen: false, isFlagged: true }), new Cell({ count: 1, isOpen: true }), new Cell({ count: 1, isOpen: true })],
-        [new Cell({ count: 1, isOpen: true }), new Cell({ count: 0, isOpen: true }), new Cell({ count: 1, isOpen: true })],
-        [new Cell({ count: 1, isOpen: true }), new Cell({ count: 1, isOpen: true }), new Cell({ count: 1, isOpen: true })],
-      ]);
+      expect(extractRows(game, c => c.isOpen)).toEqual([
+        [false, true, true],
+        [true, true, true],
+        [true, true, true],
+        [false, false, false],
+        [true, false, false]
+      ])
     });
 
     it("指定したセルに地雷がある場合、ステータスが LOSE になること", () => {
-      const game = new Game();
+      const game = initGame(2, 3, Point.of(0, 1), Point.of(1, 1));
 
-      game.setting.merge({ width: 2, height: 2 });
-      game.initialize().open(0, 0);
-
-      // open メソッドでランダムに地雷がセットされるので、強制的に上書きする
-      game.field.values = [
-        new Cell({ count: 1, isOpen: false }), new Cell({ count: 1, isOpen: false }),
-        new Cell({ count: 1, isOpen: false }), new Cell({ count: 0, isOpen: false, isMine: true }),
-      ];
+      game.open(0, 0);
 
       // テスト実行
       game.open(1, 1);
 
       // 検証
       // すべて開かれること
-      expect(game.field.rows).toEqual([
-        [new Cell({ count: 1, isOpen: true }), new Cell({ count: 1, isOpen: true })],
-        [new Cell({ count: 1, isOpen: true }), new Cell({ count: 0, isOpen: true, isMine: true })],
-      ]);
+      expect(extractRows(game, c => c.isOpen)).toEqual([
+        [true, true],
+        [true, true],
+        [true, true],
+      ])
 
       // ステータスは LOSE になること
       expect(game.status).toBe(Status.LOSE);
     });
 
     it("開いたセルの数だけ closedCount が減ること", () => {
-      const game = new Game();
-
-      game.setting.merge({ width: 3, height: 3, numMines: 3 });
-      game.initialize().open(0, 0);
-
-      // open メソッドでランダムに地雷がセットされるので、強制的に上書きする
-      // ２列目に地雷が埋まっている
-      game.field.values = [
-        new Cell({ count: 2, isOpen: false }), new Cell({ count: 0, isOpen: false, isMine: true }), new Cell({ count: 2, isOpen: false }),
-        new Cell({ count: 3, isOpen: false }), new Cell({ count: 0, isOpen: false, isMine: true }), new Cell({ count: 3, isOpen: false }),
-        new Cell({ count: 2, isOpen: false }), new Cell({ count: 0, isOpen: false, isMine: true }), new Cell({ count: 2, isOpen: false }),
-      ];
+      // 3行3列、2列目に地雷
+      const game = initGame(3, 3, Point.of(1, 0), Point.of(1, 1), Point.of(1, 2));
 
       // この時点では全て閉じている
       expect(game.closedCount).toBe(9);
@@ -236,42 +234,27 @@ describe('Game', () => {
 
   describe('#flag', () => {
     it("選択したセルのフラグが立つこと", () => {
-      const game = new Game();
+      // 3行3列、2列目に地雷
+      const game = initGame(3, 3, Point.of(1, 0), Point.of(1, 1), Point.of(1, 2));
 
-      game.setting.merge({ width: 2, height: 2, numMines: 1 });
-      game.initialize().open(0, 0);
-
-      // open メソッドでランダムに地雷がセットされるので、強制的に上書きする
-      game.field.values = [
-        new Cell({ count: 0, isOpen: false }), new Cell({ count: 0, isOpen: false }),
-        new Cell({ count: 0, isOpen: false }), new Cell({ count: 0, isOpen: false }),
-      ];
+      game.open(0, 0);
 
       // この時点では 0 個
       expect(game.flagCount).toBe(0);
 
-      game.flag(0, 0);
+      game.flag(0, 1);
       expect(game.flagCount).toBe(1);
 
-      game.flag(0, 1);
+      game.flag(0, 2);
       expect(game.flagCount).toBe(2);
 
       // フラグがついたセルを再び呼ぶとフラグが外れること
-      game.flag(0, 0);
+      game.flag(0, 2);
       expect(game.flagCount).toBe(1);
     });
 
     it("ゲーム終了時はフラグが立てられないこと", () => {
-      const game = new Game();
-
-      game.setting.merge({ width: 2, height: 2, numMines: 1 });
-      game.initialize().open(0, 0);
-
-      // open メソッドでランダムに地雷がセットされるので、強制的に上書きする
-      game.field.values = [
-        new Cell({ count: 0, isOpen: false, isMine: true }), new Cell({ count: 1, isOpen: false }),
-        new Cell({ count: 1, isOpen: false }), new Cell({ count: 1, isOpen: false }),
-      ];
+      const game = initGame(2, 2, Point.of(0, 0));
 
       // 地雷以外を開く
       game.open(1, 0);
@@ -328,15 +311,11 @@ describe('Game', () => {
     });
 
     it("すべてのセルが開かれ、フラグが外されること", () => {
-      const game = new Game();
+      const game = initGame(2, 2, Point.of(0, 0));
 
-      game.setting.merge({ width: 2, height: 2, numMines: 1 });
-      game.initialize().open(0, 0);
-
-      game.field.values = [
-        new Cell({ count: 0, isOpen: false, isMine: true }), new Cell({ count: 1, isOpen: true }),
-        new Cell({ count: 1, isOpen: false, isFlagged: true }), new Cell({ count: 1, isOpen: false }),
-      ];
+      game.open(1, 1);
+      game.flag(0, 1);
+      game.flag(1, 0);
 
       game.endGame(Status.WIN);
 

@@ -3,6 +3,7 @@ import Status from './status/Status';
 import Field from './Field';
 import StopWatch from './StopWatch';
 import Setting from './Setting';
+import Random from './Random';
 
 /**
  * マインスイーパー全体を管理するクラス
@@ -12,6 +13,7 @@ class Game {
    * コンストラクタ
    */
   constructor() {
+    this.random = new Random();
     this.field = new Field();
     this.stopWatch = new StopWatch();
     this.setting = Setting.EASY;
@@ -79,21 +81,7 @@ class Game {
    */
   mine(exclude) {
     // 地雷をランダムにセット
-    let mines = [];
-    while (mines.length < this.setting.numMines) {
-      let randomX = Math.floor(Math.random() * this.setting.width);
-      let randomY = Math.floor(Math.random() * this.setting.height);
-      let mine = Point.of(randomX, randomY);
-
-      if (exclude === mine) {
-        continue;
-      }
-      if (mines.includes(mine)) {
-        continue;
-      }
-
-      mines.push(mine);
-    }
+    let mines = this.random.randomPoints(this.setting.width, this.setting.height, this.setting.numMines, exclude);
 
     mines.forEach(p => this.cellAt(p).mine());
 

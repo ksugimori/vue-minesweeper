@@ -81,9 +81,8 @@ class Game {
    */
   mine(exclude) {
     // 地雷をランダムにセット
-    let mines = this.random.randomPoints(this.setting.width, this.setting.height, this.setting.numMines, exclude);
-
-    mines.forEach(p => this.cellAt(p).mine());
+    this.random.randomPoints(this.setting.width, this.setting.height, this.setting.numMines, exclude)
+      .forEach(p => this.cellAt(p).mine());
 
     // 各マスの周囲の地雷数をカウントし、value にセットする。
     for (let y = 0; y < this.field.height; y++) {

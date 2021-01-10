@@ -1,27 +1,40 @@
 <template>
-  <div class="home contents">
-    <h1>操作方法</h1>
-    <table>
-      <tbody>
-        <tr>
-          <th>セルを開く</th>
-          <td>左クリック</td>
-        </tr>
-        <tr>
-          <th>フラグをつける</th>
-          <td>右クリック（スマホの場合は長押し）</td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="home">
+    <dl>
+      <dt>OPEN</dt>
+      <dd>Click, Tap</dd>
+    </dl>
+    <dl>
+      <dt>FLAG</dt>
+      <dd>Right-Click, Long-Tap</dd>
+    </dl>
   </div>
 </template>
 
 <style scoped>
 .home {
-  text-align: left;
+  width: 20em;
+  margin: 0 auto;
 }
 
-th, td {
-  padding: 0.5em 1em;
+dl {
+  display: flex;
+  margin: 0;
+}
+
+dt,
+dd {
+  padding: 1em 1em;
+  margin: 0;
+}
+
+dt {
+  text-align: right;
+  color: #42b983;
+  border-right: #42b983 solid 4px;
+}
+
+dd {
+    text-align: left;
 }
 </style>

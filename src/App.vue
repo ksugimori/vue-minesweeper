@@ -4,6 +4,7 @@
       <div class="contents">
         <h1>vue-minesweeper</h1>
         <nav>
+          <router-link to="/">How to</router-link>
           <router-link to="/play">Play</router-link>
           <router-link to="/setting">Setting</router-link>
         </nav>
@@ -30,13 +31,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
-
-* {
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
 }
 
 @media screen and (min-width: 640px) {

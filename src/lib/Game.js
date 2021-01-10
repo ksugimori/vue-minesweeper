@@ -24,14 +24,14 @@ class Game {
    * フラグの数
    */
   get flagCount() {
-    return this.field.values.map(cell => cell.isFlagged ? 1 : 0).reduce((sum, x) => sum + x);
+    return this.field.values.filter(cell => cell.isFlagged).length;
   }
 
   /**
    * 閉じているセルの数
    */
   get closedCount() {
-    return this.field.values.map(cell => cell.isOpen ? 0 : 1).reduce((sum, x) => sum + x);
+    return this.field.values.filter(cell => !cell.isOpen).length;
   }
 
   /**
@@ -47,8 +47,8 @@ class Game {
   initialize() {
     this.field = new Field(this.setting.width, this.setting.height);
 
-    this.status = Status.INIT;
     this.stopWatch.reset();
+    this.status = Status.INIT;
 
     return this;
   }
@@ -115,22 +115,17 @@ class Game {
     }
 
     if (cell.isOpen) {
-      let arroundFlagCount = this.field.arround(point)
-        .map(p => this.cellAt(p)) //
-        .filter(c => c.isFlagged) //
-        .length;
+      let arroundFlagCount = this.field.arround(point).filter(p => this.cellAt(p).isFlagged).length;
 
       if (cell.count === arroundFlagCount) {
         this.openNeighbors(point);
       }
+    } else {
+      cell.open();
 
-      return;
-    }
-
-    cell.open();
-
-    if (cell.isEmpty) {
-      this.openNeighbors(point);
+      if (cell.isEmpty) {
+        this.openNeighbors(point);
+      }
     }
   }
 

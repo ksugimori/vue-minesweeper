@@ -1,8 +1,8 @@
 import { mount, createLocalVue } from '@vue/test-utils'
+import Vuex from 'vuex'
 import MsField from '@/components/organisms/MsField.vue'
 import MsFieldRow from '@/components/organisms/MsFieldRow.vue'
 import MsCell from '@/components/molecules/MsCell.vue'
-import Vuex from 'vuex'
 import Game from '@/lib/Game'
 
 const localVue = createLocalVue()

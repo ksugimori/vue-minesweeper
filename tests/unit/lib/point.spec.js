@@ -1,4 +1,4 @@
-import Point from '@/lib/Point'
+import Point from '@/lib/Point.js'
 
 describe('Point', () => {
 

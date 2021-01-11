@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import MsFieldRow from "./MsFieldRow.vue";
+import MsFieldRow from "@/components/organisms/MsFieldRow.vue";
 
 export default {
   components: {

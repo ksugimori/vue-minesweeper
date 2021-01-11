@@ -8,8 +8,8 @@
 </template>
 
 <script>
-import MsStatusBar from "@/components/organisms/MsStatusBar";
-import MsField from "@/components/organisms/MsField";
+import MsStatusBar from "@/components/organisms/MsStatusBar.vue";
+import MsField from "@/components/organisms/MsField.vue";
 
 export default {
   components: {

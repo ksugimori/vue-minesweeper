@@ -56,8 +56,8 @@
 </template>
 
 <script>
-import MsNumberInput from "../atoms/MsNumberInput.vue";
-import Setting from "../../lib/Setting";
+import MsNumberInput from "@/components/atoms/MsNumberInput.vue";
+import Setting from "@/lib/Setting.js";
 
 export default {
   components: { MsNumberInput },

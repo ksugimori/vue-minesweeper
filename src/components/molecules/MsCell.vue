@@ -15,8 +15,8 @@
 </template>
 
 <script>
-import MsIconMine from "../atoms/MsIconMine.vue";
-import MsIconFlag from "../atoms/MsIconFlag.vue";
+import MsIconMine from "@/components/atoms/MsIconMine.vue";
+import MsIconFlag from "@/components/atoms/MsIconFlag.vue";
 export default {
   components: { MsIconMine, MsIconFlag },
   props: {

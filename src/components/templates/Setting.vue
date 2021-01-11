@@ -23,32 +23,32 @@
       <form>
         <div class="form-item">
           <label>WIDTH</label>
-          <number-input
+          <ms-number-input
             v-model="setting.width"
             @complete="confirm"
             :min="0"
             :max="100"
-          ></number-input>
+          ></ms-number-input>
         </div>
 
         <div class="form-item">
           <label>HEIGHT</label>
-          <number-input
+          <ms-number-input
             v-model="setting.height"
             @complete="confirm"
             :min="0"
             :max="100"
-          ></number-input>
+          ></ms-number-input>
         </div>
 
         <div class="form-item">
           <label>MINE</label>
-          <number-input
+          <ms-number-input
             v-model="setting.numMines"
             @complete="confirm"
             :min="0"
             :max="100"
-          ></number-input>
+          ></ms-number-input>
         </div>
       </form>
     </section>
@@ -56,11 +56,11 @@
 </template>
 
 <script>
-import NumberInput from "../components/form/NumberInput.vue";
-import Setting from "../lib/Setting";
+import MsNumberInput from "@/components/atoms/MsNumberInput.vue";
+import Setting from "@/lib/Setting.js";
 
 export default {
-  components: { NumberInput },
+  components: { MsNumberInput },
   data: function () {
     return {
       presets: [Setting.EASY, Setting.NORMAL, Setting.HARD],

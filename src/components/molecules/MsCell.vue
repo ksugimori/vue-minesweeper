@@ -9,16 +9,16 @@
     @contextmenu.prevent
   >
     {{ opened ? text : "" }}
-    <mine v-if="hasMine && opened"></mine>
-    <flag v-if="flagged && !opened"></flag>
+    <ms-icon-mine v-if="hasMine && opened"></ms-icon-mine>
+    <ms-icon-flag v-if="flagged && !opened"></ms-icon-flag>
   </div>
 </template>
 
 <script>
-import Mine from "../icon/Mine.vue";
-import Flag from "../icon/Flag.vue";
+import MsIconMine from "@/components/atoms/MsIconMine.vue";
+import MsIconFlag from "@/components/atoms/MsIconFlag.vue";
 export default {
-  components: { Mine, Flag },
+  components: { MsIconMine, MsIconFlag },
   props: {
     text: String,
     hasMine: Boolean,

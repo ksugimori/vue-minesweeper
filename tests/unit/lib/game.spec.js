@@ -1,8 +1,8 @@
-import Game from '@/lib/Game'
-import Status from '@/lib/status/Status'
-import Point from '@/lib/Point';
-import StopWatch from '@/lib/StopWatch';
-jest.mock('@/lib/StopWatch');
+import Game from '@/lib/Game.js'
+import Status from '@/lib/status/Status.js'
+import Point from '@/lib/Point.js';
+import StopWatch from '@/lib/StopWatch.js';
+jest.mock('@/lib/StopWatch.js');
 
 /**
  * Game のフィールドから全行を取り出し、mapFunc を適用して返す。

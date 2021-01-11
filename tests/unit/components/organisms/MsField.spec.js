@@ -1,8 +1,8 @@
 import { mount, createLocalVue } from '@vue/test-utils'
-import Field from '@/components/layout/Field.vue'
-import Row from '@/components/layout/Row.vue'
-import Cell from '@/components/layout/Cell.vue'
 import Vuex from 'vuex'
+import MsField from '@/components/organisms/MsField.vue'
+import MsFieldRow from '@/components/organisms/MsFieldRow.vue'
+import MsCell from '@/components/molecules/MsCell.vue'
 import Game from '@/lib/Game'
 
 const localVue = createLocalVue()
@@ -18,10 +18,10 @@ describe('Row.vue', () => {
       state: { game }
     })
 
-    const wrapper = mount(Field, { store, localVue })
+    const wrapper = mount(MsField, { store, localVue })
 
-    expect(wrapper.findAllComponents(Row).length).toBe(2);
-    expect(wrapper.findAllComponents(Cell).length).toBe(6);
+    expect(wrapper.findAllComponents(MsFieldRow).length).toBe(2);
+    expect(wrapper.findAllComponents(MsCell).length).toBe(6);
   })
 
   it('Cell をクリックすると cellClick イベントが発火され、インデックスが引数として渡されること', () => {
@@ -37,11 +37,11 @@ describe('Row.vue', () => {
       mutations: { open: mockOpen }
     })
 
-    const wrapper = mount(Field, { store, localVue })
+    const wrapper = mount(MsField, { store, localVue })
 
     // ２行目、３列目の Cell をクリック
-    wrapper.findAllComponents(Row).at(1)
-      .findAllComponents(Cell).at(2)
+    wrapper.findAllComponents(MsFieldRow).at(1)
+      .findAllComponents(MsCell).at(2)
       .trigger('click');
 
     const args = mockOpen.mock.calls[0];
@@ -64,11 +64,11 @@ describe('Row.vue', () => {
       mutations: { flag: mockFlag }
     })
 
-    const wrapper = mount(Field, { store, localVue })
+    const wrapper = mount(MsField, { store, localVue })
 
     // ２行目、３列目の Cell を右クリック
-    wrapper.findAllComponents(Row).at(1)
-      .findAllComponents(Cell).at(2)
+    wrapper.findAllComponents(MsFieldRow).at(1)
+      .findAllComponents(MsCell).at(2)
       .trigger('contextmenu');
 
     const args = mockFlag.mock.calls[0];

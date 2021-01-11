@@ -1,4 +1,4 @@
-import Point from './Point';
+import Point from '@/lib/Point.js';
 
 /**
  * ランダム処理

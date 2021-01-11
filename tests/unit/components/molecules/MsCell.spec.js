@@ -1,9 +1,9 @@
 import { shallowMount } from '@vue/test-utils'
-import Cell from '@/components/layout/Cell.vue'
+import MsCell from '@/components/molecules/MsCell.vue'
 
-describe('Cell.vue', () => {
+describe('MsCell.vue', () => {
   it('opened=false の場合は count が描画されないこと', () => {
-    const wrapper = shallowMount(Cell, {
+    const wrapper = shallowMount(MsCell, {
       propsData: {
         text: "8",
         opened: false,
@@ -14,7 +14,7 @@ describe('Cell.vue', () => {
   })
 
   it('opened=true の場合は count が描画されること', () => {
-    const wrapper = shallowMount(Cell, {
+    const wrapper = shallowMount(MsCell, {
       propsData: {
         text: "8",
         opened: true,
@@ -25,7 +25,7 @@ describe('Cell.vue', () => {
   })
 
   it('クリックしたら cellClick イベントが発火されること', () => {
-    const wrapper = shallowMount(Cell, {
+    const wrapper = shallowMount(MsCell, {
       propsData: {
         text: "8",
         opened: true,
@@ -40,7 +40,7 @@ describe('Cell.vue', () => {
   })
 
   it('右クリックしたら cellRightClick イベントが発火されること', () => {
-    const wrapper = shallowMount(Cell, {
+    const wrapper = shallowMount(MsCell, {
       propsData: {
         text: "8",
         opened: true,

@@ -1,7 +1,7 @@
-import InitialStatus from './InitialStatus';
-import PlayStatus from './PlayStatus';
-import WinStatus from './WinStatus';
-import LoseStatus from './LoseStatus';
+import InitialStatus from '@/lib/status/InitialStatus.js';
+import PlayStatus from '@/lib/status/PlayStatus.js';
+import WinStatus from '@/lib/status/WinStatus.js';
+import LoseStatus from '@/lib/status/LoseStatus.js';
 
 // enum っぽい使い方をするためにインスタンスをまとめたオブジェクトを export する
 export default {

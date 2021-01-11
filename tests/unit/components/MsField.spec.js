@@ -1,6 +1,6 @@
 import { mount, createLocalVue } from '@vue/test-utils'
 import MsField from '@/components/layout/MsField.vue'
-import Row from '@/components/layout/Row.vue'
+import MsFieldRow from '@/components/layout/MsFieldRow.vue'
 import MsCell from '@/components/layout/MsCell.vue'
 import Vuex from 'vuex'
 import Game from '@/lib/Game'
@@ -20,7 +20,7 @@ describe('Row.vue', () => {
 
     const wrapper = mount(MsField, { store, localVue })
 
-    expect(wrapper.findAllComponents(Row).length).toBe(2);
+    expect(wrapper.findAllComponents(MsFieldRow).length).toBe(2);
     expect(wrapper.findAllComponents(MsCell).length).toBe(6);
   })
 
@@ -40,7 +40,7 @@ describe('Row.vue', () => {
     const wrapper = mount(MsField, { store, localVue })
 
     // ２行目、３列目の Cell をクリック
-    wrapper.findAllComponents(Row).at(1)
+    wrapper.findAllComponents(MsFieldRow).at(1)
       .findAllComponents(MsCell).at(2)
       .trigger('click');
 
@@ -67,7 +67,7 @@ describe('Row.vue', () => {
     const wrapper = mount(MsField, { store, localVue })
 
     // ２行目、３列目の Cell を右クリック
-    wrapper.findAllComponents(Row).at(1)
+    wrapper.findAllComponents(MsFieldRow).at(1)
       .findAllComponents(MsCell).at(2)
       .trigger('contextmenu');
 

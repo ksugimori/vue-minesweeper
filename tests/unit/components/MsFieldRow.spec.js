@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import Row from '@/components/layout/Row.vue'
+import MsFieldRow from '@/components/layout/MsFieldRow.vue'
 import MsCell from '@/components/layout/MsCell.vue'
 
 describe('Row.vue', () => {
@@ -19,7 +19,7 @@ describe('Row.vue', () => {
       }
     ];
 
-    const wrapper = mount(Row, {
+    const wrapper = mount(MsFieldRow, {
       propsData: {
         cells: cells,
         onClickMsCell: () => { },
@@ -45,7 +45,7 @@ describe('Row.vue', () => {
       }
     ];
 
-    const wrapper = mount(Row, {
+    const wrapper = mount(MsFieldRow, {
       propsData: {
         cells: cells,
       }
@@ -78,7 +78,7 @@ describe('Row.vue', () => {
       }
     ];
 
-    const wrapper = mount(Row, {
+    const wrapper = mount(MsFieldRow, {
       propsData: {
         cells: cells,
       }

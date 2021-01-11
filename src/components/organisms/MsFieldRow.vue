@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import MsCell from "./MsCell";
+import MsCell from "../molecules/MsCell";
 
 export default {
   props: {

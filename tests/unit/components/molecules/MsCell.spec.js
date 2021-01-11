@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils'
-import MsCell from '@/components/layout/MsCell.vue'
+import MsCell from '@/components/molecules/MsCell.vue'
 
 describe('MsCell.vue', () => {
   it('opened=false の場合は count が描画されないこと', () => {

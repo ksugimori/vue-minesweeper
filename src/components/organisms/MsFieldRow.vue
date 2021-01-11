@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import MsCell from "../molecules/MsCell";
+import MsCell from "@/components/molecules/MsCell.vue";
 
 export default {
   props: {

@@ -1,5 +1,5 @@
-import Point from '@/lib/Point'
-import Field from '@/lib/Field'
+import Point from '@/lib/Point.js'
+import Field from '@/lib/Field.js'
 
 describe('Field', () => {
   describe('#contains', () => {

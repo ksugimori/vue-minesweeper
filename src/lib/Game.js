@@ -1,9 +1,9 @@
-import Point from './Point';
-import Status from './status/Status';
-import Field from './Field';
-import StopWatch from './StopWatch';
-import Setting from './Setting';
-import Random from './Random';
+import Point from '@/lib/Point.js';
+import Status from '@/lib/status/Status.js';
+import Field from '@/lib/Field.js';
+import StopWatch from '@/lib/StopWatch.js';
+import Setting from '@/lib/Setting.js';
+import Random from '@/lib/Random.js';
 
 /**
  * マインスイーパー全体を管理するクラス

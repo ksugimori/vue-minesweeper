@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import Status from "@/lib/status/Status";
+import Status from "@/lib/status/Status.js";
 
 export default {
   computed: {

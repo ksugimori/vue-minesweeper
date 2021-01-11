@@ -1,4 +1,4 @@
-import Setting from '@/lib/Setting'
+import Setting from '@/lib/Setting.js'
 
 describe('Setting', () => {
 

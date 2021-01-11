@@ -1,4 +1,4 @@
-import AbstractStatus from './AbstractStatus';
+import AbstractStatus from '@/lib/status/AbstractStatus.js';
 
 /**
  * ゲーム終了状態（勝利）

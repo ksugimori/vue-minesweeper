@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import MsCounter from "../atoms/MsCounter.vue";
-import MsResetButton from "../organisms/MsResetButton";
+import MsCounter from "@/components/atoms/MsCounter.vue";
+import MsResetButton from "@/components/organisms/MsResetButton.vue";
 
 export default {
   components: {

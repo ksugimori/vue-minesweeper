@@ -1,7 +1,7 @@
 import { mount, createLocalVue } from '@vue/test-utils'
 import Field from '@/components/layout/Field.vue'
 import Row from '@/components/layout/Row.vue'
-import Cell from '@/components/layout/Cell.vue'
+import MsCell from '@/components/layout/MsCell.vue'
 import Vuex from 'vuex'
 import Game from '@/lib/Game'
 
@@ -21,7 +21,7 @@ describe('Row.vue', () => {
     const wrapper = mount(Field, { store, localVue })
 
     expect(wrapper.findAllComponents(Row).length).toBe(2);
-    expect(wrapper.findAllComponents(Cell).length).toBe(6);
+    expect(wrapper.findAllComponents(MsCell).length).toBe(6);
   })
 
   it('Cell をクリックすると cellClick イベントが発火され、インデックスが引数として渡されること', () => {
@@ -41,7 +41,7 @@ describe('Row.vue', () => {
 
     // ２行目、３列目の Cell をクリック
     wrapper.findAllComponents(Row).at(1)
-      .findAllComponents(Cell).at(2)
+      .findAllComponents(MsCell).at(2)
       .trigger('click');
 
     const args = mockOpen.mock.calls[0];
@@ -68,7 +68,7 @@ describe('Row.vue', () => {
 
     // ２行目、３列目の Cell を右クリック
     wrapper.findAllComponents(Row).at(1)
-      .findAllComponents(Cell).at(2)
+      .findAllComponents(MsCell).at(2)
       .trigger('contextmenu');
 
     const args = mockFlag.mock.calls[0];

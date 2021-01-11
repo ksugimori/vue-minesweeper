@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <cell
+    <ms-cell
       v-for="(cell, index) in cells"
       :key="index"
       :text="cell.text"
@@ -9,19 +9,19 @@
       :opened="cell.isOpen"
       @cellClick="$emit('cellClick', index)"
       @cellRightClick="$emit('cellRightClick', index)"
-    ></cell>
+    ></ms-cell>
   </div>
 </template>
 
 <script>
-import Cell from "./Cell";
+import MsCell from "./MsCell";
 
 export default {
   props: {
     cells: Array,
   },
   components: {
-    Cell,
+    MsCell,
   },
 };
 </script>

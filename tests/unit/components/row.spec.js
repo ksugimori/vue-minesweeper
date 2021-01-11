@@ -1,9 +1,9 @@
 import { mount } from '@vue/test-utils'
 import Row from '@/components/layout/Row.vue'
-import Cell from '@/components/layout/Cell.vue'
+import MsCell from '@/components/layout/MsCell.vue'
 
 describe('Row.vue', () => {
-  it('配列数だけ Cell が作成されること', () => {
+  it('配列数だけセルが作成されること', () => {
     const cells = [
       {
         count: 1,
@@ -22,14 +22,14 @@ describe('Row.vue', () => {
     const wrapper = mount(Row, {
       propsData: {
         cells: cells,
-        onClickCell: () => { },
+        onClickMsCell: () => { },
       }
     })
 
-    expect(wrapper.findAllComponents(Cell).length).toBe(3);
+    expect(wrapper.findAllComponents(MsCell).length).toBe(3);
   })
 
-  it('Cell をクリックすると cellClick イベントが発火され、インデックスが引数として渡されること', () => {
+  it('セルをクリックすると cellClick イベントが発火され、インデックスが引数として渡されること', () => {
     const cells = [
       {
         count: 1,
@@ -51,10 +51,10 @@ describe('Row.vue', () => {
       }
     })
 
-    // ひとつずつ Cell をクリック
-    wrapper.findAllComponents(Cell).at(0).trigger('click');
-    wrapper.findAllComponents(Cell).at(1).trigger('click');
-    wrapper.findAllComponents(Cell).at(2).trigger('click');
+    // ひとつずつ MsCell をクリック
+    wrapper.findAllComponents(MsCell).at(0).trigger('click');
+    wrapper.findAllComponents(MsCell).at(1).trigger('click');
+    wrapper.findAllComponents(MsCell).at(2).trigger('click');
 
     // それぞれ引数に index が渡されていること
     expect(wrapper.emitted().cellClick[0][0]).toBe(0);
@@ -62,7 +62,7 @@ describe('Row.vue', () => {
     expect(wrapper.emitted().cellClick[2][0]).toBe(2);
   })
 
-  it('Cell を右クリックすると cellRightClick イベントが発火され、インデックスが引数として渡されること', () => {
+  it('セルを右クリックすると cellRightClick イベントが発火され、インデックスが引数として渡されること', () => {
     const cells = [
       {
         count: 1,
@@ -84,10 +84,10 @@ describe('Row.vue', () => {
       }
     })
 
-    // ひとつずつ Cell を右クリック
-    wrapper.findAllComponents(Cell).at(0).trigger('contextmenu');
-    wrapper.findAllComponents(Cell).at(1).trigger('contextmenu');
-    wrapper.findAllComponents(Cell).at(2).trigger('contextmenu');
+    // ひとつずつ MsCell を右クリック
+    wrapper.findAllComponents(MsCell).at(0).trigger('contextmenu');
+    wrapper.findAllComponents(MsCell).at(1).trigger('contextmenu');
+    wrapper.findAllComponents(MsCell).at(2).trigger('contextmenu');
 
     // それぞれ引数に index が渡されていること
     expect(wrapper.emitted().cellRightClick[0][0]).toBe(0);

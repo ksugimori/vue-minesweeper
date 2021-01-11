@@ -1,5 +1,5 @@
 import { mount, createLocalVue } from '@vue/test-utils'
-import Field from '@/components/layout/Field.vue'
+import MsField from '@/components/layout/MsField.vue'
 import Row from '@/components/layout/Row.vue'
 import MsCell from '@/components/layout/MsCell.vue'
 import Vuex from 'vuex'
@@ -18,7 +18,7 @@ describe('Row.vue', () => {
       state: { game }
     })
 
-    const wrapper = mount(Field, { store, localVue })
+    const wrapper = mount(MsField, { store, localVue })
 
     expect(wrapper.findAllComponents(Row).length).toBe(2);
     expect(wrapper.findAllComponents(MsCell).length).toBe(6);
@@ -37,7 +37,7 @@ describe('Row.vue', () => {
       mutations: { open: mockOpen }
     })
 
-    const wrapper = mount(Field, { store, localVue })
+    const wrapper = mount(MsField, { store, localVue })
 
     // ２行目、３列目の Cell をクリック
     wrapper.findAllComponents(Row).at(1)
@@ -64,7 +64,7 @@ describe('Row.vue', () => {
       mutations: { flag: mockFlag }
     })
 
-    const wrapper = mount(Field, { store, localVue })
+    const wrapper = mount(MsField, { store, localVue })
 
     // ２行目、３列目の Cell を右クリック
     wrapper.findAllComponents(Row).at(1)

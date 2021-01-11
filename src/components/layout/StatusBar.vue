@@ -1,28 +1,31 @@
 <template>
   <div class="status-bar">
-    <counter title="mines" :value="mines"></counter>
+    <ms-counter title="mines" :value="mines"></ms-counter>
     <reset-button></reset-button>
-    <counter title="time" :value="playTime"></counter>
+    <ms-counter title="time" :value="playTime"></ms-counter>
   </div>
 </template>
 
 <script>
-import Counter from '../form/Counter.vue';
+import MsCounter from "../form/MsCounter.vue";
 import ResetButton from "../form/ResetButton";
 
 export default {
   components: {
     ResetButton,
-    Counter,
+    MsCounter,
   },
   computed: {
-    mines: function() {
-      return this.$store.state.game.setting.numMines - this.$store.state.game.flagCount;
+    mines: function () {
+      return (
+        this.$store.state.game.setting.numMines -
+        this.$store.state.game.flagCount
+      );
     },
-    playTime: function() {
+    playTime: function () {
       return this.$store.state.game.playTime;
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -35,5 +38,4 @@ export default {
   margin: 0.15rem;
   width: 6.9rem;
 }
-
 </style>

@@ -1,4 +1,4 @@
-import Game from "@/lib/Game";
+import Game from "@/lib/Game.js";
 
 let game = new Game();
 game.initialize();

@@ -1,20 +1,20 @@
 <template>
   <div id="game">
     <div class="board">
-      <status-bar></status-bar>
-      <field></field>
+      <ms-status-bar></ms-status-bar>
+      <ms-field></ms-field>
     </div>
   </div>
 </template>
 
 <script>
-import StatusBar from "@/components/layout/StatusBar";
-import Field from "@/components/layout/Field";
+import MsStatusBar from "@/components/organisms/MsStatusBar.vue";
+import MsField from "@/components/organisms/MsField.vue";
 
 export default {
   components: {
-    Field,
-    StatusBar,
+    MsField,
+    MsStatusBar,
   },
 };
 </script>

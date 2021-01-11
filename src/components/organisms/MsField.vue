@@ -1,21 +1,21 @@
 <template>
   <div class="field">
-    <row
+    <ms-field-row
       v-for="(row, index) in rows"
       :key="index"
       :cells="row"
       @cellClick="(x) => open(x, index)"
       @cellRightClick="(x) => flag(x, index)"
-    ></row>
+    ></ms-field-row>
   </div>
 </template>
 
 <script>
-import Row from "./Row";
+import MsFieldRow from "@/components/organisms/MsFieldRow.vue";
 
 export default {
   components: {
-    Row,
+    MsFieldRow,
   },
   computed: {
     rows: function () {

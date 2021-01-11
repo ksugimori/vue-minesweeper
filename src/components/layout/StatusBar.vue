@@ -1,18 +1,18 @@
 <template>
   <div class="status-bar">
     <ms-counter title="mines" :value="mines"></ms-counter>
-    <reset-button></reset-button>
+    <ms-reset-button></ms-reset-button>
     <ms-counter title="time" :value="playTime"></ms-counter>
   </div>
 </template>
 
 <script>
 import MsCounter from "../form/MsCounter.vue";
-import ResetButton from "../form/ResetButton";
+import MsResetButton from "../form/MsResetButton";
 
 export default {
   components: {
-    ResetButton,
+    MsResetButton,
     MsCounter,
   },
   computed: {

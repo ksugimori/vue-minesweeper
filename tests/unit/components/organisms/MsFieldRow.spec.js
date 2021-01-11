@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
-import MsFieldRow from '@/components/layout/MsFieldRow.vue'
-import MsCell from '@/components/layout/MsCell.vue'
+import MsFieldRow from '@/components/organisms/MsFieldRow.vue'
+import MsCell from '@/components/molecules/MsCell.vue'
 
 describe('Row.vue', () => {
   it('配列数だけセルが作成されること', () => {

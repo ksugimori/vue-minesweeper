@@ -1,7 +1,7 @@
 import { mount, createLocalVue } from '@vue/test-utils'
-import MsField from '@/components/layout/MsField.vue'
-import MsFieldRow from '@/components/layout/MsFieldRow.vue'
-import MsCell from '@/components/layout/MsCell.vue'
+import MsField from '@/components/organisms/MsField.vue'
+import MsFieldRow from '@/components/organisms/MsFieldRow.vue'
+import MsCell from '@/components/molecules/MsCell.vue'
 import Vuex from 'vuex'
 import Game from '@/lib/Game'
 

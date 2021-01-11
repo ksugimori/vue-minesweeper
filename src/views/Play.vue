@@ -1,20 +1,20 @@
 <template>
   <div id="game">
     <div class="board">
-      <status-bar></status-bar>
+      <ms-status-bar></ms-status-bar>
       <ms-field></ms-field>
     </div>
   </div>
 </template>
 
 <script>
-import StatusBar from "@/components/layout/StatusBar";
+import MsStatusBar from "@/components/layout/MsStatusBar";
 import MsField from "@/components/layout/MsField";
 
 export default {
   components: {
     MsField,
-    StatusBar,
+    MsStatusBar,
   },
 };
 </script>

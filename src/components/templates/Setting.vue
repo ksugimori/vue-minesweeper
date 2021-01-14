@@ -25,30 +25,30 @@
           <label>WIDTH</label>
           <ms-number-input
             v-model="setting.width"
-            @complete="confirm"
             :min="0"
             :max="100"
-          ></ms-number-input>
+            @complete="confirm"
+          />
         </div>
 
         <div class="form-item">
           <label>HEIGHT</label>
           <ms-number-input
             v-model="setting.height"
-            @complete="confirm"
             :min="0"
             :max="100"
-          ></ms-number-input>
+            @complete="confirm"
+          />
         </div>
 
         <div class="form-item">
           <label>MINE</label>
           <ms-number-input
             v-model="setting.numMines"
-            @complete="confirm"
             :min="0"
             :max="100"
-          ></ms-number-input>
+            @complete="confirm"
+          />
         </div>
       </form>
     </section>
@@ -56,28 +56,28 @@
 </template>
 
 <script>
-import MsNumberInput from "@/components/atoms/MsNumberInput.vue";
-import Setting from "@/lib/Setting.js";
+import MsNumberInput from '@/components/atoms/MsNumberInput.vue'
+import Setting from '@/lib/Setting.js'
 
 export default {
   components: { MsNumberInput },
   data: function () {
     return {
-      presets: [Setting.EASY, Setting.NORMAL, Setting.HARD],
-    };
+      presets: [Setting.EASY, Setting.NORMAL, Setting.HARD]
+    }
   },
   computed: {
-    setting: function() {
-      return this.$store.state.setting;
-    },
+    setting: function () {
+      return this.$store.state.setting
+    }
   },
   methods: {
     confirm: function () {
-      this.$store.commit("updateSetting");
-      this.$store.commit("initialize");
-    },
-  },
-};
+      this.$store.commit('updateSetting')
+      this.$store.commit('initialize')
+    }
+  }
+}
 </script>
 
 <style scoped>

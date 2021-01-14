@@ -1,10 +1,19 @@
 <template>
   <div class="mine">
-    <div class="circle"></div>
-    <div class="bar"></div>
-    <div class="bar" style="transform: rotate(45deg)"></div>
-    <div class="bar" style="transform: rotate(90deg)"></div>
-    <div class="bar" style="transform: rotate(135deg)"></div>
+    <div class="circle" />
+    <div class="bar" />
+    <div
+      class="bar"
+      style="transform: rotate(45deg)"
+    />
+    <div
+      class="bar"
+      style="transform: rotate(90deg)"
+    />
+    <div
+      class="bar"
+      style="transform: rotate(135deg)"
+    />
   </div>
 </template>
 

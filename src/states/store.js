@@ -1,7 +1,7 @@
-import Game from "@/lib/Game.js";
+import Game from '@/lib/Game.js'
 
-let game = new Game();
-game.initialize();
+let game = new Game()
+game.initialize()
 
 const store = {
   state: {
@@ -9,19 +9,19 @@ const store = {
     setting: game.setting.clone()
   },
   mutations: {
-    initialize(state) {
-      state.game.initialize();
+    initialize (state) {
+      state.game.initialize()
     },
-    open(state, { x, y }) {
-      state.game.open(x, y);
+    open (state, { x, y }) {
+      state.game.open(x, y)
     },
-    flag(state, { x, y }) {
-      state.game.flag(x, y);
+    flag (state, { x, y }) {
+      state.game.flag(x, y)
     },
-    updateSetting(state) {
-      state.game.setting = state.setting.clone();
+    updateSetting (state) {
+      state.game.setting = state.setting.clone()
     }
   }
 }
 
-export default store;
+export default store

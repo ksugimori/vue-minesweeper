@@ -4,26 +4,29 @@
       v-for="(cell, index) in cells"
       :key="index"
       :text="cell.text"
-      :hasMine="cell.isMine"
+      :has-mine="cell.isMine"
       :flagged="cell.isFlagged"
       :opened="cell.isOpen"
       @cellClick="$emit('cellClick', index)"
       @cellRightClick="$emit('cellRightClick', index)"
-    ></ms-cell>
+    />
   </div>
 </template>
 
 <script>
-import MsCell from "@/components/molecules/MsCell.vue";
+import MsCell from '@/components/molecules/MsCell.vue'
 
 export default {
-  props: {
-    cells: Array,
-  },
   components: {
-    MsCell,
+    MsCell
   },
-};
+  props: {
+    cells: {
+      type: Array,
+      default: () => []
+    }
+  }
+}
 </script>
 
 <style scoped>

@@ -4,9 +4,15 @@
       <div class="contents">
         <h1>vue-minesweeper</h1>
         <nav>
-          <router-link to="/">How to</router-link>
-          <router-link to="/play">Play</router-link>
-          <router-link to="/setting">Setting</router-link>
+          <router-link to="/">
+            How to
+          </router-link>
+          <router-link to="/play">
+            Play
+          </router-link>
+          <router-link to="/setting">
+            Setting
+          </router-link>
         </nav>
       </div>
     </header>
@@ -17,11 +23,11 @@
 </template>
 
 <script>
-import "normalize.css";
+import 'normalize.css'
 
 export default {
-  name: "app",
-};
+  name: 'App'
+}
 </script>
 
 <style>

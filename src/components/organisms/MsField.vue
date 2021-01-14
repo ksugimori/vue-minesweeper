@@ -6,31 +6,31 @@
       :cells="row"
       @cellClick="(x) => open(x, index)"
       @cellRightClick="(x) => flag(x, index)"
-    ></ms-field-row>
+    />
   </div>
 </template>
 
 <script>
-import MsFieldRow from "@/components/organisms/MsFieldRow.vue";
+import MsFieldRow from '@/components/organisms/MsFieldRow.vue'
 
 export default {
   components: {
-    MsFieldRow,
+    MsFieldRow
   },
   computed: {
     rows: function () {
-      return this.$store.state.game.field.rows;
-    },
+      return this.$store.state.game.field.rows
+    }
   },
   methods: {
     open: function (x, y) {
-      this.$store.commit("open", { x, y });
+      this.$store.commit('open', { x, y })
     },
     flag: function (x, y) {
-      this.$store.commit("flag", { x, y });
-    },
-  },
-};
+      this.$store.commit('flag', { x, y })
+    }
+  }
+}
 </script>
 
 <style scoped>

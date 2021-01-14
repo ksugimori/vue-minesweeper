@@ -1,32 +1,38 @@
 <template>
   <div class="status-bar">
-    <ms-counter title="mines" :value="mines"></ms-counter>
-    <ms-reset-button></ms-reset-button>
-    <ms-counter title="time" :value="playTime"></ms-counter>
+    <ms-counter
+      title="mines"
+      :value="mines"
+    />
+    <ms-reset-button />
+    <ms-counter
+      title="time"
+      :value="playTime"
+    />
   </div>
 </template>
 
 <script>
-import MsCounter from "@/components/atoms/MsCounter.vue";
-import MsResetButton from "@/components/organisms/MsResetButton.vue";
+import MsCounter from '@/components/atoms/MsCounter.vue'
+import MsResetButton from '@/components/organisms/MsResetButton.vue'
 
 export default {
   components: {
     MsResetButton,
-    MsCounter,
+    MsCounter
   },
   computed: {
     mines: function () {
       return (
         this.$store.state.game.setting.numMines -
         this.$store.state.game.flagCount
-      );
+      )
     },
     playTime: function () {
-      return this.$store.state.game.playTime;
-    },
-  },
-};
+      return this.$store.state.game.playTime
+    }
+  }
+}
 </script>
 
 <style scoped>

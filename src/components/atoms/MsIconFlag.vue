@@ -1,7 +1,7 @@
 <template>
   <div class="flag">
-    <div class="pole"></div>
-    <div class="field"></div>
+    <div class="pole" />
+    <div class="field" />
   </div>
 </template>
 

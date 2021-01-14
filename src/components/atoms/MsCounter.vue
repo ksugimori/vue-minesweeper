@@ -1,7 +1,11 @@
 <template>
   <div class="box counter">
-    <div class="title">{{ title }}</div>
-    <div class="value">{{ value }}</div>
+    <div class="title">
+      {{ title }}
+    </div>
+    <div class="value">
+      {{ value }}
+    </div>
   </div>
 </template>
 
@@ -9,9 +13,9 @@
 export default {
   props: {
     title: String,
-    value: Number,
-  },
-};
+    value: Number
+  }
+}
 </script>
 
 <style scoped>

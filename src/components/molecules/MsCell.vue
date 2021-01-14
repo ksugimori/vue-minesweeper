@@ -9,51 +9,51 @@
     @contextmenu.prevent
   >
     {{ opened ? text : "" }}
-    <ms-icon-mine v-if="hasMine && opened"></ms-icon-mine>
-    <ms-icon-flag v-if="flagged && !opened"></ms-icon-flag>
+    <ms-icon-mine v-if="hasMine && opened" />
+    <ms-icon-flag v-if="flagged && !opened" />
   </div>
 </template>
 
 <script>
-import MsIconMine from "@/components/atoms/MsIconMine.vue";
-import MsIconFlag from "@/components/atoms/MsIconFlag.vue";
+import MsIconMine from '@/components/atoms/MsIconMine.vue'
+import MsIconFlag from '@/components/atoms/MsIconFlag.vue'
 export default {
   components: { MsIconMine, MsIconFlag },
   props: {
     text: String,
     hasMine: Boolean,
     flagged: Boolean,
-    opened: Boolean,
+    opened: Boolean
+  },
+  data: function () {
+    return {
+      longPressTimer: null
+    }
   },
   computed: {
     classArray: function () {
       if (this.opened) {
-        return ["open", `color-${this.text}`];
+        return ['open', `color-${this.text}`]
       }
       if (this.flagged) {
-        return ["flagged"];
+        return ['flagged']
       }
 
-      return [];
-    },
-  },
-  data: function () {
-    return {
-      longPressTimer: null,
-    };
+      return []
+    }
   },
   methods: {
     touchStart: function () {
       this.longPressTimer = window.setTimeout(
-        () => this.$emit("cellRightClick"),
+        () => this.$emit('cellRightClick'),
         500
-      );
+      )
     },
     touchEnd: function () {
-      clearTimeout(this.longPressTimer);
-    },
-  },
-};
+      clearTimeout(this.longPressTimer)
+    }
+  }
+}
 </script>
 
 <style scoped>

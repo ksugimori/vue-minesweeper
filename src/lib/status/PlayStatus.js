@@ -1,11 +1,11 @@
-import AbstractStatus from '@/lib/status/AbstractStatus.js';
+import AbstractStatus from '@/lib/status/AbstractStatus.js'
 
 /**
  * プレイ中の状態
  */
 class PlayStatus extends AbstractStatus {
-  constructor() {
-    super("PLAY")
+  constructor () {
+    super('PLAY')
   }
 
   /**
@@ -13,13 +13,13 @@ class PlayStatus extends AbstractStatus {
    * @param {Game} game ゲーム
    * @param {Point} point 座標
    */
-  open(game, point) {
-    game.doOpen(point);
+  open (game, point) {
+    game.doOpen(point)
 
     // 終了判定
-    let endStatus = game.judge();
+    let endStatus = game.judge()
     if (endStatus) {
-      game.endGame(endStatus);
+      game.endGame(endStatus)
     }
   }
 
@@ -28,9 +28,9 @@ class PlayStatus extends AbstractStatus {
    * @param {Game} game ゲーム
    * @param {Point} point 座標
    */
-  flag(game, point) {
-    game.doFlag(point);
+  flag (game, point) {
+    game.doFlag(point)
   }
 }
 
-export default PlayStatus;
+export default PlayStatus

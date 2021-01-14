@@ -20,7 +20,10 @@ import MsIconFlag from '@/components/atoms/MsIconFlag.vue'
 export default {
   components: { MsIconMine, MsIconFlag },
   props: {
-    text: String,
+    text: {
+      type: String,
+      default: ''
+    },
     hasMine: Boolean,
     flagged: Boolean,
     opened: Boolean

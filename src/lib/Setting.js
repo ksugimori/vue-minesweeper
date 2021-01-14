@@ -9,63 +9,63 @@ class Setting {
    * @param {Number} height 高さ
    * @param {Number} numMines 地雷数
    */
-  constructor(width, height, numMines) {
-    this.width = width;
-    this.height = height;
-    this.numMines = numMines;
+  constructor (width, height, numMines) {
+    this.width = width
+    this.height = height
+    this.numMines = numMines
   }
 
   /**
    * 同値であるか判定する。
    * @param {Setting} other 比較するオブジェクト
    */
-  equals(other) {
-    if (!other) return false;
+  equals (other) {
+    if (!other) return false
 
-    return this.height === other.height
-      && this.width === other.width
-      && this.numMines === other.numMines;
+    return this.height === other.height &&
+      this.width === other.width &&
+      this.numMines === other.numMines
   }
 
   /**
    * オブジェクトをコピーする。
    */
-  clone() {
-    let result = new Setting();
+  clone () {
+    let result = new Setting()
 
-    result.merge(this);
+    result.merge(this)
 
-    return result;
+    return result
   }
 
   /**
    * 他のオブジェクトをマージする。
-   * @param {Setting} other 
+   * @param {Setting} other
    */
-  merge(other) {
-    this.width = other.width;
-    this.height = other.height;
-    this.numMines = other.numMines;
+  merge (other) {
+    this.width = other.width
+    this.height = other.height
+    this.numMines = other.numMines
   }
 
   /**
    * 名前。
-   * 
+   *
    * プリセットの難易度の場合はその名前、それ以外の場合は CUSTOM が返ります。
    */
-  get name() {
+  get name () {
     if (this.equals(Setting.EASY)) {
-      return "EASY";
+      return 'EASY'
     }
     if (this.equals(Setting.NORMAL)) {
-      return "NORMAL";
+      return 'NORMAL'
     }
     if (this.equals(Setting.HARD)) {
-      return "HARD";
+      return 'HARD'
     }
 
-    return "CUSTOM";
+    return 'CUSTOM'
   }
 }
 
-export default Setting;
+export default Setting

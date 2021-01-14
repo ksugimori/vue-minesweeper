@@ -1,47 +1,50 @@
 <template>
   <div>
-    <div class="padding"></div>
-    <div @click="reset" :class="['btn', 'box', color()]">
+    <div class="padding" />
+    <div
+      :class="['btn', 'box', color()]"
+      @click="reset"
+    >
       {{ text }}
     </div>
   </div>
 </template>
 
 <script>
-import Status from "@/lib/status/Status.js";
+import Status from '@/lib/status/Status.js'
 
 export default {
   computed: {
     status: function () {
-      return this.$store.state.game.status;
+      return this.$store.state.game.status
     },
     text: function () {
       switch (this.status) {
         case Status.WIN:
-          return "Win!";
+          return 'Win!'
         case Status.LOSE:
-          return "Lose";
+          return 'Lose'
         default:
-          return "Reset";
+          return 'Reset'
       }
-    },
+    }
   },
   methods: {
     color: function () {
       switch (this.status) {
         case Status.WIN:
-          return "color-win";
+          return 'color-win'
         case Status.LOSE:
-          return "color-lose";
+          return 'color-lose'
         default:
-          return "";
+          return ''
       }
     },
     reset: function () {
-      this.$store.commit("initialize");
-    },
-  },
-};
+      this.$store.commit('initialize')
+    }
+  }
+}
 </script>
 
 <style scoped>

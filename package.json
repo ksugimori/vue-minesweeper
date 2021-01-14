@@ -17,9 +17,10 @@
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.1",
-    "@vue/cli-plugin-eslint": "^3.0.1",
+    "@vue/cli-plugin-eslint": "^3.12.1",
     "@vue/cli-plugin-unit-jest": "^4.5.9",
     "@vue/cli-service": "^4.5.9",
+    "@vue/eslint-config-standard": "^4.0.0",
     "@vue/test-utils": "^1.1.2",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.16.0",
@@ -32,14 +33,24 @@
       "node": true
     },
     "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended"
+      "plugin:vue/recommended",
+      "eslint:recommended",
+      "@vue/standard"
     ],
     "rules": {},
     "parserOptions": {
       "parser": "babel-eslint"
     },
     "overrides": [
+      {
+        "files": [
+          "**/__tests__/*.{j,t}s?(x)",
+          "**/tests/unit/**/*.spec.{j,t}s?(x)"
+        ],
+        "env": {
+          "jest": true
+        }
+      },
       {
         "files": [
           "**/__tests__/*.{j,t}s?(x)",

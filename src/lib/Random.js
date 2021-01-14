@@ -1,13 +1,12 @@
-import Point from '@/lib/Point.js';
+import Point from '@/lib/Point.js'
 
 /**
  * ランダム処理
  */
 class Random {
-
   /**
    * ランダムな Point の配列を生成する。
-   * 
+   *
    * x座標は 0 から maxX まで（maxX は含まない）、
    * y座標は 0 から maxY まで（maxY は含まない）、
    * の範囲からランダムに選択します。
@@ -16,26 +15,25 @@ class Random {
    * @param {Number} length 生成する配列の長さ
    * @param {Point} excludePoint 除外する座標
    */
-  randomPoints(maxX, maxY, length, excludePoint) {
-    let result = [];
+  randomPoints (maxX, maxY, length, excludePoint) {
+    let result = []
     while (result.length < length) {
-      let randomX = Math.floor(Math.random() * maxX);
-      let randomY = Math.floor(Math.random() * maxY);
-      let point = Point.of(randomX, randomY);
+      let randomX = Math.floor(Math.random() * maxX)
+      let randomY = Math.floor(Math.random() * maxY)
+      let point = Point.of(randomX, randomY)
 
       if (excludePoint === point) {
-        continue;
+        continue
       }
       if (result.includes(point)) {
-        continue;
+        continue
       }
 
-      result.push(point);
+      result.push(point)
     }
 
-    return result;
+    return result
   }
-
 }
 
-export default Random;
+export default Random

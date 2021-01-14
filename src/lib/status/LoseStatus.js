@@ -1,26 +1,26 @@
-import AbstractStatus from '@/lib/status/AbstractStatus.js';
+import AbstractStatus from '@/lib/status/AbstractStatus.js'
 
 /**
  * ゲーム終了状態（負け）
  */
 class LoseStatus extends AbstractStatus {
-  constructor() {
-    super("LOSE")
+  constructor () {
+    super('LOSE')
   }
 
   /**
    * セルを開く。
    */
-  open() {
+  open () {
     // 何もしない
   }
 
   /**
    * フラグを立てる。
    */
-  flag() {
+  flag () {
     // 何もしない
   }
 }
 
-export default LoseStatus;
+export default LoseStatus

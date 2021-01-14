@@ -7,14 +7,14 @@
       @mousedown="startCountDown"
       @mouseup="stopCountDown"
       @mouseout="stopCountDown"
-    ></div>
+    />
     <input
       type="number"
       :min="min"
       :max="max"
       :value="value"
       @input="emitInput($event.target.value)"
-    />
+    >
     <div
       class="btn btn-plus"
       @touchstart="startCountUp"
@@ -22,74 +22,83 @@
       @mousedown="startCountUp"
       @mouseup="stopCountUp"
       @mouseout="stopCountUp"
-    ></div>
+    />
   </div>
 </template>
 
 <script>
 export default {
   props: {
-    value: Number,
-    min: Number,
-    max: Number,
+    value: {
+      type: Number,
+      default: 0
+    },
+    min: {
+      type: Number,
+      default: Number.MIN_SAFE_INTEGER
+    },
+    max: {
+      type: Number,
+      default: Number.MAX_SAFE_INTEGER
+    }
   },
   methods: {
     emitInput: function (nextValue) {
-      this.$emit("input", nextValue);
+      this.$emit('input', nextValue)
     },
     increment: function () {
-      this.emitInput(Math.min(this.value + 1, this.max));
+      this.emitInput(Math.min(this.value + 1, this.max))
     },
     decrement: function () {
-      this.emitInput(Math.max(this.value - 1, this.min));
+      this.emitInput(Math.max(this.value - 1, this.min))
     },
     startCountUp: function () {
-      this.stopCountUp();
-      this.increment();
+      this.stopCountUp()
+      this.increment()
       this.clickTimer = setTimeout(() => {
         this.timer = setInterval(() => {
           if (this.value >= this.max) {
-            clearInterval(this.timer);
+            clearInterval(this.timer)
           }
-          this.increment();
-        }, 50);
-      }, 500);
+          this.increment()
+        }, 50)
+      }, 500)
     },
     stopCountUp: function () {
-      clearTimeout(this.clickTimer);
-      clearInterval(this.timer);
+      clearTimeout(this.clickTimer)
+      clearInterval(this.timer)
 
       if (this.clickTimer || this.timer) {
-        this.$emit("complete");
-        delete this.clickTimer;
-        delete this.timer;
+        this.$emit('complete')
+        delete this.clickTimer
+        delete this.timer
       }
     },
     startCountDown: function () {
-      this.stopCountDown();
-      this.decrement();
+      this.stopCountDown()
+      this.decrement()
       this.clickTimer = setTimeout(() => {
         this.timer = setInterval(() => {
           if (this.value <= this.min) {
-            clearInterval(this.timer);
-            return;
+            clearInterval(this.timer)
+            return
           }
-          this.decrement();
-        }, 50);
-      }, 500);
+          this.decrement()
+        }, 50)
+      }, 500)
     },
     stopCountDown: function () {
-      clearTimeout(this.clickTimer);
-      clearInterval(this.timer);
+      clearTimeout(this.clickTimer)
+      clearInterval(this.timer)
 
       if (this.clickTimer || this.timer) {
-        this.$emit("complete");
-        delete this.clickTimer;
-        delete this.timer;
+        this.$emit('complete')
+        delete this.clickTimer
+        delete this.timer
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style scoped>

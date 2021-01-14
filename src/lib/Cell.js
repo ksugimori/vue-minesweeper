@@ -5,58 +5,58 @@ class Cell {
   /**
    * コンストラクタ
    */
-  constructor(params) {
-    this.count = 0;
-    this.isOpen = false;
-    this.isMine = false;
-    this.isFlagged = false;
+  constructor (params) {
+    this.count = 0
+    this.isOpen = false
+    this.isMine = false
+    this.isFlagged = false
 
-    Object.assign(this, params);
+    Object.assign(this, params)
   }
 
   /**
    * セルを開く
    */
-  open() {
-    this.isOpen = true;
+  open () {
+    this.isOpen = true
   }
 
   /**
    * 地雷をセットする
    */
-  mine() {
-    this.isMine = true;
+  mine () {
+    this.isMine = true
   }
 
   /**
    * フラグを立てる
    */
-  flag() {
-    if (this.isOpen) return;
+  flag () {
+    if (this.isOpen) return
 
-    this.isFlagged = true;
+    this.isFlagged = true
   }
 
   /**
    * フラグを外す
    */
-  unflag() {
-    this.isFlagged = false;
+  unflag () {
+    this.isFlagged = false
   }
 
   /**
    * 数字文字列
    */
-  get text() {
-    return this.isEmpty ? "" : this.count.toString();
+  get text () {
+    return this.isEmpty ? '' : this.count.toString()
   }
 
   /**
    * 空のセルであるか？
    */
-  get isEmpty() {
-    return this.count === 0;
+  get isEmpty () {
+    return this.count === 0
   }
 }
 
-export default Cell;
+export default Cell

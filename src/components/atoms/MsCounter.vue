@@ -1,17 +1,27 @@
 <template>
   <div class="box counter">
-    <div class="title">{{ title }}</div>
-    <div class="value">{{ value }}</div>
+    <div class="title">
+      {{ title }}
+    </div>
+    <div class="value">
+      {{ value }}
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   props: {
-    title: String,
-    value: Number,
-  },
-};
+    title: {
+      type: String,
+      default: 'xxx'
+    },
+    value: {
+      type: Number,
+      default: 0
+    }
+  }
+}
 </script>
 
 <style scoped>

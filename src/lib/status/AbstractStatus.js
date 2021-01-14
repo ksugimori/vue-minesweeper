@@ -2,8 +2,8 @@
  * ゲームの状態
  */
 class AbstractStatus {
-  constructor(name) {
-    this.name = name;
+  constructor (name) {
+    this.name = name
   }
 
   /**
@@ -11,8 +11,8 @@ class AbstractStatus {
    * @param {Game} game ゲーム
    * @param {Point} point 座標
    */
-  open(game, point) {
-    throw new Error(`Method Unimplemented! open(${game}, ${point})`);
+  open (game, point) {
+    throw new Error(`Method Unimplemented! open(${game}, ${point})`)
   }
 
   /**
@@ -20,9 +20,9 @@ class AbstractStatus {
    * @param {Game} game ゲーム
    * @param {Point} point 座標
    */
-  flag(game, point) {
-    throw new Error(`Method Unimplemented! flag(${game}, ${point}`);
+  flag (game, point) {
+    throw new Error(`Method Unimplemented! flag(${game}, ${point}`)
   }
 }
 
-export default AbstractStatus;
+export default AbstractStatus

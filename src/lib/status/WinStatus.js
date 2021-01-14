@@ -1,26 +1,26 @@
-import AbstractStatus from '@/lib/status/AbstractStatus.js';
+import AbstractStatus from '@/lib/status/AbstractStatus.js'
 
 /**
  * ゲーム終了状態（勝利）
  */
 class WinStatus extends AbstractStatus {
-  constructor() {
-    super("WIN")
+  constructor () {
+    super('WIN')
   }
 
   /**
    * セルを開く。
    */
-  open() {
+  open () {
     // 何もしない
   }
 
   /**
    * フラグを立てる。
    */
-  flag() {
+  flag () {
     // 何もしない
   }
 }
 
-export default WinStatus;
+export default WinStatus

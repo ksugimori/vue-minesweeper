@@ -21,7 +21,10 @@ export default {
     MsCell
   },
   props: {
-    cells: Array
+    cells: {
+      type: Array,
+      default: () => []
+    }
   }
 }
 </script>

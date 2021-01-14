@@ -29,9 +29,18 @@
 <script>
 export default {
   props: {
-    value: Number,
-    min: Number,
-    max: Number
+    value: {
+      type: Number,
+      default: 0
+    },
+    min: {
+      type: Number,
+      default: Number.MIN_SAFE_INTEGER
+    },
+    max: {
+      type: Number,
+      default: Number.MAX_SAFE_INTEGER
+    }
   },
   methods: {
     emitInput: function (nextValue) {

@@ -12,8 +12,14 @@
 <script>
 export default {
   props: {
-    title: String,
-    value: Number
+    title: {
+      type: String,
+      default: 'xxx'
+    },
+    value: {
+      type: Number,
+      default: 0
+    }
   }
 }
 </script>

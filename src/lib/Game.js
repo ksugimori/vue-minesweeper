@@ -174,7 +174,7 @@ class Game {
    */
   openNeighbors (point) {
     const canOpen = (p) => {
-      let cell = this.field.get(p)
+      let cell = this.cellAt(p)
       return !cell.isOpen && !cell.isFlagged
     }
 
@@ -200,7 +200,7 @@ class Game {
    * @param {Point} point 座標
    */
   cellAt (point) {
-    return this.field.get(point)
+    return this.field.at(point)
   }
 }
 

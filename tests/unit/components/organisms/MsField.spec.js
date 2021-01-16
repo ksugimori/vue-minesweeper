@@ -1,7 +1,6 @@
 import { mount, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import MsField from '@/components/organisms/MsField.vue'
-import MsFieldRow from '@/components/organisms/MsFieldRow.vue'
 import MsCell from '@/components/molecules/MsCell.vue'
 import Game from '@/lib/Game'
 
@@ -20,7 +19,6 @@ describe('Row.vue', () => {
 
     const wrapper = mount(MsField, { store, localVue })
 
-    expect(wrapper.findAllComponents(MsFieldRow).length).toBe(2)
     expect(wrapper.findAllComponents(MsCell).length).toBe(6)
   })
 
@@ -40,9 +38,7 @@ describe('Row.vue', () => {
     const wrapper = mount(MsField, { store, localVue })
 
     // ２行目、３列目の Cell をクリック
-    wrapper.findAllComponents(MsFieldRow).at(1)
-      .findAllComponents(MsCell).at(2)
-      .trigger('click')
+    wrapper.findAllComponents(MsCell).at(5).trigger('click')
 
     const args = mockOpen.mock.calls[0]
     // 引数に index が渡されていること
@@ -67,9 +63,7 @@ describe('Row.vue', () => {
     const wrapper = mount(MsField, { store, localVue })
 
     // ２行目、３列目の Cell を右クリック
-    wrapper.findAllComponents(MsFieldRow).at(1)
-      .findAllComponents(MsCell).at(2)
-      .trigger('contextmenu')
+    wrapper.findAllComponents(MsCell).at(5).trigger('contextmenu')
 
     const args = mockFlag.mock.calls[0]
     // 引数に index が渡されていること

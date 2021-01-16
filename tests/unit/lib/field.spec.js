@@ -66,4 +66,23 @@ describe('Field', () => {
       ].sort())
     })
   })
+
+  describe('#at', () => {
+    it('範囲外なら undefined が返ること', () => {
+      const field = new Field(2, 2)
+
+      let p = Point.of(9, 9)
+      expect(field.at(p)).toBeUndefined()
+    })
+
+    it('範囲内ならその座標のセルが取得できること', () => {
+      const field = new Field(2, 2)
+
+      // (x, y) = (0, 1) の count を更新
+      field.values[2].count = 8
+
+      let p = Point.of(0, 1)
+      expect(field.at(p).count).toBe(8)
+    })
+  })
 })

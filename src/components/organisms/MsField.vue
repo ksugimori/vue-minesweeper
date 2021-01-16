@@ -1,25 +1,34 @@
 <template>
   <div class="field">
-    <ms-field-row
-      v-for="(row, index) in rows"
-      :key="index"
-      :cells="row"
-      @cellClick="(x) => open(x, index)"
-      @cellRightClick="(x) => flag(x, index)"
-    />
+    <div
+      v-for="(row, y) in field.rows"
+      :key="y"
+      class="row"
+    >
+      <ms-cell
+        v-for="(cell, x) in row"
+        :key="x"
+        :text="cell.text"
+        :has-mine="cell.isMine"
+        :flagged="cell.isFlagged"
+        :opened="cell.isOpen"
+        @cellClick="open(x, y)"
+        @cellRightClick="flag(x, y)"
+      />
+    </div>
   </div>
 </template>
 
 <script>
-import MsFieldRow from '@/components/organisms/MsFieldRow.vue'
+import MsCell from '@/components/molecules/MsCell.vue'
 
 export default {
   components: {
-    MsFieldRow
+    MsCell
   },
   computed: {
-    rows: function () {
-      return this.$store.state.game.field.rows
+    field: function () {
+      return this.$store.state.game.field
     }
   },
   methods: {
@@ -37,5 +46,9 @@ export default {
 .field {
   display: inline-flex;
   flex-direction: column;
+}
+.row {
+  display: inline-flex;
+  flex-direction: row;
 }
 </style>

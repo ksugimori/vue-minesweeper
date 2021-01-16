@@ -49,7 +49,7 @@ class Field {
    * 指定した座標のセルを取得する
    * @param {Point} point
    */
-  get (point) {
+  at (point) {
     let index = point.y * this.width + point.x
     return this.values[index]
   }

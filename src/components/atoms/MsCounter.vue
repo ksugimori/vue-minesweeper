@@ -1,21 +1,12 @@
 <template>
-  <div class="box counter">
-    <div class="title">
-      {{ title }}
-    </div>
-    <div class="value">
-      {{ value }}
-    </div>
+  <div class="counter">
+    {{ value }}
   </div>
 </template>
 
 <script>
 export default {
   props: {
-    title: {
-      type: String,
-      default: 'xxx'
-    },
     value: {
       type: Number,
       default: 0
@@ -25,20 +16,9 @@ export default {
 </script>
 
 <style scoped>
-.counter > .title {
-  color: #35495e;
-  height: 1rem;
-  text-align: left;
-  font-size: 0.8rem;
-}
-.counter > .value {
-  text-align: right;
-  height: 1.9rem;
-  line-height: 1.9rem;
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #fff;
+.counter {
   background-color: #35495e;
-  padding: 0.6rem;
+  text-align: right;
+  padding: 0 0.6rem;
 }
 </style>

@@ -10,39 +10,43 @@ class Field {
   constructor (width, height) {
     this.width = width
     this.height = height
-    this.values = []
+    this.rows = []
 
-    for (let i = 0; i < width * height; i++) {
-      this.values.push(new Cell())
+    for (let y = 0; y < height; y++) {
+      let row = []
+      for (let x = 0; x < width; x++) {
+        row.push(new Cell())
+      }
+      this.rows.push(row)
     }
   }
 
   /**
-   * 範囲内の座標
+   * すべての要素に関数を適用する。
+   * @param {Function} callback 各要素に適用する関数
    */
-  get points () {
-    let result = []
+  forEach (callback) {
+    this.rows.flat().forEach(callback)
+  }
 
+  /**
+   * 範囲内の座標すべてに関数を適用する。
+   * @param {Function} callback 各座標に適用する関数
+   */
+  forEachPoint (callback) {
     for (let x = 0; x < this.width; x++) {
       for (let y = 0; y < this.height; y++) {
-        result.push(Point.of(x, y))
+        callback(Point.of(x, y))
       }
     }
-
-    return result
   }
 
   /**
-   * 行単位にまとめた配列を返す
+   * フィルタリング関数が true を返す要素数をカウントする。
+   * @param {Function} filter フィルタリング関数
    */
-  get rows () {
-    let result = []
-    for (let row = 0; row < this.height; row++) {
-      let from = row * this.width
-      let to = from + this.width
-      result.push(this.values.slice(from, to))
-    }
-    return result
+  count (filter) {
+    return this.rows.flat().filter(filter).length
   }
 
   /**
@@ -50,8 +54,9 @@ class Field {
    * @param {Point} point
    */
   at (point) {
-    let index = point.y * this.width + point.x
-    return this.values[index]
+    if (this.contains(point)) {
+      return this.rows[point.y][point.x]
+    }
   }
 
   /**

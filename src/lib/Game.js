@@ -24,14 +24,14 @@ class Game {
    * フラグの数
    */
   get flagCount () {
-    return this.field.values.filter(cell => cell.isFlagged).length
+    return this.field.count(cell => cell.isFlagged)
   }
 
   /**
    * 閉じているセルの数
    */
   get closedCount () {
-    return this.field.values.filter(cell => !cell.isOpen).length
+    return this.field.count(cell => !cell.isOpen)
   }
 
   /**
@@ -65,7 +65,7 @@ class Game {
    * ゲームを終了する。
    */
   endGame (status) {
-    this.field.values.forEach(cell => {
+    this.field.forEach(cell => {
       cell.open()
       cell.unflag()
     })
@@ -85,7 +85,7 @@ class Game {
       .forEach(p => this.cellAt(p).mine())
 
     // 各マスの周囲の地雷数をカウントし、value にセットする。
-    this.field.points.forEach(p => {
+    this.field.forEachPoint(p => {
       let cell = this.cellAt(p)
       if (!cell.isMine) {
         cell.count = this.field.arround(p).filter(q => this.cellAt(q).isMine).length
@@ -118,13 +118,13 @@ class Game {
       let arroundFlagCount = this.field.arround(point).filter(p => this.cellAt(p).isFlagged).length
 
       if (cell.count === arroundFlagCount) {
-        this.openNeighbors(point)
+        this.openRecursive(point)
       }
     } else {
       cell.open()
 
       if (cell.isEmpty) {
-        this.openNeighbors(point)
+        this.openRecursive(point)
       }
     }
   }
@@ -157,7 +157,7 @@ class Game {
    * ゲームが終了していればそのステータスを返す。
    */
   judge () {
-    if (this.field.values.filter(cell => cell.isMine).some(cell => cell.isOpen)) {
+    if (this.field.count(cell => cell.isMine && cell.isOpen) > 0) {
       return Status.LOSE
     }
 
@@ -172,7 +172,7 @@ class Game {
    * 数字、フラグ付きセルに到達したらそこで終了します。
    * @param {Point} point 座標
    */
-  openNeighbors (point) {
+  openRecursive (point) {
     const canOpen = (p) => {
       let cell = this.cellAt(p)
       return !cell.isOpen && !cell.isFlagged

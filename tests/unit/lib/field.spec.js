@@ -112,6 +112,32 @@ describe('Field', () => {
     })
   })
 
+  describe('#arround', () => {
+    it('周囲のセルがカウントされること', () => {
+      const field = new Field(3, 3)
+
+      // T T T
+      // T T F
+      // T F F
+      field.at(Point.of(0, 0)).isOpen = true
+      field.at(Point.of(1, 0)).isOpen = true
+      field.at(Point.of(2, 0)).isOpen = true
+      field.at(Point.of(0, 1)).isOpen = true
+      field.at(Point.of(1, 1)).isOpen = true
+      field.at(Point.of(2, 1)).isOpen = false
+      field.at(Point.of(0, 2)).isOpen = true
+      field.at(Point.of(1, 2)).isOpen = false
+      field.at(Point.of(2, 2)).isOpen = false
+
+      let result = field.arround(Point.of(1, 1), c => c.isOpen)
+      expect(result.sort()).toEqual([
+        Point.of(0, 0), Point.of(1, 0), Point.of(2, 0),
+        Point.of(0, 1),
+        Point.of(0, 2)
+      ].sort())
+    })
+  })
+
   describe('#forEach', () => {
     it('全項目に対して操作が行われること', () => {
       const field = new Field(2, 2)

@@ -60,11 +60,12 @@ class Field {
   }
 
   /**
-   * 周囲のセルを配列にして取得する。
+   * 周囲の座標を配列にして取得する。
    * @param {Point} center 座標
+   * @param {Function} filter Cell を引数にとるフィルタリング関数
    */
-  arround (center) {
-    return [
+  arround (center, filter) {
+    let points = [
       // ひとつ上の行
       center.addY(-1).addX(-1),
       center.addY(-1),
@@ -77,6 +78,12 @@ class Field {
       center.addY(1),
       center.addY(1).addX(1)
     ].filter(p => this.contains(p))
+
+    if (filter) {
+      return points.filter(p => filter(this.at(p)))
+    } else {
+      return points
+    }
   }
 
   /**

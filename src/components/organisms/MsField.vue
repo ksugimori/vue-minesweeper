@@ -12,6 +12,7 @@
         :has-mine="cell.isMine"
         :flagged="cell.isFlagged"
         :opened="cell.isOpen"
+        :mistake="cell.isMistake"
         @cellClick="open(x, y)"
         @cellRightClick="flag(x, y)"
       />

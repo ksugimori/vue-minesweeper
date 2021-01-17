@@ -11,14 +11,17 @@
     {{ opened ? text : "" }}
     <ms-icon-mine v-if="hasMine && opened" />
     <ms-icon-flag v-if="flagged && !opened" />
+    <ms-icon-cross v-if="mistake" />
   </div>
 </template>
 
 <script>
 import MsIconMine from '@/components/atoms/MsIconMine.vue'
 import MsIconFlag from '@/components/atoms/MsIconFlag.vue'
+import MsIconCross from '@/components/atoms/MsIconCross.vue'
+
 export default {
-  components: { MsIconMine, MsIconFlag },
+  components: { MsIconMine, MsIconFlag, MsIconCross },
   props: {
     text: {
       type: String,
@@ -26,7 +29,8 @@ export default {
     },
     hasMine: Boolean,
     flagged: Boolean,
-    opened: Boolean
+    opened: Boolean,
+    mistake: Boolean
   },
   data: function () {
     return {

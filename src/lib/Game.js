@@ -65,8 +65,10 @@ class Game {
    */
   endGame (status) {
     this.field.forEach(cell => {
-      cell.open()
-      cell.unflag()
+      if (!cell.isMistake) {
+        cell.unflag()
+        cell.open()
+      }
     })
     this.stopWatch.stop()
     this.status = status
@@ -156,6 +158,8 @@ class Game {
    */
   judge () {
     if (this.field.count(cell => cell.isMine && cell.isOpen) > 0) {
+      this.field.forEach(cell => cell.judge())
+
       return Status.LOSE
     }
 

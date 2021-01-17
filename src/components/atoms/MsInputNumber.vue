@@ -1,5 +1,5 @@
 <template>
-  <div class="number-input">
+  <div class="input-number">
     <div
       class="btn btn-minus"
       @touchstart="startCountDown"
@@ -118,7 +118,7 @@ input[type="number"] {
   user-select: text;
 }
 
-.number-input {
+.input-number {
   display: flex;
 }
 
@@ -174,7 +174,7 @@ input[type="number"] {
   cursor: pointer;
 }
 
-.number-input input {
+.input-number input {
   font-family: "Roboto Mono", monospace;
   border-top: 0.3rem solid #35495e;
   border-bottom: 0.3rem solid #35495e;

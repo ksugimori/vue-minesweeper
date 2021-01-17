@@ -16,28 +16,28 @@
 </template>
 
 <script>
-import MsResetButton from '@/components/atoms/MsResetButton.vue'
-import MsStatusBarItem from '@/components/organisms/MsStatusBarItem.vue'
+import MsStatusBarItem from '@/components/molecules/MsStatusBarItem.vue'
 import MsCounter from '@/components/atoms/MsCounter.vue'
+import MsResetButton from '@/components/atoms/MsResetButton.vue'
 
 export default {
   components: {
-    MsResetButton,
     MsStatusBarItem,
-    MsCounter
+    MsCounter,
+    MsResetButton
   },
   computed: {
+    game: function () {
+      return this.$store.state.game
+    },
     mines: function () {
-      return (
-        this.$store.state.game.setting.numMines -
-        this.$store.state.game.flagCount
-      )
+      return this.game.setting.numMines - this.game.flagCount
     },
     playTime: function () {
-      return this.$store.state.game.playTime
+      return this.game.playTime
     },
     status: function () {
-      return this.$store.state.game.status
+      return this.game.status
     }
   },
   methods: {

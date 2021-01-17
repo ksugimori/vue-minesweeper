@@ -10,7 +10,6 @@ class Cell {
     this.isOpen = false
     this.isMine = false
     this.isFlagged = false
-    this.isMistake = false
 
     Object.assign(this, params)
   }
@@ -46,23 +45,6 @@ class Cell {
   }
 
   /**
-   * ミスであるか判定します。
-   *
-   * 次の条件に合致する場合は isMistake = true に更新します。
-   * ・地雷ではないセルにフラグを立てている
-   * ・地雷のセルを開いている
-   */
-  judge () {
-    if (this.isMine && this.isOpen) {
-      this.isMistake = true
-    } else if (!this.isMine && this.isFlagged) {
-      this.isMistake = true
-    } else {
-      this.isMistake = false
-    }
-  }
-
-  /**
    * 数字文字列
    */
   get text () {
@@ -74,6 +56,18 @@ class Cell {
    */
   get isEmpty () {
     return this.count === 0 && !this.isMine
+  }
+
+  get isMistake () {
+    if (!this.isMine && this.isFlagged) {
+      return true
+    }
+
+    if (this.isMine && this.isOpen) {
+      return true
+    }
+
+    return false
   }
 }
 

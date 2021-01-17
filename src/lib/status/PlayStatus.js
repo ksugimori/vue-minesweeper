@@ -31,6 +31,13 @@ class PlayStatus extends AbstractStatus {
   flag (game, point) {
     game.doFlag(point)
   }
+
+  /**
+   * 終了状態か？
+   */
+  get isEnd () {
+    return false
+  }
 }
 
 export default PlayStatus

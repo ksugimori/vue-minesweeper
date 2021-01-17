@@ -21,6 +21,13 @@ class LoseStatus extends AbstractStatus {
   flag () {
     // 何もしない
   }
+
+  /**
+   * 終了状態か？
+   */
+  get isEnd () {
+    return true
+  }
 }
 
 export default LoseStatus

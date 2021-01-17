@@ -71,6 +71,14 @@ describe('Cell', () => {
       cell.flag()
       expect(cell.isFlagged).toBe(false)
     })
+
+    it('isMine = false のセルにフラグをつけたら isMistake = true になること', () => {
+      const cell = new Cell()
+
+      cell.flag()
+
+      expect(cell.isMistake).toBeTruthy()
+    })
   })
 
   describe('#unflag', () => {
@@ -103,35 +111,6 @@ describe('Cell', () => {
       cell.count = 0
       cell.mine()
       expect(cell.isEmpty).toBeFalsy()
-    })
-  })
-
-  describe('#judge', () => {
-    it('isMine = true なのに isOpen = true なら isMistake フラグが立つこと', () => {
-      const cell = new Cell()
-      cell.mine()
-      cell.open()
-
-      cell.judge()
-
-      expect(cell.isMistake).toBeTruthy()
-    })
-
-    it('isMine = false なのに isFlagged = true なら isMistake フラグが立つこと', () => {
-      const cell = new Cell()
-      cell.flag()
-
-      cell.judge()
-
-      expect(cell.isMistake).toBeTruthy()
-    })
-
-    it('初期状態では isMistake = false であること', () => {
-      const cell = new Cell()
-
-      cell.judge()
-
-      expect(cell.isMistake).toBeFalsy()
     })
   })
 })

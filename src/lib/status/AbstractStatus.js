@@ -23,6 +23,13 @@ class AbstractStatus {
   flag (game, point) {
     throw new Error(`Method Unimplemented! flag(${game}, ${point}`)
   }
+
+  /**
+   * 終了状態か？
+   */
+  get isEnd () {
+    throw new Error(`Method Unimplemented! isEnd()`)
+  }
 }
 
 export default AbstractStatus

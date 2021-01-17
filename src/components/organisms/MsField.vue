@@ -9,10 +9,10 @@
         v-for="(cell, x) in row"
         :key="x"
         :text="cell.text"
-        :has-mine="cell.isMine"
-        :flagged="cell.isFlagged"
-        :opened="cell.isOpen"
-        :mistake="cell.isMistake"
+        :mine="cell.isMine"
+        :flag="cell.isFlagged"
+        :show="status.isEnd || cell.isOpen"
+        :failure="status.isEnd && cell.isMistake"
         @cellClick="open(x, y)"
         @cellRightClick="flag(x, y)"
       />
@@ -28,8 +28,14 @@ export default {
     MsCell
   },
   computed: {
+    game: function () {
+      return this.$store.state.game
+    },
     field: function () {
-      return this.$store.state.game.field
+      return this.game.field
+    },
+    status: function () {
+      return this.game.status
     }
   },
   methods: {

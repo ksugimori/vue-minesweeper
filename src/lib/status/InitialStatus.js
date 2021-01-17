@@ -36,6 +36,13 @@ class InitialStatus extends AbstractStatus {
   flag () {
     // 何もしない
   }
+
+  /**
+   * 終了状態か？
+   */
+  get isEnd () {
+    return false
+  }
 }
 
 export default InitialStatus

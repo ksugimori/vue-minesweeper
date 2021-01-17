@@ -195,14 +195,6 @@ describe('Game', () => {
       // テスト実行
       game.open(1, 1)
 
-      // 検証
-      // すべて開かれること
-      expect(extractRows(game, c => c.isOpen)).toEqual([
-        [true, true],
-        [true, true],
-        [true, true]
-      ])
-
       // ステータスは LOSE になること
       expect(game.status).toBe(Status.LOSE)
     })
@@ -229,8 +221,6 @@ describe('Game', () => {
       game.open(2, 1)
       game.open(2, 2)
 
-      // ゲーム終了したので自動的にすべて開く
-      expect(game.closedCount).toBe(0)
       expect(game.status).toBe(Status.WIN)
     })
   })
@@ -311,19 +301,6 @@ describe('Game', () => {
       game.initialize().endGame(Status.WIN)
 
       expect(StopWatch.mock.instances[0].stop).toHaveBeenCalledTimes(1)
-    })
-
-    it('すべてのセルが開かれ、フラグが外されること', () => {
-      const game = initGame(2, 2, Point.of(0, 0))
-
-      game.open(1, 1)
-      game.flag(0, 1)
-      game.flag(1, 0)
-
-      game.endGame(Status.WIN)
-
-      expect(game.flagCount).toBe(0)
-      expect(game.closedCount).toBe(0)
     })
   })
 })

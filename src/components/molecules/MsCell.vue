@@ -8,10 +8,10 @@
     @touchend="touchEnd"
     @contextmenu.prevent
   >
-    {{ opened ? text : "" }}
-    <ms-icon-mine v-if="hasMine && opened" />
-    <ms-icon-flag v-if="flagged && !opened" />
-    <ms-icon-cross v-if="mistake" />
+    {{ show ? text : "" }}
+    <ms-icon-mine v-if="mine && show" />
+    <ms-icon-flag v-if="flag && !show" />
+    <ms-icon-cross v-if="failure" />
   </div>
 </template>
 
@@ -27,10 +27,10 @@ export default {
       type: String,
       default: ''
     },
-    hasMine: Boolean,
-    flagged: Boolean,
-    opened: Boolean,
-    mistake: Boolean
+    mine: Boolean,
+    flag: Boolean,
+    show: Boolean,
+    failure: Boolean
   },
   data: function () {
     return {
@@ -39,11 +39,11 @@ export default {
   },
   computed: {
     classArray: function () {
-      if (this.opened) {
+      if (this.show) {
         return ['open', `color-${this.text}`]
       }
-      if (this.flagged) {
-        return ['flagged']
+      if (this.flag) {
+        return ['flag']
       }
 
       return []

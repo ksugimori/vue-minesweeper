@@ -56,11 +56,13 @@ describe('Field', () => {
     })
   })
 
-  describe('#points', () => {
+  describe('#forEachPoint', () => {
     it('範囲内の座標がすべて返されること', () => {
       const field = new Field(2, 2)
 
-      expect(field.points.sort()).toEqual([
+      let result = []
+      field.forEachPoint(p => result.push(p))
+      expect(result.sort()).toEqual([
         Point.of(0, 0), Point.of(0, 1),
         Point.of(1, 0), Point.of(1, 1)
       ].sort())
@@ -79,10 +81,49 @@ describe('Field', () => {
       const field = new Field(2, 2)
 
       // (x, y) = (0, 1) の count を更新
-      field.values[2].count = 8
-
       let p = Point.of(0, 1)
+      field.at(p).count = 8
+
       expect(field.at(p).count).toBe(8)
+    })
+  })
+
+  describe('#count', () => {
+    it('指定した条件でカウントできること', () => {
+      const field = new Field(2, 2)
+
+      field.at(Point.of(0, 0)).isOpen = true
+      field.at(Point.of(0, 1)).isOpen = false
+      field.at(Point.of(1, 0)).isOpen = false
+      field.at(Point.of(1, 1)).isOpen = false
+
+      expect(field.count(cell => cell.isOpen === false)).toBe(3)
+    })
+
+    it('条件に合致するものがなければ 0 が返ること', () => {
+      const field = new Field(2, 2)
+
+      field.at(Point.of(0, 0)).isOpen = false
+      field.at(Point.of(0, 1)).isOpen = false
+      field.at(Point.of(1, 0)).isOpen = false
+      field.at(Point.of(1, 1)).isOpen = false
+
+      expect(field.count(cell => cell.isOpen)).toBe(0)
+    })
+  })
+
+  describe('#forEach', () => {
+    it('全項目に対して操作が行われること', () => {
+      const field = new Field(2, 2)
+
+      // 初期状態ではフラグは 0 件
+      expect(field.count(cell => cell.isFlagged)).toBe(0)
+
+      // 全てのセルにフラグをセット
+      field.forEach(cell => cell.flag())
+
+      // フラグは 4 件になっていること
+      expect(field.count(cell => cell.isFlagged)).toBe(4)
     })
   })
 })

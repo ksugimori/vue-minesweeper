@@ -1,12 +1,9 @@
 <template>
-  <div>
-    <div class="padding" />
-    <div
-      :class="['btn', 'box', color()]"
-      @click="reset"
-    >
-      {{ text }}
-    </div>
+  <div
+    :class="['btn', colorClass()]"
+    @click="$emit('click')"
+  >
+    {{ text }}
   </div>
 </template>
 
@@ -14,10 +11,13 @@
 import Status from '@/lib/status/Status.js'
 
 export default {
+  props: {
+    status: {
+      type: Object,
+      default: Status.INIT
+    }
+  },
   computed: {
-    status: function () {
-      return this.$store.state.game.status
-    },
     text: function () {
       switch (this.status) {
         case Status.WIN:
@@ -30,7 +30,7 @@ export default {
     }
   },
   methods: {
-    color: function () {
+    colorClass: function () {
       switch (this.status) {
         case Status.WIN:
           return 'color-win'
@@ -39,30 +39,19 @@ export default {
         default:
           return ''
       }
-    },
-    reset: function () {
-      this.$store.commit('initialize')
     }
   }
 }
 </script>
 
 <style scoped>
-.padding {
-  content: "";
-  display: block;
-  height: 1rem;
-}
 .btn {
-  width: 6.15rem !important;
-  height: 2.5rem !important;
-  border: 0.3rem solid #35495e;
-  background-color: #35495e;
-  color: #fff;
-  font-weight: bold;
-  font-size: 1.5rem;
-  line-height: 2.4rem;
   cursor: pointer;
+  text-align: center;
+  height: 2.5rem;
+  line-height: 2.5rem;
+  background-color: #35495e;
+  border: 0.3rem solid #35495e;
 }
 .btn:hover {
   background-color: #fff;

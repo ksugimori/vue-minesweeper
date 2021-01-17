@@ -3,7 +3,7 @@ import Status from '@/lib/status/Status.js'
 import Field from '@/lib/Field.js'
 import StopWatch from '@/lib/StopWatch.js'
 import Setting from '@/lib/Setting.js'
-import Random from '@/lib/Random.js'
+import random from '@/lib/random.js'
 
 /**
  * マインスイーパー全体を管理するクラス
@@ -13,7 +13,6 @@ class Game {
    * コンストラクタ
    */
   constructor () {
-    this.random = new Random()
     this.field = new Field()
     this.stopWatch = new StopWatch()
     this.setting = Setting.EASY
@@ -81,8 +80,7 @@ class Game {
    */
   mine (exclude) {
     // 地雷をランダムにセット
-    this.random.randomPoints(this.setting.width, this.setting.height, this.setting.numMines, exclude)
-      .forEach(p => this.field.at(p).mine())
+    random.points(this.setting.width, this.setting.height, this.setting.numMines, exclude).forEach(p => this.field.at(p).mine())
 
     // 各マスの周囲の地雷数をカウントし、value にセットする。
     this.field.forEachPoint(p => {

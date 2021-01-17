@@ -2,6 +2,7 @@ import Game from '@/lib/Game.js'
 import Status from '@/lib/status/Status.js'
 import Point from '@/lib/Point.js'
 import StopWatch from '@/lib/StopWatch.js'
+import random from '@/lib/random'
 jest.mock('@/lib/StopWatch.js')
 
 /**
@@ -24,7 +25,10 @@ function initGame (width, height, ...mines) {
 
   let numMines = mines.length
   game.setting.merge({ width, height, numMines })
-  game.random = { randomPoints: () => mines }
+
+  // ランダムな地雷の配置はモックする
+  let spy = jest.spyOn(random, 'points')
+  spy.mockReturnValue(mines)
 
   game.initialize()
 

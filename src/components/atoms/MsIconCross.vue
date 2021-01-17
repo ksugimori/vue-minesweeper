@@ -16,7 +16,7 @@
   content: "";
   display: block;
   position: absolute;
-  background-color: red;
+  background-color: #e60067;
   width: 0.3rem;
   height: 2.97rem;
   border-radius: 0.2rem;

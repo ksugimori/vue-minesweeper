@@ -82,13 +82,13 @@ class Game {
   mine (exclude) {
     // 地雷をランダムにセット
     this.random.randomPoints(this.setting.width, this.setting.height, this.setting.numMines, exclude)
-      .forEach(p => this.cellAt(p).mine())
+      .forEach(p => this.field.at(p).mine())
 
     // 各マスの周囲の地雷数をカウントし、value にセットする。
     this.field.forEachPoint(p => {
-      let cell = this.cellAt(p)
+      let cell = this.field.at(p)
       if (!cell.isMine) {
-        cell.count = this.field.arround(p).filter(q => this.cellAt(q).isMine).length
+        cell.count = this.field.arround(p, c => c.isMine).length
       }
     })
   }
@@ -108,14 +108,14 @@ class Game {
    * @param {Point} point 座標
    */
   doOpen (point) {
-    const cell = this.cellAt(point)
+    const cell = this.field.at(point)
 
     if (cell.isFlagged) {
       return
     }
 
     if (cell.isOpen) {
-      let arroundFlagCount = this.field.arround(point).filter(p => this.cellAt(p).isFlagged).length
+      let arroundFlagCount = this.field.arround(point, c => c.isFlagged).length
 
       if (cell.count === arroundFlagCount) {
         this.openRecursive(point)
@@ -143,7 +143,7 @@ class Game {
    * @param {Point} point 座標
    */
   doFlag (point) {
-    let cell = this.cellAt(point)
+    let cell = this.field.at(point)
     if (cell.isFlagged) {
       cell.unflag()
     } else {
@@ -173,34 +173,21 @@ class Game {
    * @param {Point} point 座標
    */
   openRecursive (point) {
-    const canOpen = (p) => {
-      let cell = this.cellAt(p)
-      return !cell.isOpen && !cell.isFlagged
-    }
+    const isNotOpenOrFlagged = (cell) => !cell.isOpen && !cell.isFlagged
 
-    let queue = this.field.arround(point).filter(p => canOpen(p))
+    let queue = this.field.arround(point, isNotOpenOrFlagged)
 
     let target
     while ((target = queue.shift()) !== undefined) {
-      let cell = this.cellAt(target)
+      let cell = this.field.at(target)
 
       cell.open()
 
       // 開いたセルが空白なら、その周囲を再帰的に開く
       if (cell.isEmpty) {
-        this.field.arround(target).filter(p => canOpen(p))
-          .filter(p => !queue.includes(p))
-          .forEach(p => queue.push(p))
+        this.field.arround(target, isNotOpenOrFlagged).filter(p => queue.includes(p)).forEach(p => queue.push(p))
       }
     }
-  }
-
-  /**
-   * 指定した座標のセルを取得する
-   * @param {Point} point 座標
-   */
-  cellAt (point) {
-    return this.field.at(point)
   }
 }
 

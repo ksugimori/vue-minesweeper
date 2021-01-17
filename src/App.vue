@@ -86,4 +86,11 @@ nav .router-link-exact-active {
   background-color: #fff;
   color: #42b983;
 }
+
+* {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 </style>

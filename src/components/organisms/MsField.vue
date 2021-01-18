@@ -10,9 +10,9 @@
         :key="x"
         :text="cell.text"
         :mine="cell.isMine"
-        :flag="cell.isFlagged"
-        :show="status.isEnd || cell.isOpen"
-        :failure="status.isEnd && cell.isMistake"
+        :flag="cell.isFlag"
+        :miss="status.isEnd && cell.isMiss"
+        :reverse="status.isEnd || cell.isOpen"
         @cellClick="open(x, y)"
         @cellRightClick="flag(x, y)"
       />

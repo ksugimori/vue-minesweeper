@@ -2,13 +2,13 @@ import Cell from '@/lib/Cell.js'
 
 describe('Cell', () => {
   describe('#initialize', () => {
-    it('初期状態では count=0, isOpen=false, isMine=false, isFlagged=false であること', () => {
+    it('初期状態では count=0, isOpen=false, isMine=false, isFlag=false であること', () => {
       const cell = new Cell()
 
       expect(cell.count).toBe(0)
       expect(cell.isOpen).toBe(false)
       expect(cell.isMine).toBe(false)
-      expect(cell.isFlagged).toBe(false)
+      expect(cell.isFlag).toBe(false)
     })
 
     it('パラメータを渡すと初期状態にマージされること', () => {
@@ -16,13 +16,13 @@ describe('Cell', () => {
         count: 999,
         isOpen: true,
         isMine: true,
-        isFlagged: true
+        isFlag: true
       })
 
       expect(cell.count).toBe(999)
       expect(cell.isOpen).toBe(true)
       expect(cell.isMine).toBe(true)
-      expect(cell.isFlagged).toBe(true)
+      expect(cell.isFlag).toBe(true)
     })
   })
 
@@ -53,15 +53,15 @@ describe('Cell', () => {
   })
 
   describe('#flag', () => {
-    it('isFlagged が true になること', () => {
+    it('isFlag が true になること', () => {
       const cell = new Cell()
 
       cell.flag()
-      expect(cell.isFlagged).toBe(true)
+      expect(cell.isFlag).toBe(true)
 
       // 複数回実行しても true のままであること
       cell.flag()
-      expect(cell.isFlagged).toBe(true)
+      expect(cell.isFlag).toBe(true)
     })
 
     it('open 済のセルに対してはフラグは付けられないこと', () => {
@@ -69,28 +69,28 @@ describe('Cell', () => {
 
       cell.open()
       cell.flag()
-      expect(cell.isFlagged).toBe(false)
+      expect(cell.isFlag).toBe(false)
     })
 
-    it('isMine = false のセルにフラグをつけたら isMistake = true になること', () => {
+    it('isMine = false のセルにフラグをつけたら isMiss = true になること', () => {
       const cell = new Cell()
 
       cell.flag()
 
-      expect(cell.isMistake).toBeTruthy()
+      expect(cell.isMiss).toBeTruthy()
     })
   })
 
   describe('#unflag', () => {
-    it('isFlagged が false になること', () => {
+    it('isFlag が false になること', () => {
       const cell = new Cell()
 
       cell.unflag()
-      expect(cell.isFlagged).toBe(false)
+      expect(cell.isFlag).toBe(false)
 
       // 複数回実行しても true のままであること
       cell.unflag()
-      expect(cell.isFlagged).toBe(false)
+      expect(cell.isFlag).toBe(false)
     })
   })
 

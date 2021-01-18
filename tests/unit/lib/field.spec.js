@@ -143,13 +143,13 @@ describe('Field', () => {
       const field = new Field(2, 2)
 
       // 初期状態ではフラグは 0 件
-      expect(field.count(cell => cell.isFlagged)).toBe(0)
+      expect(field.count(cell => cell.isFlag)).toBe(0)
 
       // 全てのセルにフラグをセット
       field.forEach(cell => cell.flag())
 
       // フラグは 4 件になっていること
-      expect(field.count(cell => cell.isFlagged)).toBe(4)
+      expect(field.count(cell => cell.isFlag)).toBe(4)
     })
   })
 })

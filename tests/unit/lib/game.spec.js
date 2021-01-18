@@ -85,7 +85,7 @@ describe('Game', () => {
       ])
     })
 
-    it('すべてのセルが isFlagged=false となっていること', () => {
+    it('すべてのセルが isFlag=false となっていること', () => {
       const game = new Game()
       game.setting.merge({ width: 3, height: 3, numMines: 2 })
       game.initialize()
@@ -97,7 +97,7 @@ describe('Game', () => {
       // initialize が呼ばれるとクリアされることを確認
       game.initialize()
 
-      expect(extractRows(game, cell => cell.isFlagged)).toEqual([
+      expect(extractRows(game, cell => cell.isFlag)).toEqual([
         [false, false, false],
         [false, false, false],
         [false, false, false]
@@ -168,7 +168,7 @@ describe('Game', () => {
       ])
     })
 
-    it('指定したセルが空の場合、そのセルの周囲８セルに isOpen フラグが立つが、isFlagged=true となっているセルは変更されないこと', () => {
+    it('指定したセルが空の場合、そのセルの周囲８セルに isOpen フラグが立つが、isFlag=true となっているセルは変更されないこと', () => {
       // 3 行 5 列、4 行目に地雷がある
       const game = initGame(3, 5, Point.of(0, 3), Point.of(1, 3), Point.of(2, 3))
 

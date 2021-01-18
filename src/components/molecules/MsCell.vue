@@ -8,20 +8,25 @@
     @touchend="touchEnd"
     @contextmenu.prevent
   >
-    {{ show ? text : "" }}
-    <ms-icon-mine v-if="mine && show" />
-    <ms-icon-flag v-if="flag && !show" />
-    <ms-icon-cross v-if="failure" />
+    <div v-if="reverse">
+      <ms-icon-mine v-if="mine" />
+      <span v-else>{{ text }}</span>
+
+      <ms-icon-miss v-if="miss" />
+    </div>
+    <div v-else>
+      <ms-icon-flag v-if="flag" />
+    </div>
   </div>
 </template>
 
 <script>
 import MsIconMine from '@/components/atoms/MsIconMine.vue'
 import MsIconFlag from '@/components/atoms/MsIconFlag.vue'
-import MsIconCross from '@/components/atoms/MsIconCross.vue'
+import MsIconMiss from '@/components/atoms/MsIconMiss.vue'
 
 export default {
-  components: { MsIconMine, MsIconFlag, MsIconCross },
+  components: { MsIconMine, MsIconFlag, MsIconMiss },
   props: {
     text: {
       type: String,
@@ -29,8 +34,8 @@ export default {
     },
     mine: Boolean,
     flag: Boolean,
-    show: Boolean,
-    failure: Boolean
+    reverse: Boolean,
+    miss: Boolean
   },
   data: function () {
     return {
@@ -39,7 +44,7 @@ export default {
   },
   computed: {
     classArray: function () {
-      if (this.show) {
+      if (this.reverse) {
         return ['open', `color-${this.text}`]
       }
       if (this.flag) {

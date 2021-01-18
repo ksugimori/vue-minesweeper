@@ -2,22 +2,22 @@ import { shallowMount } from '@vue/test-utils'
 import MsCell from '@/components/molecules/MsCell.vue'
 
 describe('MsCell.vue', () => {
-  it('opened=false の場合は count が描画されないこと', () => {
+  it('reverse=false の場合は count が描画されないこと', () => {
     const wrapper = shallowMount(MsCell, {
       propsData: {
         text: '8',
-        opened: false
+        reverse: false
       }
     })
 
     expect(wrapper.text()).not.toContain('8')
   })
 
-  it('opened=true の場合は count が描画されること', () => {
+  it('reverse=true の場合は count が描画されること', () => {
     const wrapper = shallowMount(MsCell, {
       propsData: {
         text: '8',
-        opened: true
+        reverse: true
       }
     })
 
@@ -28,7 +28,7 @@ describe('MsCell.vue', () => {
     const wrapper = shallowMount(MsCell, {
       propsData: {
         text: '8',
-        opened: true
+        reverse: true
       }
     })
 
@@ -43,7 +43,7 @@ describe('MsCell.vue', () => {
     const wrapper = shallowMount(MsCell, {
       propsData: {
         text: '8',
-        opened: true
+        reverse: true
       }
     })
 

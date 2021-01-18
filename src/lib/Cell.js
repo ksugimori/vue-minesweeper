@@ -9,7 +9,7 @@ class Cell {
     this.count = 0
     this.isOpen = false
     this.isMine = false
-    this.isFlagged = false
+    this.isFlag = false
 
     Object.assign(this, params)
   }
@@ -34,14 +34,14 @@ class Cell {
   flag () {
     if (this.isOpen) return
 
-    this.isFlagged = true
+    this.isFlag = true
   }
 
   /**
    * フラグを外す
    */
   unflag () {
-    this.isFlagged = false
+    this.isFlag = false
   }
 
   /**
@@ -58,8 +58,15 @@ class Cell {
     return this.count === 0 && !this.isMine
   }
 
-  get isMistake () {
-    if (!this.isMine && this.isFlagged) {
+  /**
+   * ミスしたセルか？
+   *
+   * 以下いずれかに当てはまる場合は true を返します
+   * ・地雷なのに開いてしまった
+   * ・フラグを立てたのに地雷じゃなかった
+   */
+  get isMiss () {
+    if (!this.isMine && this.isFlag) {
       return true
     }
 

@@ -23,7 +23,7 @@ class Game {
    * フラグの数
    */
   get flagCount () {
-    return this.field.count(cell => cell.isFlagged)
+    return this.field.count(cell => cell.isFlag)
   }
 
   /**
@@ -104,12 +104,12 @@ class Game {
   doOpen (point) {
     const cell = this.field.at(point)
 
-    if (cell.isFlagged) {
+    if (cell.isFlag) {
       return
     }
 
     if (cell.isOpen) {
-      let arroundFlagCount = this.field.arround(point, c => c.isFlagged).length
+      let arroundFlagCount = this.field.arround(point, c => c.isFlag).length
 
       if (cell.count === arroundFlagCount) {
         this.openRecursive(point)
@@ -138,7 +138,7 @@ class Game {
    */
   doFlag (point) {
     let cell = this.field.at(point)
-    if (cell.isFlagged) {
+    if (cell.isFlag) {
       cell.unflag()
     } else {
       cell.flag()
@@ -167,7 +167,7 @@ class Game {
    * @param {Point} point 座標
    */
   openRecursive (point) {
-    const isNotOpenOrFlagged = (cell) => !cell.isOpen && !cell.isFlagged
+    const isNotOpenOrFlagged = (cell) => !cell.isOpen && !cell.isFlag
 
     let queue = this.field.arround(point, isNotOpenOrFlagged)
 

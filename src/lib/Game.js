@@ -24,21 +24,21 @@ class Game {
    * フラグの数
    */
   get flagCount () {
-    return this.field.count(cell => cell.isFlag)
+    return this.field.points(cell => cell.isFlag).length
   }
 
   /**
    * 閉じているセルの数
    */
   get closedCount () {
-    return this.field.count(cell => !cell.isOpen)
+    return this.field.points(cell => !cell.isOpen).length
   }
 
   /**
    * ミスしたセル数（地雷なのに開いてしまったセルの数）
    */
   get missCount () {
-    return this.field.count(cell => cell.isMine && cell.isOpen)
+    return this.field.points(cell => cell.isMine && cell.isOpen).length
   }
 
   /**
@@ -96,13 +96,13 @@ class Game {
    */
   mine (exclude) {
     // 地雷をランダムにセット
-    random.points(this.setting.width, this.setting.height, this.setting.numMines, exclude).forEach(p => this.field.at(p).mine())
+    random.points(this.setting.width, this.setting.height, this.setting.numMines, exclude).forEach(p => this.field.cellAt(p).mine())
 
     // 各マスの周囲の地雷数をカウントし、value にセットする。
-    this.field.points.forEach(p => {
-      let cell = this.field.at(p)
+    this.field.points().forEach(p => {
+      let cell = this.field.cellAt(p)
       if (!cell.isMine) {
-        cell.count = this.field.arround(p, c => c.isMine).length
+        cell.count = this.field.pointsArround(p, c => c.isMine).length
       }
     })
   }
@@ -122,14 +122,14 @@ class Game {
    * @param {Point} point 座標
    */
   doOpen (point) {
-    const cell = this.field.at(point)
+    const cell = this.field.cellAt(point)
 
     if (cell.isFlag) {
       return
     }
 
     if (cell.isOpen) {
-      let arroundFlagCount = this.field.arround(point, c => c.isFlag).length
+      let arroundFlagCount = this.field.pointsArround(point, c => c.isFlag).length
 
       if (cell.count === arroundFlagCount) {
         this.openRecursive(point)
@@ -157,7 +157,7 @@ class Game {
    * @param {Point} point 座標
    */
   doFlag (point) {
-    let cell = this.field.at(point)
+    let cell = this.field.cellAt(point)
     if (cell.isFlag) {
       cell.unflag()
     } else {
@@ -176,17 +176,17 @@ class Game {
     const canOpen = (cell) => !cell.isOpen && !cell.isFlag
 
     let queue = new UniquePointQueue()
-    this.field.arround(point, canOpen).forEach(p => queue.push(p))
+    this.field.pointsArround(point, canOpen).forEach(p => queue.push(p))
 
     let target
     while ((target = queue.shift()) !== undefined) {
-      let cell = this.field.at(target)
+      let cell = this.field.cellAt(target)
 
       cell.open()
 
       // 開いたセルが空白なら、その周囲を再帰的に開く
       if (cell.isEmpty) {
-        this.field.arround(target, canOpen).forEach(p => queue.push(p))
+        this.field.pointsArround(target, canOpen).forEach(p => queue.push(p))
       }
     }
   }

@@ -179,9 +179,8 @@ class Game {
 
       // 開いたセルが空白なら、その周囲を再帰的に開く
       if (cell.isEmpty) {
-        this.field.arround(target, isNotOpenOrFlagged)
-          .filter(p => queue.every(e => !e.equals(p)))
-          .forEach(p => queue.push(p))
+        queue.merge(this.field.arround(target, isNotOpenOrFlagged))
+        queue.uniq()
       }
     }
   }

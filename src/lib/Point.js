@@ -14,6 +14,18 @@ class Point {
   }
 
   /**
+   * ファクトリーメソッド。
+   *
+   * 現状はコンストラクタと同じです。
+   * あくまでも読みやすさのためだけに使います。
+   * @param {Number} x x座標
+   * @param {Number} y y座標
+   */
+  static of (x, y) {
+    return new Point(x, y)
+  }
+
+  /**
    * x座標
    */
   get x () {
@@ -28,37 +40,11 @@ class Point {
   }
 
   /**
-   * インスタンスのキャッシュ
+   * オブジェクトの同値比較。
+   * @param {Point} other 比較対象のオブジェクト
    */
-  static _cache = {};
-
-  /**
-   * キャッシュのキー
-   * @param {Number} x x座標
-   * @param {Number} y y座標
-   */
-  static _cacheKey (x, y) {
-    return `${x},${y}`
-  }
-
-  /**
-   * ファクトリーメソッド。
-   *
-   * このメソッドでは、一度作成されたインスタンスはキャッシュされ、
-   * 同じ座標の場合は必ず同じインスタンスを返します。
-   * @param {Number} x x座標
-   * @param {Number} y y座標
-   */
-  static of (x, y) {
-    const cacheKey = Point._cacheKey(x, y)
-
-    if (cacheKey in Point._cache) {
-      return Point._cache[cacheKey]
-    } else {
-      let instance = new Point(x, y)
-      Point._cache[cacheKey] = instance
-      return instance
-    }
+  equals (other) {
+    return this._x === other._x && this._y === other._y
   }
 
   /**

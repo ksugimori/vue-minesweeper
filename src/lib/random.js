@@ -18,10 +18,10 @@ function points (maxX, maxY, length, excludePoint) {
     let randomY = Math.floor(Math.random() * maxY)
     let point = Point.of(randomX, randomY)
 
-    if (excludePoint === point) {
+    if (excludePoint.equals(point)) {
       continue
     }
-    if (result.includes(point)) {
+    if (result.some(p => p.equals(point))) {
       continue
     }
 

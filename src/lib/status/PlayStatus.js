@@ -1,4 +1,5 @@
 import AbstractStatus from '@/lib/status/AbstractStatus.js'
+import Status from '@/lib/status/Status.js'
 
 /**
  * プレイ中の状態
@@ -17,9 +18,12 @@ class PlayStatus extends AbstractStatus {
     game.doOpen(point)
 
     // 終了判定
-    let endStatus = game.judge()
-    if (endStatus) {
-      game.endGame(endStatus)
+    if (game.isWin()) {
+      game.timerStop()
+      game.status = Status.WIN
+    } else if (game.isLose()) {
+      game.timerStop()
+      game.status = Status.LOSE
     }
   }
 

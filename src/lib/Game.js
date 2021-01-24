@@ -4,6 +4,7 @@ import Field from '@/lib/Field.js'
 import StopWatch from '@/lib/StopWatch.js'
 import Setting from '@/lib/Setting.js'
 import random from '@/lib/random.js'
+import UniquePointQueue from './UniquePointQueue'
 
 /**
  * マインスイーパー全体を管理するクラス
@@ -171,9 +172,11 @@ class Game {
    * @param {Point} point 座標
    */
   openRecursive (point) {
-    const isNotOpenOrFlagged = (cell) => !cell.isOpen && !cell.isFlag
+    // 開けるセルであるか？
+    const canOpen = (cell) => !cell.isOpen && !cell.isFlag
 
-    let queue = this.field.arround(point, isNotOpenOrFlagged)
+    let queue = new UniquePointQueue()
+    this.field.arround(point, canOpen).forEach(p => queue.push(p))
 
     let target
     while ((target = queue.shift()) !== undefined) {
@@ -183,8 +186,7 @@ class Game {
 
       // 開いたセルが空白なら、その周囲を再帰的に開く
       if (cell.isEmpty) {
-        queue.merge(this.field.arround(target, isNotOpenOrFlagged))
-        queue.uniq()
+        this.field.arround(target, canOpen).forEach(p => queue.push(p))
       }
     }
   }

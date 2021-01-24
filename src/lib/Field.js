@@ -1,5 +1,6 @@
 import Cell from '@/lib/Cell.js'
 import Point from '@/lib/Point.js'
+import PointQueue from '@/lib/PointQueue.js'
 
 /**
  * 盤面
@@ -79,11 +80,14 @@ class Field {
       center.addY(1).addX(1)
     ].filter(p => this.contains(p))
 
+    let result = new PointQueue()
     if (filter) {
-      return points.filter(p => filter(this.at(p)))
+      points.filter(p => filter(this.at(p))).forEach(p => result.push(p))
     } else {
-      return points
+      points.forEach(p => result.push(p))
     }
+
+    return result
   }
 
   /**

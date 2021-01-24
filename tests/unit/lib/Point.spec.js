@@ -2,11 +2,11 @@ import Point from '@/lib/Point.js'
 
 describe('Point', () => {
   describe('#equals', () => {
-    it('同じ座標なら同値であること', () => {
+    test('同じ座標なら同値であること', () => {
       expect(Point.of(1, 2).equals(Point.of(1, 2))).toBeTruthy()
     })
 
-    it('x, y どちらか一方でも異なるなら異なる値であること', () => {
+    test('x, y どちらか一方でも異なるなら異なる値であること', () => {
       // x 座標が異なる
       expect(Point.of(1, 1).equals(Point.of(9, 1))).toBeFalsy()
 
@@ -16,7 +16,7 @@ describe('Point', () => {
   })
 
   describe('Getter', () => {
-    it('x座標、y座標が取得できること', () => {
+    test('x座標、y座標が取得できること', () => {
       let p = Point.of(2, 1)
 
       expect(p.y).toBe(1)
@@ -25,7 +25,7 @@ describe('Point', () => {
   })
 
   describe('#addX, #addY', () => {
-    it('x座標、y座標に加算したPointが取得できること', () => {
+    test('x座標、y座標に加算したPointが取得できること', () => {
       let p = Point.of(0, 0)
 
       // 初期値

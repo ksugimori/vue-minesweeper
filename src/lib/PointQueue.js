@@ -15,15 +15,9 @@ class PointQueue {
 
   /**
    * Point を追加する。
-   *
-   * すでに存在する場合は追加されません
    * @param {Point} point 座標
    */
   push (point) {
-    if (this.elements.some(e => e.equals(point))) {
-      return
-    }
-
     this.elements.push(point)
   }
 
@@ -35,7 +29,7 @@ class PointQueue {
   }
 
   /**
-   * まとめて push する
+   * キューをマージする
    * @param {PointQueue} マージするキュー
    */
   merge (other) {

@@ -31,7 +31,11 @@ export default {
       return this.$store.state.game
     },
     mines: function () {
-      return this.game.setting.numMines - this.game.flagCount
+      if (this.status.isEnd) {
+        return 0
+      } else {
+        return this.game.setting.numMines - this.game.flagCount
+      }
     },
     playTime: function () {
       return this.game.playTime

@@ -3,19 +3,17 @@ import Point from '@/lib/Point.js'
 /**
  * ランダムな Point の配列を生成する。
  *
- * x座標は 0 から maxX まで（maxX は含まない）、
- * y座標は 0 から maxY まで（maxY は含まない）、
+ * x座標は 0 から setting.width まで（width は含まない）、
+ * y座標は 0 から setting.height まで（height は含まない）、
  * の範囲からランダムに選択します。
- * @param {Number} maxX x座標の上限
- * @param {Number} maxY y座標の上限
- * @param {Number} length 生成する配列の長さ
+ * @param {Setting} setting 設定情報
  * @param {Point} excludePoint 除外する座標
  */
-function points (maxX, maxY, length, excludePoint) {
+function points (setting, excludePoint) {
   let result = []
-  while (result.length < length) {
-    let randomX = Math.floor(Math.random() * maxX)
-    let randomY = Math.floor(Math.random() * maxY)
+  while (result.length < setting.numMines) {
+    let randomX = Math.floor(Math.random() * setting.width)
+    let randomY = Math.floor(Math.random() * setting.height)
     let point = Point.of(randomX, randomY)
 
     if (excludePoint.equals(point)) {

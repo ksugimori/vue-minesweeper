@@ -2,34 +2,12 @@ import Point from '@/lib/Point.js'
 import Field from '@/lib/Field.js'
 
 describe('Field', () => {
-  describe('#contains', () => {
-    test('範囲内にあるときのみ true が返ること', () => {
-      // ２行、３列で初期化
-      const field = new Field(3, 2)
-
-      // -1 行目
-      expect(field.contains(Point.of(0, -1))).toBeFalsy()
-
-      // １行目
-      expect(field.contains(Point.of(0, 0))).toBeTruthy()
-      expect(field.contains(Point.of(1, 0))).toBeTruthy()
-      expect(field.contains(Point.of(2, 0))).toBeTruthy()
-      expect(field.contains(Point.of(3, 0))).toBeFalsy()
-
-      // ２行目
-      expect(field.contains(Point.of(2, 1))).toBeTruthy()
-
-      // ３行目
-      expect(field.contains(Point.of(2, 2))).toBeFalsy()
-    })
-  })
-
-  describe('#arround', () => {
+  describe('#pointsArround', () => {
     test('周囲の 8 座標が返ってくること', () => {
       // ３行、３列で初期化
       const field = new Field(3, 3)
 
-      const result = field.arround(Point.of(1, 1))
+      const result = field.pointsArround(Point.of(1, 1))
 
       expect(result.length).toBe(8)
 
@@ -50,9 +28,33 @@ describe('Field', () => {
       // １行、３列で初期化
       const field = new Field(3, 1)
 
-      const result = field.arround(Point.of(0, 0))
+      const result = field.pointsArround(Point.of(0, 0))
 
       expect(result).toEqual([Point.of(1, 0)])
+    })
+
+    test('セルに対する条件で絞り込めること', () => {
+      const field = new Field(3, 3)
+
+      // T T T
+      // T T F
+      // T F F
+      field.cellAt(Point.of(0, 0)).isOpen = true
+      field.cellAt(Point.of(1, 0)).isOpen = true
+      field.cellAt(Point.of(2, 0)).isOpen = true
+      field.cellAt(Point.of(0, 1)).isOpen = true
+      field.cellAt(Point.of(1, 1)).isOpen = true
+      field.cellAt(Point.of(2, 1)).isOpen = false
+      field.cellAt(Point.of(0, 2)).isOpen = true
+      field.cellAt(Point.of(1, 2)).isOpen = false
+      field.cellAt(Point.of(2, 2)).isOpen = false
+
+      let result = field.pointsArround(Point.of(1, 1), c => c.isOpen)
+      expect(result.sort()).toEqual([
+        Point.of(0, 0), Point.of(1, 0), Point.of(2, 0),
+        Point.of(0, 1),
+        Point.of(0, 2)
+      ].sort())
     })
   })
 
@@ -60,19 +62,33 @@ describe('Field', () => {
     test('範囲内の座標がすべて返されること', () => {
       const field = new Field(2, 2)
 
-      expect(field.points.sort()).toEqual([
+      expect(field.points().sort()).toEqual([
         Point.of(0, 0), Point.of(0, 1),
         Point.of(1, 0), Point.of(1, 1)
       ].sort())
     })
+
+    test('セルに対する条件で絞り込めること', () => {
+      const field = new Field(2, 2)
+
+      field.cellAt(Point.of(0, 0)).isOpen = true
+      field.cellAt(Point.of(0, 1)).isOpen = true
+      field.cellAt(Point.of(1, 0)).isOpen = false
+      field.cellAt(Point.of(1, 1)).isOpen = true
+
+      let result = field.points(cell => cell.isOpen)
+      expect(result.sort()).toEqual([
+        Point.of(0, 0), Point.of(0, 1), Point.of(1, 1)
+      ].sort())
+    })
   })
 
-  describe('#at', () => {
+  describe('#cellAt', () => {
     test('範囲外なら undefined が返ること', () => {
       const field = new Field(2, 2)
 
       let p = Point.of(9, 9)
-      expect(field.at(p)).toBeUndefined()
+      expect(field.cellAt(p)).toBeUndefined()
     })
 
     test('範囲内ならその座標のセルが取得できること', () => {
@@ -80,59 +96,9 @@ describe('Field', () => {
 
       // (x, y) = (0, 1) の count を更新
       let p = Point.of(0, 1)
-      field.at(p).count = 8
+      field.cellAt(p).count = 8
 
-      expect(field.at(p).count).toBe(8)
-    })
-  })
-
-  describe('#count', () => {
-    test('指定した条件でカウントできること', () => {
-      const field = new Field(2, 2)
-
-      field.at(Point.of(0, 0)).isOpen = true
-      field.at(Point.of(0, 1)).isOpen = false
-      field.at(Point.of(1, 0)).isOpen = false
-      field.at(Point.of(1, 1)).isOpen = false
-
-      expect(field.count(cell => cell.isOpen === false)).toBe(3)
-    })
-
-    test('条件に合致するものがなければ 0 が返ること', () => {
-      const field = new Field(2, 2)
-
-      field.at(Point.of(0, 0)).isOpen = false
-      field.at(Point.of(0, 1)).isOpen = false
-      field.at(Point.of(1, 0)).isOpen = false
-      field.at(Point.of(1, 1)).isOpen = false
-
-      expect(field.count(cell => cell.isOpen)).toBe(0)
-    })
-  })
-
-  describe('#arround', () => {
-    test('周囲のセルがカウントされること', () => {
-      const field = new Field(3, 3)
-
-      // T T T
-      // T T F
-      // T F F
-      field.at(Point.of(0, 0)).isOpen = true
-      field.at(Point.of(1, 0)).isOpen = true
-      field.at(Point.of(2, 0)).isOpen = true
-      field.at(Point.of(0, 1)).isOpen = true
-      field.at(Point.of(1, 1)).isOpen = true
-      field.at(Point.of(2, 1)).isOpen = false
-      field.at(Point.of(0, 2)).isOpen = true
-      field.at(Point.of(1, 2)).isOpen = false
-      field.at(Point.of(2, 2)).isOpen = false
-
-      let result = field.arround(Point.of(1, 1), c => c.isOpen)
-      expect(result.sort()).toEqual([
-        Point.of(0, 0), Point.of(1, 0), Point.of(2, 0),
-        Point.of(0, 1),
-        Point.of(0, 2)
-      ].sort())
+      expect(field.cellAt(p).count).toBe(8)
     })
   })
 })

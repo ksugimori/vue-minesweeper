@@ -7,6 +7,11 @@ import Point from '@/lib/Point.js'
  * このクラスには幾何学的な情報、操作のみを持ち、ゲームに関する知識は極力持たないようにする。
  */
 class Field {
+  /**
+   * コンストラクタ
+   * @param {Number} width 幅
+   * @param {Number} height 高さ
+   */
   constructor (width, height) {
     this.width = width
     this.height = height
@@ -22,9 +27,20 @@ class Field {
   }
 
   /**
-   * 範囲内の座標
+   * 指定した座標のセルを取得する
+   * @param {Point} point
    */
-  get points () {
+  cellAt (point) {
+    if (this._contains(point)) {
+      return this.rows[point.y][point.x]
+    }
+  }
+
+  /**
+   * 範囲内の座標すべてを配列として取得する
+   * @param {Function} filterFunc Cell を引数にとるフィルタリング関数
+   */
+  points (filterFunc) {
     let result = []
     for (let x = 0; x < this.width; x++) {
       for (let y = 0; y < this.height; y++) {
@@ -32,33 +48,15 @@ class Field {
       }
     }
 
-    return result
-  }
-
-  /**
-   * フィルタリング関数が true を返す要素数をカウントする。
-   * @param {Function} filter フィルタリング関数
-   */
-  count (filter) {
-    return this.rows.flat().filter(filter).length
-  }
-
-  /**
-   * 指定した座標のセルを取得する
-   * @param {Point} point
-   */
-  at (point) {
-    if (this.contains(point)) {
-      return this.rows[point.y][point.x]
-    }
+    return this._filterByCell(result, filterFunc)
   }
 
   /**
    * 周囲の座標を配列にして取得する。
    * @param {Point} center 座標
-   * @param {Function} filter Cell を引数にとるフィルタリング関数
+   * @param {Function} filterFunc Cell を引数にとるフィルタリング関数
    */
-  arround (center, filter) {
+  pointsArround (center, filterFunc) {
     let points = [
       // ひとつ上の行
       center.addY(-1).addX(-1),
@@ -71,21 +69,34 @@ class Field {
       center.addY(1).addX(-1),
       center.addY(1),
       center.addY(1).addX(1)
-    ].filter(p => this.contains(p))
+    ].filter(p => this._contains(p))
 
-    if (filter) {
-      return points.filter(p => filter(this.at(p)))
-    } else {
-      return points
-    }
+    return this._filterByCell(points, filterFunc)
   }
+
+  // -----------------------------------------------------
+  // private
+  // -----------------------------------------------------
 
   /**
    * フィールド内の座標か？
    * @param {Point} p 座標
    */
-  contains (p) {
+  _contains (p) {
     return (p.x >= 0 && p.x < this.width) && (p.y >= 0 && p.y < this.height)
+  }
+
+  /**
+   * 配列をセルに対する条件でフィルタリングする
+   * @param {Array} points Point の配列
+   * @param {Function} filterFunc Cell を引数にとるフィルタリング関数
+   */
+  _filterByCell (points, filterFunc) {
+    if (filterFunc) {
+      return points.filter(p => filterFunc(this.cellAt(p)))
+    } else {
+      return points
+    }
   }
 }
 

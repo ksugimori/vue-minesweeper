@@ -99,7 +99,7 @@ class Game {
     random.points(this.setting.width, this.setting.height, this.setting.numMines, exclude).forEach(p => this.field.at(p).mine())
 
     // 各マスの周囲の地雷数をカウントし、value にセットする。
-    this.field.forEachPoint(p => {
+    this.field.points.forEach(p => {
       let cell = this.field.at(p)
       if (!cell.isMine) {
         cell.count = this.field.arround(p, c => c.isMine).length

@@ -1,4 +1,5 @@
 import AbstractStatus from '@/lib/status/AbstractStatus.js'
+import Status from '@/lib/status/Status.js'
 
 /**
  * 初期状態
@@ -18,15 +19,16 @@ class InitialStatus extends AbstractStatus {
   open (game, point) {
     // 開始準備
     game.mine(point)
-    game.startGame()
+    game.timerStart()
+    game.status = Status.PLAY
 
     // セルを開く
     game.doOpen(point)
 
     // 終了判定
-    let endStatus = game.judge()
-    if (endStatus) {
-      game.endGame(endStatus)
+    if (game.isWin()) {
+      game.timerStop()
+      game.status = Status.WIN
     }
   }
 

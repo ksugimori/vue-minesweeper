@@ -263,44 +263,4 @@ describe('Game', () => {
       expect(game.flagCount).toBe(0)
     })
   })
-
-  describe('#startGame', () => {
-    it('PLAYステートに移行すること', () => {
-      const game = new Game()
-
-      game.initialize().startGame()
-
-      expect(game.status).toBe(Status.PLAY)
-    })
-
-    it('ストップウォッチが開始されること', () => {
-      const game = new Game()
-
-      game.initialize().startGame()
-
-      expect(StopWatch.mock.instances[0].start).toHaveBeenCalledTimes(1)
-    })
-  })
-
-  describe('#endGame', () => {
-    it('渡した status に変更されること', () => {
-      const game = new Game()
-
-      // WIN
-      game.initialize().endGame(Status.WIN)
-      expect(game.status).toBe(Status.WIN)
-
-      // LOSE
-      game.initialize().endGame(Status.LOSE)
-      expect(game.status).toBe(Status.LOSE)
-    })
-
-    it('ストップウォッチが停止されること', () => {
-      const game = new Game()
-
-      game.initialize().endGame(Status.WIN)
-
-      expect(StopWatch.mock.instances[0].stop).toHaveBeenCalledTimes(1)
-    })
-  })
 })

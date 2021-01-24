@@ -34,10 +34,45 @@ class Game {
   }
 
   /**
+   * ミスしたセル数（地雷なのに開いてしまったセルの数）
+   */
+  get missCount () {
+    return this.field.count(cell => cell.isMine && cell.isOpen)
+  }
+
+  /**
    * プレイ時間
    */
   get playTime () {
     return this.stopWatch.playTime
+  }
+
+  /**
+   * タイマー計測を開始する
+   */
+  timerStart () {
+    this.stopWatch.start()
+  }
+
+  /**
+   * タイマー計測を停止する
+   */
+  timerStop () {
+    this.stopWatch.stop()
+  }
+
+  /**
+   * 勝利状態か？
+   */
+  isWin () {
+    return this.closedCount <= this.setting.numMines
+  }
+
+  /**
+   * 敗北状態か？
+   */
+  isLose () {
+    return this.missCount > 0
   }
 
   /**
@@ -50,22 +85,6 @@ class Game {
     this.status = Status.INIT
 
     return this
-  }
-
-  /**
-   * ゲームを開始する。
-   */
-  startGame () {
-    this.stopWatch.start()
-    this.status = Status.PLAY
-  }
-
-  /**
-   * ゲームを終了する。
-   */
-  endGame (status) {
-    this.stopWatch.stop()
-    this.status = status
   }
 
   /**
@@ -142,21 +161,6 @@ class Game {
       cell.unflag()
     } else {
       cell.flag()
-    }
-  }
-
-  /**
-   * ゲームの終了判定。
-   *
-   * ゲームが終了していればそのステータスを返す。
-   */
-  judge () {
-    if (this.field.count(cell => cell.isMine && cell.isOpen) > 0) {
-      return Status.LOSE
-    }
-
-    if (this.closedCount === this.setting.numMines) {
-      return Status.WIN
     }
   }
 

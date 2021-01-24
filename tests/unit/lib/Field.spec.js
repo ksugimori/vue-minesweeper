@@ -3,7 +3,7 @@ import Field from '@/lib/Field.js'
 
 describe('Field', () => {
   describe('#contains', () => {
-    it('範囲内にあるときのみ true が返ること', () => {
+    test('範囲内にあるときのみ true が返ること', () => {
       // ２行、３列で初期化
       const field = new Field(3, 2)
 
@@ -25,7 +25,7 @@ describe('Field', () => {
   })
 
   describe('#arround', () => {
-    it('周囲の 8 座標が返ってくること', () => {
+    test('周囲の 8 座標が返ってくること', () => {
       // ３行、３列で初期化
       const field = new Field(3, 3)
 
@@ -46,7 +46,7 @@ describe('Field', () => {
       expect(result).toContainEqual(Point.of(2, 2))
     })
 
-    it('範囲外の座標は除外されていること', () => {
+    test('範囲外の座標は除外されていること', () => {
       // １行、３列で初期化
       const field = new Field(3, 1)
 
@@ -57,7 +57,7 @@ describe('Field', () => {
   })
 
   describe('#forEachPoint', () => {
-    it('範囲内の座標がすべて返されること', () => {
+    test('範囲内の座標がすべて返されること', () => {
       const field = new Field(2, 2)
 
       let result = []
@@ -70,14 +70,14 @@ describe('Field', () => {
   })
 
   describe('#at', () => {
-    it('範囲外なら undefined が返ること', () => {
+    test('範囲外なら undefined が返ること', () => {
       const field = new Field(2, 2)
 
       let p = Point.of(9, 9)
       expect(field.at(p)).toBeUndefined()
     })
 
-    it('範囲内ならその座標のセルが取得できること', () => {
+    test('範囲内ならその座標のセルが取得できること', () => {
       const field = new Field(2, 2)
 
       // (x, y) = (0, 1) の count を更新
@@ -89,7 +89,7 @@ describe('Field', () => {
   })
 
   describe('#count', () => {
-    it('指定した条件でカウントできること', () => {
+    test('指定した条件でカウントできること', () => {
       const field = new Field(2, 2)
 
       field.at(Point.of(0, 0)).isOpen = true
@@ -100,7 +100,7 @@ describe('Field', () => {
       expect(field.count(cell => cell.isOpen === false)).toBe(3)
     })
 
-    it('条件に合致するものがなければ 0 が返ること', () => {
+    test('条件に合致するものがなければ 0 が返ること', () => {
       const field = new Field(2, 2)
 
       field.at(Point.of(0, 0)).isOpen = false
@@ -113,7 +113,7 @@ describe('Field', () => {
   })
 
   describe('#arround', () => {
-    it('周囲のセルがカウントされること', () => {
+    test('周囲のセルがカウントされること', () => {
       const field = new Field(3, 3)
 
       // T T T
@@ -139,7 +139,7 @@ describe('Field', () => {
   })
 
   describe('#forEach', () => {
-    it('全項目に対して操作が行われること', () => {
+    test('全項目に対して操作が行われること', () => {
       const field = new Field(2, 2)
 
       // 初期状態ではフラグは 0 件

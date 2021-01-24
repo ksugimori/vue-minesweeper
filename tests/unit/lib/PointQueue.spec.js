@@ -3,7 +3,7 @@ import PointQueue from '@/lib/PointQueue.js'
 
 describe('PointQueue', () => {
   describe('#push, #shift', () => {
-    it('キューに追加した Point が順番に取得できること', () => {
+    test('キューに追加した Point が順番に取得できること', () => {
       let queue = new PointQueue()
 
       queue.push(Point.of(0, 1))
@@ -13,7 +13,7 @@ describe('PointQueue', () => {
       expect(queue.shift().equals(Point.of(0, 2))).toBeTruthy()
     })
 
-    it('要素が存在しない状態で shift すると undefined が返ること', () => {
+    test('要素が存在しない状態で shift すると undefined が返ること', () => {
       let queue = new PointQueue()
 
       queue.push(Point.of(0, 1))
@@ -24,7 +24,7 @@ describe('PointQueue', () => {
   })
 
   describe('#merge', () => {
-    it('複数の Point がまとめて push できること', () => {
+    test('複数の Point がまとめて push できること', () => {
       let from = new PointQueue()
       let to = new PointQueue()
 
@@ -40,7 +40,7 @@ describe('PointQueue', () => {
   })
 
   describe('#uniq', () => {
-    it('重複する要素が取り除かれること', () => {
+    test('重複する要素が取り除かれること', () => {
       let queue = new PointQueue()
 
       queue.push(Point.of(0, 1))

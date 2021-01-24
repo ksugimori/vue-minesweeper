@@ -2,7 +2,7 @@ import { shallowMount } from '@vue/test-utils'
 import MsCell from '@/components/molecules/MsCell.vue'
 
 describe('MsCell.vue', () => {
-  it('reverse=false の場合は count が描画されないこと', () => {
+  test('reverse=false の場合は count が描画されないこと', () => {
     const wrapper = shallowMount(MsCell, {
       propsData: {
         text: '8',
@@ -13,7 +13,7 @@ describe('MsCell.vue', () => {
     expect(wrapper.text()).not.toContain('8')
   })
 
-  it('reverse=true の場合は count が描画されること', () => {
+  test('reverse=true の場合は count が描画されること', () => {
     const wrapper = shallowMount(MsCell, {
       propsData: {
         text: '8',
@@ -24,7 +24,7 @@ describe('MsCell.vue', () => {
     expect(wrapper.text()).toContain('8')
   })
 
-  it('クリックしたら cellClick イベントが発火されること', () => {
+  test('クリックしたら cellClick イベントが発火されること', () => {
     const wrapper = shallowMount(MsCell, {
       propsData: {
         text: '8',
@@ -39,7 +39,7 @@ describe('MsCell.vue', () => {
     expect(wrapper.emitted().cellClick).not.toBeUndefined()
   })
 
-  it('右クリックしたら cellRightClick イベントが発火されること', () => {
+  test('右クリックしたら cellRightClick イベントが発火されること', () => {
     const wrapper = shallowMount(MsCell, {
       propsData: {
         text: '8',

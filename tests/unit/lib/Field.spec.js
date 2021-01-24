@@ -25,11 +25,11 @@ describe('Field', () => {
   })
 
   describe('#arround', () => {
-    it('周囲の 8 セルが返ってくること', () => {
+    it('周囲の 8 座標が返ってくること', () => {
       // ３行、３列で初期化
       const field = new Field(3, 3)
 
-      const result = field.arround(Point.of(1, 1))
+      const result = field.arround(Point.of(1, 1)).toArray()
 
       expect(result.length).toBe(8)
 
@@ -46,11 +46,11 @@ describe('Field', () => {
       expect(result).toContainEqual(Point.of(2, 2))
     })
 
-    it('範囲外のセルは除外されていること', () => {
+    it('範囲外の座標は除外されていること', () => {
       // １行、３列で初期化
       const field = new Field(3, 1)
 
-      const result = field.arround(Point.of(0, 0))
+      const result = field.arround(Point.of(0, 0)).toArray()
 
       expect(result).toEqual([Point.of(1, 0)])
     })
@@ -129,7 +129,7 @@ describe('Field', () => {
       field.at(Point.of(1, 2)).isOpen = false
       field.at(Point.of(2, 2)).isOpen = false
 
-      let result = field.arround(Point.of(1, 1), c => c.isOpen)
+      let result = field.arround(Point.of(1, 1), c => c.isOpen).toArray()
       expect(result.sort()).toEqual([
         Point.of(0, 0), Point.of(1, 0), Point.of(2, 0),
         Point.of(0, 1),

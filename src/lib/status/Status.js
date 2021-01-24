@@ -3,10 +3,9 @@ import PlayStatus from '@/lib/status/PlayStatus.js'
 import WinStatus from '@/lib/status/WinStatus.js'
 import LoseStatus from '@/lib/status/LoseStatus.js'
 
-// enum っぽい使い方をするためにインスタンスをまとめたオブジェクトを export する
-export default {
-  INIT: new InitialStatus(),
-  PLAY: new PlayStatus(),
-  WIN: new WinStatus(),
-  LOSE: new LoseStatus()
-}
+const INIT = new InitialStatus()
+const PLAY = new PlayStatus()
+const WIN = new WinStatus()
+const LOSE = new LoseStatus()
+
+export default { INIT, PLAY, WIN, LOSE }

@@ -47,7 +47,7 @@ beforeEach(() => {
  */
 describe('Game', () => {
   describe('#initialize', () => {
-    it('行数、列数が引数で渡された値に一致すること', () => {
+    test('行数、列数が引数で渡された値に一致すること', () => {
       const game = new Game()
       game.setting.merge({ width: 2, height: 3, numMines: 2 })
       game.initialize()
@@ -56,7 +56,7 @@ describe('Game', () => {
       expect(game.field.height).toBe(3) // ３行
     })
 
-    it('ステータスは INIT になること', () => {
+    test('ステータスは INIT になること', () => {
       const game = new Game()
       game.setting.merge({ width: 2, height: 3, numMines: 2 })
       game.initialize()
@@ -67,7 +67,7 @@ describe('Game', () => {
       expect(game.status).toBe(Status.INIT)
     })
 
-    it('すべてのセルが isOpen=false となっていること', () => {
+    test('すべてのセルが isOpen=false となっていること', () => {
       const game = new Game()
       game.setting.merge({ width: 3, height: 3, numMines: 2 })
       game.initialize()
@@ -85,7 +85,7 @@ describe('Game', () => {
       ])
     })
 
-    it('すべてのセルが isFlag=false となっていること', () => {
+    test('すべてのセルが isFlag=false となっていること', () => {
       const game = new Game()
       game.setting.merge({ width: 3, height: 3, numMines: 2 })
       game.initialize()
@@ -104,7 +104,7 @@ describe('Game', () => {
       ])
     })
 
-    it('closedCount がセル数と一致すること', () => {
+    test('closedCount がセル数と一致すること', () => {
       const game = new Game()
 
       game.setting.merge({ width: 4, height: 3, numMines: 10 })
@@ -115,7 +115,7 @@ describe('Game', () => {
   })
 
   describe('#start', () => {
-    it('地雷が指定した数だけ埋まっていること', () => {
+    test('地雷が指定した数だけ埋まっていること', () => {
       const game = new Game()
 
       // 9 * 9 = 81 マスのうち 10 個
@@ -127,7 +127,7 @@ describe('Game', () => {
       expect(count).toBe(10)
     })
 
-    it('ステータスが PLAY になっていること', () => {
+    test('ステータスが PLAY になっていること', () => {
       const game = new Game()
 
       game.setting.merge({ width: 9, height: 9, numMines: 10 })
@@ -138,7 +138,7 @@ describe('Game', () => {
   })
 
   describe('#open', () => {
-    it('指定したセルが数字の場合、そのセルの isOpen フラグが立つこと', () => {
+    test('指定したセルが数字の場合、そのセルの isOpen フラグが立つこと', () => {
       const game = initGame(2, 2, Point.of(1, 1))
 
       // テスト
@@ -151,7 +151,7 @@ describe('Game', () => {
       ])
     })
 
-    it('指定したセルが空の場合、そのセルの周囲８セルに isOpen フラグが立つこと', () => {
+    test('指定したセルが空の場合、そのセルの周囲８セルに isOpen フラグが立つこと', () => {
       // 3行4列で、4列目に１つ地雷が埋まっている想定
       const game = initGame(3, 4, Point.of(1, 3))
 
@@ -168,7 +168,7 @@ describe('Game', () => {
       ])
     })
 
-    it('指定したセルが空の場合、そのセルの周囲８セルに isOpen フラグが立つが、isFlag=true となっているセルは変更されないこと', () => {
+    test('指定したセルが空の場合、そのセルの周囲８セルに isOpen フラグが立つが、isFlag=true となっているセルは変更されないこと', () => {
       // 3 行 5 列、4 行目に地雷がある
       const game = initGame(3, 5, Point.of(0, 3), Point.of(1, 3), Point.of(2, 3))
 
@@ -187,7 +187,7 @@ describe('Game', () => {
       ])
     })
 
-    it('指定したセルに地雷がある場合、ステータスが LOSE になること', () => {
+    test('指定したセルに地雷がある場合、ステータスが LOSE になること', () => {
       const game = initGame(2, 3, Point.of(0, 1), Point.of(1, 1))
 
       game.open(0, 0)
@@ -199,7 +199,7 @@ describe('Game', () => {
       expect(game.status).toBe(Status.LOSE)
     })
 
-    it('開いたセルの数だけ closedCount が減ること', () => {
+    test('開いたセルの数だけ closedCount が減ること', () => {
       // 3行3列、2列目に地雷
       const game = initGame(3, 3, Point.of(1, 0), Point.of(1, 1), Point.of(1, 2))
 
@@ -226,7 +226,7 @@ describe('Game', () => {
   })
 
   describe('#flag', () => {
-    it('選択したセルのフラグが立つこと', () => {
+    test('選択したセルのフラグが立つこと', () => {
       // 3行3列、2列目に地雷
       const game = initGame(3, 3, Point.of(1, 0), Point.of(1, 1), Point.of(1, 2))
 
@@ -246,7 +246,7 @@ describe('Game', () => {
       expect(game.flagCount).toBe(1)
     })
 
-    it('ゲーム終了時はフラグが立てられないこと', () => {
+    test('ゲーム終了時はフラグが立てられないこと', () => {
       const game = initGame(2, 2, Point.of(0, 0))
 
       // 地雷以外を開く

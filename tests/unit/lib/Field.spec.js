@@ -56,13 +56,11 @@ describe('Field', () => {
     })
   })
 
-  describe('#forEachPoint', () => {
+  describe('#points', () => {
     test('範囲内の座標がすべて返されること', () => {
       const field = new Field(2, 2)
 
-      let result = []
-      field.forEachPoint(p => result.push(p))
-      expect(result.sort()).toEqual([
+      expect(field.points.sort()).toEqual([
         Point.of(0, 0), Point.of(0, 1),
         Point.of(1, 0), Point.of(1, 1)
       ].sort())
@@ -135,21 +133,6 @@ describe('Field', () => {
         Point.of(0, 1),
         Point.of(0, 2)
       ].sort())
-    })
-  })
-
-  describe('#forEach', () => {
-    test('全項目に対して操作が行われること', () => {
-      const field = new Field(2, 2)
-
-      // 初期状態ではフラグは 0 件
-      expect(field.count(cell => cell.isFlag)).toBe(0)
-
-      // 全てのセルにフラグをセット
-      field.forEach(cell => cell.flag())
-
-      // フラグは 4 件になっていること
-      expect(field.count(cell => cell.isFlag)).toBe(4)
     })
   })
 })

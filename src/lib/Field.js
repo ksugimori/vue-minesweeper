@@ -22,23 +22,17 @@ class Field {
   }
 
   /**
-   * すべての要素に関数を適用する。
-   * @param {Function} callback 各要素に適用する関数
+   * 範囲内の座標
    */
-  forEach (callback) {
-    this.rows.flat().forEach(callback)
-  }
-
-  /**
-   * 範囲内の座標すべてに関数を適用する。
-   * @param {Function} callback 各座標に適用する関数
-   */
-  forEachPoint (callback) {
+  get points () {
+    let result = []
     for (let x = 0; x < this.width; x++) {
       for (let y = 0; y < this.height; y++) {
-        callback(Point.of(x, y))
+        result.push(Point.of(x, y))
       }
     }
+
+    return result
   }
 
   /**

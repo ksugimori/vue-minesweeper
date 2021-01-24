@@ -29,7 +29,7 @@ describe('Field', () => {
       // ３行、３列で初期化
       const field = new Field(3, 3)
 
-      const result = field.arround(Point.of(1, 1)).toArray()
+      const result = field.arround(Point.of(1, 1))
 
       expect(result.length).toBe(8)
 
@@ -50,7 +50,7 @@ describe('Field', () => {
       // １行、３列で初期化
       const field = new Field(3, 1)
 
-      const result = field.arround(Point.of(0, 0)).toArray()
+      const result = field.arround(Point.of(0, 0))
 
       expect(result).toEqual([Point.of(1, 0)])
     })
@@ -129,7 +129,7 @@ describe('Field', () => {
       field.at(Point.of(1, 2)).isOpen = false
       field.at(Point.of(2, 2)).isOpen = false
 
-      let result = field.arround(Point.of(1, 1), c => c.isOpen).toArray()
+      let result = field.arround(Point.of(1, 1), c => c.isOpen)
       expect(result.sort()).toEqual([
         Point.of(0, 0), Point.of(1, 0), Point.of(2, 0),
         Point.of(0, 1),

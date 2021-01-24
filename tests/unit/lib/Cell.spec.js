@@ -2,7 +2,7 @@ import Cell from '@/lib/Cell.js'
 
 describe('Cell', () => {
   describe('#initialize', () => {
-    it('初期状態では count=0, isOpen=false, isMine=false, isFlag=false であること', () => {
+    test('初期状態では count=0, isOpen=false, isMine=false, isFlag=false であること', () => {
       const cell = new Cell()
 
       expect(cell.count).toBe(0)
@@ -11,7 +11,7 @@ describe('Cell', () => {
       expect(cell.isFlag).toBe(false)
     })
 
-    it('パラメータを渡すと初期状態にマージされること', () => {
+    test('パラメータを渡すと初期状態にマージされること', () => {
       const cell = new Cell({
         count: 999,
         isOpen: true,
@@ -27,7 +27,7 @@ describe('Cell', () => {
   })
 
   describe('#open', () => {
-    it('isOpen が true になること', () => {
+    test('isOpen が true になること', () => {
       const cell = new Cell()
 
       cell.open()
@@ -40,7 +40,7 @@ describe('Cell', () => {
   })
 
   describe('#mine', () => {
-    it('isMine が true になること', () => {
+    test('isMine が true になること', () => {
       const cell = new Cell()
 
       cell.mine()
@@ -53,7 +53,7 @@ describe('Cell', () => {
   })
 
   describe('#flag', () => {
-    it('isFlag が true になること', () => {
+    test('isFlag が true になること', () => {
       const cell = new Cell()
 
       cell.flag()
@@ -64,7 +64,7 @@ describe('Cell', () => {
       expect(cell.isFlag).toBe(true)
     })
 
-    it('open 済のセルに対してはフラグは付けられないこと', () => {
+    test('open 済のセルに対してはフラグは付けられないこと', () => {
       const cell = new Cell()
 
       cell.open()
@@ -72,7 +72,7 @@ describe('Cell', () => {
       expect(cell.isFlag).toBe(false)
     })
 
-    it('isMine = false のセルにフラグをつけたら isMiss = true になること', () => {
+    test('isMine = false のセルにフラグをつけたら isMiss = true になること', () => {
       const cell = new Cell()
 
       cell.flag()
@@ -82,7 +82,7 @@ describe('Cell', () => {
   })
 
   describe('#unflag', () => {
-    it('isFlag が false になること', () => {
+    test('isFlag が false になること', () => {
       const cell = new Cell()
 
       cell.unflag()
@@ -95,7 +95,7 @@ describe('Cell', () => {
   })
 
   describe('#isEmpty', () => {
-    it('count が 0 なら true を返し、それ以外なら false を返すこと', () => {
+    test('count が 0 なら true を返し、それ以外なら false を返すこと', () => {
       const cell = new Cell()
 
       cell.count = 0
@@ -105,7 +105,7 @@ describe('Cell', () => {
       expect(cell.isEmpty).toBeFalsy()
     })
 
-    it('count が 0 でも isMine = true なら false を返すこと', () => {
+    test('count が 0 でも isMine = true なら false を返すこと', () => {
       const cell = new Cell()
 
       cell.count = 0

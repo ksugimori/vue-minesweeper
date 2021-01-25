@@ -10,6 +10,13 @@ class InitialStatus extends AbstractStatus {
   }
 
   /**
+   * 終了状態か？
+   */
+  get isEnd () {
+    return false
+  }
+
+  /**
    * セルを開く。
    *
    * 初期状態では地雷のセットを行ったあとにセルを開く
@@ -37,13 +44,6 @@ class InitialStatus extends AbstractStatus {
    */
   flag () {
     // 何もしない
-  }
-
-  /**
-   * 終了状態か？
-   */
-  get isEnd () {
-    return false
   }
 }
 

@@ -16,6 +16,25 @@ class Setting {
   }
 
   /**
+   * 名前。
+   *
+   * プリセットの難易度の場合はその名前、それ以外の場合は CUSTOM が返ります。
+   */
+  get name () {
+    if (this.equals(Setting.EASY)) {
+      return 'EASY'
+    }
+    if (this.equals(Setting.NORMAL)) {
+      return 'NORMAL'
+    }
+    if (this.equals(Setting.HARD)) {
+      return 'HARD'
+    }
+
+    return 'CUSTOM'
+  }
+
+  /**
    * 同値であるか判定する。
    * @param {Setting} other 比較するオブジェクト
    */
@@ -49,22 +68,15 @@ class Setting {
   }
 
   /**
-   * 名前。
+   * 設定値を調節する。
    *
-   * プリセットの難易度の場合はその名前、それ以外の場合は CUSTOM が返ります。
+   * 地雷数が盤面のセル数より多い場合、セル数 - 1 を地雷数にします
    */
-  get name () {
-    if (this.equals(Setting.EASY)) {
-      return 'EASY'
+  adjustNumMines () {
+    let total = this.width * this.height
+    if (total <= this.numMines) {
+      this.numMines = Math.max(0, total - 1)
     }
-    if (this.equals(Setting.NORMAL)) {
-      return 'NORMAL'
-    }
-    if (this.equals(Setting.HARD)) {
-      return 'HARD'
-    }
-
-    return 'CUSTOM'
   }
 }
 

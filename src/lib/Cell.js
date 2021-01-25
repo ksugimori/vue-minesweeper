@@ -15,36 +15,6 @@ class Cell {
   }
 
   /**
-   * セルを開く
-   */
-  open () {
-    this.isOpen = true
-  }
-
-  /**
-   * 地雷をセットする
-   */
-  mine () {
-    this.isMine = true
-  }
-
-  /**
-   * フラグを立てる
-   */
-  flag () {
-    if (this.isOpen) return
-
-    this.isFlag = true
-  }
-
-  /**
-   * フラグを外す
-   */
-  unflag () {
-    this.isFlag = false
-  }
-
-  /**
    * 数字文字列
    */
   get text () {
@@ -75,6 +45,36 @@ class Cell {
     }
 
     return false
+  }
+
+  /**
+   * セルを開く
+   */
+  open () {
+    this.isOpen = true
+  }
+
+  /**
+   * 地雷をセットする
+   */
+  mine () {
+    this.isMine = true
+  }
+
+  /**
+   * フラグを立てる
+   */
+  flag () {
+    if (this.isOpen) return
+
+    this.isFlag = true
+  }
+
+  /**
+   * フラグを外す
+   */
+  unflag () {
+    this.isFlag = false
   }
 }
 

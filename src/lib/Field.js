@@ -31,7 +31,7 @@ class Field {
    * @param {Point} point
    */
   cellAt (point) {
-    if (this._contains(point)) {
+    if (contains(this, point)) {
       return this.rows[point.y][point.x]
     }
   }
@@ -48,7 +48,7 @@ class Field {
       }
     }
 
-    return this._filterByCell(result, filterFunc)
+    return filterByCell(this, result, filterFunc)
   }
 
   /**
@@ -69,34 +69,36 @@ class Field {
       center.addY(1).addX(-1),
       center.addY(1),
       center.addY(1).addX(1)
-    ].filter(p => this._contains(p))
+    ].filter(p => contains(this, p))
 
-    return this._filterByCell(points, filterFunc)
+    return filterByCell(this, points, filterFunc)
   }
+}
 
-  // -----------------------------------------------------
-  // private
-  // -----------------------------------------------------
+// -----------------------------------------------------
+// private
+// -----------------------------------------------------
 
-  /**
-   * フィールド内の座標か？
-   * @param {Point} p 座標
-   */
-  _contains (p) {
-    return (p.x >= 0 && p.x < this.width) && (p.y >= 0 && p.y < this.height)
-  }
+/**
+ * フィールド内の座標か？
+ * @param {Field} field フィールド
+ * @param {Point} p 座標
+ */
+function contains (field, p) {
+  return (p.x >= 0 && p.x < field.width) && (p.y >= 0 && p.y < field.height)
+}
 
-  /**
-   * 配列をセルに対する条件でフィルタリングする
-   * @param {Array} points Point の配列
-   * @param {Function} filterFunc Cell を引数にとるフィルタリング関数
-   */
-  _filterByCell (points, filterFunc) {
-    if (filterFunc) {
-      return points.filter(p => filterFunc(this.cellAt(p)))
-    } else {
-      return points
-    }
+/**
+ * 配列をセルに対する条件でフィルタリングする
+ * @param {Field} field フィールド
+ * @param {Array} points Point の配列
+ * @param {Function} filterFunc Cell を引数にとるフィルタリング関数
+ */
+function filterByCell (field, points, filterFunc) {
+  if (filterFunc) {
+    return points.filter(p => filterFunc(field.cellAt(p)))
+  } else {
+    return points
   }
 }
 

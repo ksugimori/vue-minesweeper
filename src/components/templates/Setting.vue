@@ -25,8 +25,8 @@
           <label>WIDTH</label>
           <ms-input-number
             v-model="setting.width"
-            :min="0"
-            :max="100"
+            :min="1"
+            :max="30"
             @complete="confirm"
           />
         </div>
@@ -35,8 +35,8 @@
           <label>HEIGHT</label>
           <ms-input-number
             v-model="setting.height"
-            :min="0"
-            :max="100"
+            :min="1"
+            :max="16"
             @complete="confirm"
           />
         </div>
@@ -46,7 +46,7 @@
           <ms-input-number
             v-model="setting.numMines"
             :min="0"
-            :max="100"
+            :max="99"
             @complete="confirm"
           />
         </div>

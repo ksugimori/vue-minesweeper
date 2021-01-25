@@ -16,6 +16,25 @@ class Setting {
   }
 
   /**
+   * 名前。
+   *
+   * プリセットの難易度の場合はその名前、それ以外の場合は CUSTOM が返ります。
+   */
+  get name () {
+    if (this.equals(Setting.EASY)) {
+      return 'EASY'
+    }
+    if (this.equals(Setting.NORMAL)) {
+      return 'NORMAL'
+    }
+    if (this.equals(Setting.HARD)) {
+      return 'HARD'
+    }
+
+    return 'CUSTOM'
+  }
+
+  /**
    * 同値であるか判定する。
    * @param {Setting} other 比較するオブジェクト
    */
@@ -46,25 +65,6 @@ class Setting {
     this.width = other.width
     this.height = other.height
     this.numMines = other.numMines
-  }
-
-  /**
-   * 名前。
-   *
-   * プリセットの難易度の場合はその名前、それ以外の場合は CUSTOM が返ります。
-   */
-  get name () {
-    if (this.equals(Setting.EASY)) {
-      return 'EASY'
-    }
-    if (this.equals(Setting.NORMAL)) {
-      return 'NORMAL'
-    }
-    if (this.equals(Setting.HARD)) {
-      return 'HARD'
-    }
-
-    return 'CUSTOM'
   }
 
   /**

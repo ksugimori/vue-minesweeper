@@ -41,4 +41,19 @@ describe('Setting', () => {
       expect(setting.name).toBe('CUSTOM')
     })
   })
+
+  describe('#adjustNumMines', () => {
+    test('盤面より多い地雷数が設定されている場合、盤面のセル数 - 1 が設定し直されれること', () => {
+      let setting = new Setting(3, 3, 4)
+
+      // この時点では 4 個
+      expect(setting.numMines).toBe(4)
+
+      // 1 × 3 にする
+      setting.width = 1
+      setting.adjustNumMines()
+
+      expect(setting.numMines).toBe(2)
+    })
+  })
 })

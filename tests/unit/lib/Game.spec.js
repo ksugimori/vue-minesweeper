@@ -112,15 +112,14 @@ describe('Game', () => {
 
       expect(game.closedCount).toBe(12)
     })
-  })
 
-  describe('#start', () => {
     test('地雷が指定した数だけ埋まっていること', () => {
       const game = new Game()
 
       // 9 * 9 = 81 マスのうち 10 個
       game.setting.merge({ width: 9, height: 9, numMines: 10 })
-      game.initialize().open(0, 0)
+      game.initialize()
+      game.open(0, 0)
 
       const count = game.field.rows.flat().filter(c => c.isMine).length
 
@@ -131,7 +130,8 @@ describe('Game', () => {
       const game = new Game()
 
       game.setting.merge({ width: 9, height: 9, numMines: 10 })
-      game.initialize().open(0, 0)
+      game.initialize()
+      game.open(0, 0)
 
       expect(game.status).toBe(Status.PLAY)
     })

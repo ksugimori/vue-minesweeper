@@ -1,5 +1,5 @@
-import random from '@/lib/random.js'
-import Point from '@/lib/Point.js'
+import random from '@/lib/util/random.js'
+import Point from '@/lib/util/Point.js'
 
 describe('random', () => {
   describe('#points', () => {

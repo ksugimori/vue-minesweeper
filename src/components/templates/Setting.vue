@@ -4,17 +4,17 @@
       <h1>Preset</h1>
 
       <div class="btn-row">
-        <button
+        <ms-button
           v-for="preset in presets"
           :key="preset.name"
-          :class="['btn', setting.equals(preset) ? 'btn-selected' : '']"
+          :active="setting.equals(preset)"
           @click="
             setting.merge(preset);
             confirm();
           "
         >
           {{ preset.name }}
-        </button>
+        </ms-button>
       </div>
     </section>
 
@@ -57,10 +57,11 @@
 
 <script>
 import MsInputNumber from '@/components/atoms/MsInputNumber.vue'
+import MsButton from '@/components/atoms/MsButton.vue'
 import Setting from '@/lib/Setting.js'
 
 export default {
-  components: { MsInputNumber },
+  components: { MsInputNumber, MsButton },
   data: function () {
     return {
       presets: [Setting.EASY, Setting.NORMAL, Setting.HARD]
@@ -113,35 +114,6 @@ section > h1 {
   display: block;
   margin: 0 auto;
   text-align: left;
-}
-
-.btn {
-  cursor: pointer;
-  text-decoration: none;
-  border: 0.3rem solid #35495e;
-  width: 7rem;
-  height: 3rem;
-  font-size: 1.2rem;
-  background-color: #35495e;
-  color: #fff;
-}
-
-.btn:hover,
-.btn-selected {
-  background-color: #fff;
-  color: #35495e;
-}
-
-.btn-selected {
-  pointer-events: none;
-}
-
-.btn-text {
-  border: none;
-  padding: none;
-  margin: 0;
-  background-color: transparent;
-  color: #35495e;
 }
 
 .btn-row {

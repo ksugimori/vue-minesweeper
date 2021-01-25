@@ -10,6 +10,13 @@ class PlayStatus extends AbstractStatus {
   }
 
   /**
+   * 終了状態か？
+   */
+  get isEnd () {
+    return false
+  }
+
+  /**
    * セルを開く。
    * @param {Game} game ゲーム
    * @param {Point} point 座標
@@ -34,13 +41,6 @@ class PlayStatus extends AbstractStatus {
    */
   flag (game, point) {
     game.doFlag(point)
-  }
-
-  /**
-   * 終了状態か？
-   */
-  get isEnd () {
-    return false
   }
 }
 

@@ -7,6 +7,13 @@ class AbstractStatus {
   }
 
   /**
+   * 終了状態か？
+   */
+  get isEnd () {
+    throw new Error(`Method Unimplemented! isEnd()`)
+  }
+
+  /**
    * 指定した座標のセルを開く。
    * @param {Game} game ゲーム
    * @param {Point} point 座標
@@ -22,13 +29,6 @@ class AbstractStatus {
    */
   flag (game, point) {
     throw new Error(`Method Unimplemented! flag(${game}, ${point}`)
-  }
-
-  /**
-   * 終了状態か？
-   */
-  get isEnd () {
-    throw new Error(`Method Unimplemented! isEnd()`)
   }
 }
 

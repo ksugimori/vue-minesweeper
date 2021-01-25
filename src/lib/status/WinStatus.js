@@ -9,6 +9,13 @@ class WinStatus extends AbstractStatus {
   }
 
   /**
+   * 終了状態か？
+   */
+  get isEnd () {
+    return true
+  }
+
+  /**
    * セルを開く。
    */
   open () {
@@ -20,13 +27,6 @@ class WinStatus extends AbstractStatus {
    */
   flag () {
     // 何もしない
-  }
-
-  /**
-   * 終了状態か？
-   */
-  get isEnd () {
-    return true
   }
 }
 

@@ -1,4 +1,4 @@
-import Point from '@/lib/Point.js'
+import Point from '@/lib/util/Point.js'
 import Field from '@/lib/Field.js'
 
 describe('Field', () => {

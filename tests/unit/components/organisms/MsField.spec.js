@@ -22,7 +22,7 @@ describe('Row.vue', () => {
     expect(wrapper.findAllComponents(MsCell).length).toBe(6)
   })
 
-  test('Cell をクリックすると cellClick イベントが発火され、インデックスが引数として渡されること', () => {
+  test('Cell をクリックすると cell-click イベントが発火され、インデックスが引数として渡されること', () => {
     const game = new Game()
     game.setting.merge({ width: 3, height: 2, numMines: 1 })
     game.initialize()
@@ -47,7 +47,7 @@ describe('Row.vue', () => {
     expect(payload.y).toBe(1)
   })
 
-  test('Cell を右クリックすると cellRightClick イベントが発火され、インデックスが引数として渡されること', () => {
+  test('Cell を右クリックすると cell-right-click イベントが発火され、インデックスが引数として渡されること', () => {
     const game = new Game()
     game.setting.merge({ width: 3, height: 2, numMines: 1 })
     game.initialize()

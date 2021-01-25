@@ -10,25 +10,59 @@ import Point from '@/lib/util/Point.js'
  * @param {Point} excludePoint 除外する座標
  */
 function points (setting, excludePoint) {
-  let result = []
-  while (result.length < setting.numMines) {
-    let randomX = Math.floor(Math.random() * setting.width)
-    let randomY = Math.floor(Math.random() * setting.height)
-    let point = Point.of(randomX, randomY)
+  let excludeIndex = toIndex(excludePoint, setting.width)
+  return randomInts(setting.width * setting.height)
+    .filter(i => i !== excludeIndex)
+    .slice(0, setting.numMines)
+    .map(i => toPoint(i, setting.width))
+}
 
-    if (excludePoint.equals(point)) {
-      continue
-    }
-    if (result.some(p => p.equals(point))) {
-      continue
-    }
-
-    result.push(point)
+/**
+ * 0 から length - 1 までの数字をランダムに並べ替えた配列を生成する。
+ * @param {Number} length 長さ
+ */
+function randomInts (length) {
+  let result = new Array(length)
+  for (let i = 0; i < length; i++) {
+    result[i] = i
   }
+
+  shuffle(result)
 
   return result
 }
 
-export default {
-  points
+/**
+ * Point から インデックス に変換する
+ * @param {Point} point 座標
+ * @param {Number} width 横幅
+ */
+function toIndex (point, width) {
+  return point.y * width + point.x
 }
+
+/**
+ * インデックスから Point に変換する
+ * @param {Number} index インデックス
+ * @param {Number} width 横幅
+ */
+function toPoint (index, width) {
+  let x = index % width
+  let y = Math.floor(index / width)
+  return Point.of(x, y)
+}
+
+/**
+ * 配列をランダムに並べ替える
+ * @param {Array} array 配列
+ */
+function shuffle (array) {
+  for (let i = 0; i < array.length; i++) {
+    let j = Math.floor(Math.random() * array.length)
+    let tmp = array[i]
+    array[i] = array[j]
+    array[j] = tmp
+  }
+}
+
+export default { points }

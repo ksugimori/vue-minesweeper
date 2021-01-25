@@ -66,6 +66,18 @@ class Setting {
 
     return 'CUSTOM'
   }
+
+  /**
+   * 設定値を調節する。
+   *
+   * 地雷数が盤面のセル数より多い場合、セル数 - 1 を地雷数にします
+   */
+  adjustNumMines () {
+    let total = this.width * this.height
+    if (total <= this.numMines) {
+      this.numMines = Math.max(0, total - 1)
+    }
+  }
 }
 
 export default Setting

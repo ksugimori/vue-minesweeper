@@ -74,6 +74,7 @@ export default {
   },
   methods: {
     confirm: function () {
+      this.setting.adjustNumMines()
       this.$store.commit('updateSetting')
       this.$store.commit('initialize')
     }

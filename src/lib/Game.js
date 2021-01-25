@@ -84,8 +84,6 @@ class Game {
 
     this.stopWatch.reset()
     this.status = Status.INIT
-
-    return this
   }
 
   /**

@@ -13,8 +13,8 @@
         :flag="cell.isFlag"
         :miss="status.isEnd && cell.isMiss"
         :reverse="status.isEnd || cell.isOpen"
-        @cellClick="open(x, y)"
-        @cellRightClick="flag(x, y)"
+        @click="open(x, y)"
+        @right-click="flag(x, y)"
       />
     </div>
   </div>

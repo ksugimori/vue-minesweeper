@@ -2,8 +2,8 @@
   <div
     class="cell"
     :class="classArray"
-    @click="$emit('cellClick')"
-    @click.right.prevent="$emit('cellRightClick')"
+    @click="$emit('click')"
+    @click.right.prevent="$emit('right-click')"
     @touchstart="touchStart"
     @touchend="touchEnd"
     @contextmenu.prevent
@@ -57,7 +57,7 @@ export default {
   methods: {
     touchStart: function () {
       this.longPressTimer = window.setTimeout(
-        () => this.$emit('cellRightClick'),
+        () => this.$emit('right-click'),
         500
       )
     },

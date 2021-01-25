@@ -24,7 +24,7 @@ describe('MsCell.vue', () => {
     expect(wrapper.text()).toContain('8')
   })
 
-  test('クリックしたら cellClick イベントが発火されること', () => {
+  test('クリックしたら cell-click イベントが発火されること', () => {
     const wrapper = shallowMount(MsCell, {
       propsData: {
         text: '8',
@@ -35,11 +35,11 @@ describe('MsCell.vue', () => {
     // click イベントを発火
     wrapper.trigger('click')
 
-    // cellClick イベントとして通知されていること
-    expect(wrapper.emitted().cellClick).not.toBeUndefined()
+    // cell-click イベントとして通知されていること
+    expect(wrapper.emitted('cell-click')).not.toBeUndefined()
   })
 
-  test('右クリックしたら cellRightClick イベントが発火されること', () => {
+  test('右クリックしたら cell-right-click イベントが発火されること', () => {
     const wrapper = shallowMount(MsCell, {
       propsData: {
         text: '8',
@@ -50,7 +50,7 @@ describe('MsCell.vue', () => {
     // 右クリックイベントを発火
     wrapper.trigger('contextmenu')
 
-    // cellRightClick イベントとして通知されていること
-    expect(wrapper.emitted().cellRightClick).not.toBeUndefined()
+    // cell-right-click イベントとして通知されていること
+    expect(wrapper.emitted('cell-right-click')).not.toBeUndefined()
   })
 })

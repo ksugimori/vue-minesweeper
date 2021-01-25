@@ -1,9 +1,9 @@
 import Point from '@/lib/Point.js'
-import UniquePointQueue from '@/lib/UniquePointQueue.js'
+import UniqueQueue from '@/lib/UniqueQueue.js'
 
-describe('UniquePointQueue', () => {
+describe('UniqueQueue', () => {
   test('キューに追加した Point が順番に取得できること', () => {
-    let queue = new UniquePointQueue()
+    let queue = new UniqueQueue()
 
     queue.push(Point.of(0, 1))
     queue.push(Point.of(0, 2))
@@ -13,7 +13,7 @@ describe('UniquePointQueue', () => {
   })
 
   test('要素が存在しない状態で shift すると undefined が返ること', () => {
-    let queue = new UniquePointQueue()
+    let queue = new UniqueQueue()
 
     queue.push(Point.of(0, 1))
 
@@ -22,7 +22,7 @@ describe('UniquePointQueue', () => {
   })
 
   test('すでに存在するものは追加されないこと', () => {
-    let queue = new UniquePointQueue()
+    let queue = new UniqueQueue()
 
     queue.push(Point.of(0, 1))
     queue.push(Point.of(0, 2))

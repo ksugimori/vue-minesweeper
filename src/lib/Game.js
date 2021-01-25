@@ -4,7 +4,7 @@ import Field from '@/lib/Field.js'
 import StopWatch from '@/lib/StopWatch.js'
 import Setting from '@/lib/Setting.js'
 import random from '@/lib/random.js'
-import UniquePointQueue from './UniquePointQueue'
+import UniqueQueue from './UniqueQueue'
 
 /**
  * マインスイーパー全体を管理するクラス
@@ -173,7 +173,7 @@ class Game {
     // 開けるセルであるか？
     const canOpen = (cell) => !cell.isOpen && !cell.isFlag
 
-    let queue = new UniquePointQueue()
+    let queue = new UniqueQueue()
     this.field.pointsArround(point, canOpen).forEach(p => queue.push(p))
 
     let target

@@ -3,6 +3,8 @@
 ![test](https://github.com/ksugimori/vue-minesweeper/workflows/Test/badge.svg)
 ![deploy](https://github.com/ksugimori/vue-minesweeper/workflows/Deploy/badge.svg)
 
+<img src="./capture.gif" width="320"/>
+
 Vue.js の勉強用に作成したマインスイーパーです。
 デプロイが正常完了していれば下記URLでプレイできます。
 

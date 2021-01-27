@@ -14,6 +14,7 @@
       :max="max"
       :value="value"
       @input="emitInput($event.target.value)"
+      @change="emitComplete"
     >
     <div
       class="btn btn-plus"
@@ -46,6 +47,15 @@ export default {
     emitInput: function (nextValue) {
       this.$emit('input', nextValue)
     },
+    emitComplete: function () {
+      if (this.value < this.min) {
+        this.value = this.min
+      } else if (this.value > this.max) {
+        this.value = this.max
+      }
+      this.$emit('input', this.value)
+      this.$emit('complete')
+    },
     increment: function () {
       this.emitInput(Math.min(this.value + 1, this.max))
     },
@@ -69,7 +79,7 @@ export default {
       clearInterval(this.timer)
 
       if (this.clickTimer || this.timer) {
-        this.$emit('complete')
+        this.emitComplete()
         delete this.clickTimer
         delete this.timer
       }
@@ -92,7 +102,7 @@ export default {
       clearInterval(this.timer)
 
       if (this.clickTimer || this.timer) {
-        this.$emit('complete')
+        this.emitComplete()
         delete this.clickTimer
         delete this.timer
       }

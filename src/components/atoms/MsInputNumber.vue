@@ -44,16 +44,19 @@ export default {
     }
   },
   methods: {
-    emitInput: function (nextValue) {
-      this.$emit('input', nextValue)
+    emitInput: function (value) {
+      this.$emit('input', value)
     },
-    emitComplete: function () {
+    onChange: function () {
       if (this.value < this.min) {
         this.value = this.min
       } else if (this.value > this.max) {
         this.value = this.max
       }
-      this.$emit('input', this.value)
+      this.emitInput(this.value)
+      this.emitComplete()
+    },
+    emitComplete: function () {
       this.$emit('complete')
     },
     increment: function () {

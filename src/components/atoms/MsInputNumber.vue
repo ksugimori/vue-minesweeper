@@ -14,7 +14,7 @@
       :max="max"
       :value="value"
       @input="emitInput($event.target.value)"
-      @change="emitComplete"
+      @change="onChange"
     >
     <div
       class="btn btn-plus"
@@ -189,16 +189,14 @@ input[type="number"] {
 
 .input-number input {
   font-family: "Roboto Mono", monospace;
-  border-top: 0.3rem solid #35495e;
-  border-bottom: 0.3rem solid #35495e;
-  border-right: none;
-  border-left: none;
+  border: 0.3rem solid #35495e;
   width: 3rem;
   height: 2rem;
   padding: 0 1em;
   line-height: 2rem;
   font-size: 1rem;
   text-align: right;
+  margin: 0 0.3em;
 }
 
 input:invalid {

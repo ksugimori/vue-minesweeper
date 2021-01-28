@@ -21,9 +21,9 @@
 </template>
 
 <script>
-import MsIconMine from '@/components/atoms/MsIconMine.vue'
-import MsIconFlag from '@/components/atoms/MsIconFlag.vue'
-import MsIconMiss from '@/components/atoms/MsIconMiss.vue'
+import MsIconMine from '@/components/presentations/icons/MsIconMine.vue'
+import MsIconFlag from '@/components/presentations/icons/MsIconFlag.vue'
+import MsIconMiss from '@/components/presentations/icons/MsIconMiss.vue'
 
 export default {
   components: { MsIconMine, MsIconFlag, MsIconMiss },

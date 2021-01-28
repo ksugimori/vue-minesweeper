@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils'
-import MsCell from '@/components/molecules/MsCell.vue'
+import MsCell from '@/components/presentations/MsCell.vue'
 
 describe('MsCell.vue', () => {
   test('reverse=false の場合は count が描画されないこと', () => {

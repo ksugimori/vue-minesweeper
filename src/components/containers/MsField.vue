@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import MsCell from '@/components/molecules/MsCell.vue'
+import MsCell from '@/components/presentations/MsCell.vue'
 
 export default {
   components: {

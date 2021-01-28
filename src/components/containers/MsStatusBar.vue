@@ -16,9 +16,9 @@
 </template>
 
 <script>
-import MsStatusBarItem from '@/components/molecules/MsStatusBarItem.vue'
-import MsCounter from '@/components/atoms/MsCounter.vue'
-import MsResetButton from '@/components/atoms/MsResetButton.vue'
+import MsStatusBarItem from '@/components/containers/MsStatusBarItem.vue'
+import MsCounter from '@/components/presentations/MsCounter.vue'
+import MsResetButton from '@/components/presentations/MsResetButton.vue'
 
 export default {
   components: {

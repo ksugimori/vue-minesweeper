@@ -17,7 +17,7 @@ class Cell {
   /**
    * 数字文字列
    */
-  get text () {
+  get countString () {
     return this.isEmpty ? '' : this.count.toString()
   }
 

@@ -8,7 +8,7 @@
       <ms-cell
         v-for="(cell, x) in row"
         :key="x"
-        :text="cell.text"
+        :count="cell.countString"
         :mine="cell.isMine"
         :flag="cell.isFlag"
         :miss="status.isEnd && cell.isMiss"

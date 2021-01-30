@@ -9,9 +9,8 @@
     @contextmenu.prevent
   >
     <div v-if="open">
+      {{ count }}
       <ms-icon-mine v-if="mine" />
-      <span v-else>{{ text }}</span>
-
       <ms-icon-miss v-if="miss" />
     </div>
     <div v-else>
@@ -28,7 +27,7 @@ import MsIconMiss from '@/components/presentations/icons/MsIconMiss.vue'
 export default {
   components: { MsIconMine, MsIconFlag, MsIconMiss },
   props: {
-    text: {
+    count: {
       type: String,
       default: ''
     },
@@ -45,7 +44,7 @@ export default {
   computed: {
     classArray: function () {
       if (this.open) {
-        return ['open', `color-${this.text}`]
+        return ['open', `color-${this.count}`]
       }
       if (this.flag) {
         return ['flag']

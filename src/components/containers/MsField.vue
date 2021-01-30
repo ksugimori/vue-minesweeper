@@ -12,7 +12,7 @@
         :mine="cell.isMine"
         :flag="cell.isFlag"
         :miss="status.isEnd && cell.isMiss"
-        :reverse="status.isEnd || cell.isOpen"
+        :open="status.isEnd || cell.isOpen"
         @click="open(x, y)"
         @right-click="flag(x, y)"
       />

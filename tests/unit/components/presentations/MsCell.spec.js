@@ -2,22 +2,22 @@ import { shallowMount } from '@vue/test-utils'
 import MsCell from '@/components/presentations/MsCell.vue'
 
 describe('MsCell.vue', () => {
-  test('reverse=false の場合は count が描画されないこと', () => {
+  test('open=false の場合は count が描画されないこと', () => {
     const wrapper = shallowMount(MsCell, {
       propsData: {
         text: '8',
-        reverse: false
+        open: false
       }
     })
 
     expect(wrapper.text()).not.toContain('8')
   })
 
-  test('reverse=true の場合は count が描画されること', () => {
+  test('open=true の場合は count が描画されること', () => {
     const wrapper = shallowMount(MsCell, {
       propsData: {
         text: '8',
-        reverse: true
+        open: true
       }
     })
 
@@ -28,7 +28,7 @@ describe('MsCell.vue', () => {
     const wrapper = shallowMount(MsCell, {
       propsData: {
         text: '8',
-        reverse: true
+        open: true
       }
     })
 
@@ -43,7 +43,7 @@ describe('MsCell.vue', () => {
     const wrapper = shallowMount(MsCell, {
       propsData: {
         text: '8',
-        reverse: true
+        open: true
       }
     })
 

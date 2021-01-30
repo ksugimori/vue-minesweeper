@@ -8,7 +8,7 @@
     @touchend="touchEnd"
     @contextmenu.prevent
   >
-    <div v-if="reverse">
+    <div v-if="open">
       <ms-icon-mine v-if="mine" />
       <span v-else>{{ text }}</span>
 
@@ -34,7 +34,7 @@ export default {
     },
     mine: Boolean,
     flag: Boolean,
-    reverse: Boolean,
+    open: Boolean,
     miss: Boolean
   },
   data: function () {
@@ -44,7 +44,7 @@ export default {
   },
   computed: {
     classArray: function () {
-      if (this.reverse) {
+      if (this.open) {
         return ['open', `color-${this.text}`]
       }
       if (this.flag) {

@@ -58,7 +58,7 @@
 <script>
 import MsInputNumber from '@/components/presentations/MsInputNumber.vue'
 import MsButton from '@/components/presentations/MsButton.vue'
-import Setting from '@/lib/Setting.js'
+import Setting from '@/models/Setting.js'
 
 export default {
   components: { MsInputNumber, MsButton },

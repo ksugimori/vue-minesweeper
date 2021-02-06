@@ -1,9 +1,9 @@
-import Game from '@/lib/Game.js'
-import Status from '@/lib/status/Status.js'
-import Point from '@/lib/util/Point.js'
-import StopWatch from '@/lib/util/StopWatch.js'
-import random from '@/lib/util/random'
-jest.mock('@/lib/util/StopWatch.js')
+import Game from '@/models/Game.js'
+import Status from '@/models/status/Status.js'
+import Point from '@/models/util/Point.js'
+import StopWatch from '@/models/util/StopWatch.js'
+import random from '@/models/util/random'
+jest.mock('@/models/util/StopWatch.js')
 
 /**
  * Game のフィールドから全行を取り出し、mapFunc を適用して返す。

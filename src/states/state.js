@@ -1,4 +1,4 @@
-import Game from '@/lib/Game.js'
+import Game from '@/models/Game.js'
 
 let game = new Game()
 game.initialize()

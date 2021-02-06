@@ -1,4 +1,4 @@
-import Cell from '@/lib/Cell.js'
+import Cell from '@/models/Cell.js'
 
 describe('Cell', () => {
   describe('#initialize', () => {

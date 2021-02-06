@@ -1,4 +1,4 @@
-import Point from '@/lib/util/Point.js'
+import Point from '@/models/util/Point.js'
 
 describe('Point', () => {
   describe('#equals', () => {

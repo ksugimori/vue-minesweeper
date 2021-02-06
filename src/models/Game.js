@@ -1,10 +1,10 @@
-import Point from '@/lib/util/Point.js'
-import Status from '@/lib/status/Status.js'
-import Field from '@/lib/Field.js'
-import StopWatch from '@/lib/util/StopWatch.js'
-import Setting from '@/lib/Setting.js'
-import UniqueQueue from '@/lib/util/UniqueQueue.js'
-import random from '@/lib/util/random.js'
+import Point from '@/models/util/Point.js'
+import Status from '@/models/status/Status.js'
+import Field from '@/models/Field.js'
+import StopWatch from '@/models/util/StopWatch.js'
+import Setting from '@/models/Setting.js'
+import UniqueQueue from '@/models/util/UniqueQueue.js'
+import random from '@/models/util/random.js'
 
 /**
  * マインスイーパー全体を管理するクラス

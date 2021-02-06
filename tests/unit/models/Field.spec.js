@@ -1,5 +1,5 @@
-import Point from '@/lib/util/Point.js'
-import Field from '@/lib/Field.js'
+import Point from '@/models/util/Point.js'
+import Field from '@/models/Field.js'
 
 describe('Field', () => {
   describe('#pointsArround', () => {

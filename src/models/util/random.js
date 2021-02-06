@@ -1,4 +1,4 @@
-import Point from '@/lib/util/Point.js'
+import Point from '@/models/util/Point.js'
 
 /**
  * ランダムな Point の配列を生成する。

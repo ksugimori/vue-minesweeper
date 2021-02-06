@@ -1,4 +1,4 @@
-import Setting from '@/lib/Setting.js'
+import Setting from '@/models/Setting.js'
 
 describe('Setting', () => {
   describe('#equals', () => {

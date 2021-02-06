@@ -1,5 +1,5 @@
-import Cell from '@/lib/Cell.js'
-import Point from '@/lib/util/Point.js'
+import Cell from '@/models/Cell.js'
+import Point from '@/models/util/Point.js'
 
 /**
  * 盤面

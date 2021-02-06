@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import Status from '@/lib/status/Status.js'
+import Status from '@/models/status/Status.js'
 
 export default {
   props: {

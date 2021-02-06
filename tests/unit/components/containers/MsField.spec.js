@@ -2,7 +2,7 @@ import { mount, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import MsField from '@/components/containers/MsField.vue'
 import MsCell from '@/components/presentations/MsCell.vue'
-import Game from '@/lib/Game'
+import Game from '@/models/Game'
 
 const localVue = createLocalVue()
 localVue.use(Vuex)

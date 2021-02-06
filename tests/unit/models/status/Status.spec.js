@@ -1,4 +1,4 @@
-import Status from '@/lib/status/Status.js'
+import Status from '@/models/status/Status.js'
 
 describe('Status', () => {
   test('INIT, PLAY, WIN, LOSE の４つのステータスが定義されていること', () => {

@@ -1,5 +1,5 @@
-import AbstractStatus from '@/lib/status/AbstractStatus.js'
-import Status from '@/lib/status/Status.js'
+import AbstractStatus from '@/models/status/AbstractStatus.js'
+import Status from '@/models/status/Status.js'
 
 /**
  * プレイ中の状態

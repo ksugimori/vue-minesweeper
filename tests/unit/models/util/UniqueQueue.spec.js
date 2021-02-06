@@ -1,5 +1,5 @@
-import Point from '@/lib/util/Point.js'
-import UniqueQueue from '@/lib/util/UniqueQueue.js'
+import Point from '@/models/util/Point.js'
+import UniqueQueue from '@/models/util/UniqueQueue.js'
 
 describe('UniqueQueue', () => {
   test('キューに追加した Point が順番に取得できること', () => {

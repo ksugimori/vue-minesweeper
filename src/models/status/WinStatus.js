@@ -1,4 +1,4 @@
-import AbstractStatus from '@/lib/status/AbstractStatus.js'
+import AbstractStatus from '@/models/status/AbstractStatus.js'
 
 /**
  * ゲーム終了状態（勝利）

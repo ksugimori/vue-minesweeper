@@ -263,4 +263,45 @@ describe('Game', () => {
       expect(game.flagCount).toBe(0)
     })
   })
+
+  describe('#isWin', () => {
+    test('地雷以外をすべて開いたら true を返すこと', () => {
+      // |*| |
+      // | |*|
+      const game = initGame(2, 2, Point.of(0, 0), Point.of(1, 1))
+
+      game.open(0, 1)
+      expect(game.isWin()).toBeFalsy()
+
+      game.open(1, 0)
+      expect(game.isWin()).toBeTruthy()
+    })
+
+    // https://github.com/ksugimori/vue-minesweeper/issues/52
+    test('最後に地雷を開いたら false を返すこと', () => {
+      // |*| |
+      // | |*|
+      const game = initGame(2, 2, Point.of(0, 0), Point.of(1, 1))
+
+      game.open(0, 1)
+      expect(game.isWin()).toBeFalsy()
+
+      game.open(0, 0) // 地雷を開く
+      expect(game.isWin()).toBeFalsy()
+    })
+  })
+
+  describe('#isLose', () => {
+    test('地雷を開いたら true を返すこと', () => {
+      // |*| |
+      // | |*|
+      const game = initGame(2, 2, Point.of(0, 0), Point.of(1, 1))
+
+      game.open(0, 1)
+      expect(game.isLose()).toBeFalsy()
+
+      game.open(0, 0) // 地雷を開く
+      expect(game.isLose()).toBeTruthy()
+    })
+  })
 })

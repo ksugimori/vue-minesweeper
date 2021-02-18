@@ -66,7 +66,7 @@ class Game {
    * 勝利状態か？
    */
   isWin () {
-    return this.closedCount <= this.setting.numMines
+    return this.missCount === 0 && this.closedCount === this.setting.numMines
   }
 
   /**

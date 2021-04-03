@@ -45,7 +45,7 @@ export default {
   },
   methods: {
     emitInput: function (value) {
-      this.$emit('input', value)
+      this.$emit('input', parseInt(value))
     },
     onChange: function () {
       if (this.value < this.min) {
